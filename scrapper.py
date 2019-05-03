@@ -1,5 +1,6 @@
-import string
 from itertools import product
+
+import sqlite3
 
 import requests
 from bs4 import BeautifulSoup
@@ -12,30 +13,30 @@ def preparePackage(SEM, FAC):
 
     Args:
         SEM (INT): semester number (eg. "201802")
-        FAC (INT): faculty  number parsed from UG html 
+        FAC (INT): faculty  number parsed from UG html
     """
     postPackage = {
-        'CNM': '',
-        'CNO': '',
-        'PNT': '',
-        'LLN': '',
-        'LFN': '',
-        'RECALL': 'Y',
-        'D1': 'on',
-        'D2': 'on',
-        'D3': 'on',
-        'D4': 'on',
-        'D5': 'on',
-        'D6': 'on',
-        'FTM': '',
-        'TTM': '',
-        'SIL': '',
-        'OPTCAT': 'on',
-        'OPTSEM': 'on',
-        'doSearch': 'Y',
-        'Search': 'חפש',
-        'FAC': FAC,
-        'SEM': SEM
+            'CNM':      '',
+            'CNO':      '',
+            'PNT':      '',
+            'LLN':      '',
+            'LFN':      '',
+            'RECALL':   'Y',
+            'D1':       'on',
+            'D2':       'on',
+            'D3':       'on',
+            'D4':       'on',
+            'D5':       'on',
+            'D6':       'on',
+            'FTM':      '',
+            'TTM':      '',
+            'SIL':      '',
+            'OPTCAT':   'on',
+            'OPTSEM':   'on',
+            'doSearch': 'Y',
+            'Search':   'חפש',
+            'FAC':      FAC,
+            'SEM':      SEM
     }
     return postPackage
 
@@ -78,41 +79,49 @@ def uniqueAndSortInput(selects, part):
             except ValueError:
                 continue
         if part == "course":
-            return selects #TODO: maybe split this to another page
+            return selects  # TODO: maybe split this to another page
     return sorted(sem)
+
+
+def cutDependencies(dependencies):
+    result = list()
+    dependencies = list(map(str.strip, dependencies.split('|')))
+    braces_remove = str.maketrans({"(": None, ")": None})
+    for dependence in dependencies:
+        temp = list()
+        temp.extend(map(lambda x: x.translate(braces_remove), map(str.strip, dependence.split('&'))))
+        result.append(temp)
+    return result
 
 
 def getCourseInfo(course_number, semester):
     url = "https://ug3.technion.ac.il/rishum/course/" + \
-        str(course_number) + "/" + str(semester)
+          str(course_number) + "/" + str(semester)
     tag = "div"
     attrs = {"class": "property"}
     types = "course"
     properties = getData(url, tag, attrs, types)
-    strip = "".maketrans({"\n": None, "\r": None, "\t": None, "\xa0": " "})
-    white_spaces = "".maketrans({" ": None})
-    and_trans = "".maketrans({"ו": None, "-": "&"})
-    or_trans = "".maketrans({"א": "|", "-": None})
+    strip = str.maketrans({"\n": None, "\r": None, "\t": None, "\xa0": " "})
+    white_spaces = str.maketrans({" ": None})
+    and_trans = str.maketrans({"ו": None, "-": "&"})
+    or_trans = str.maketrans({"א": "|", "-": None})
     temp_course = course()
     for prop in properties:
-        # TODO: Parse courses in dependencies etc one by one
+        sibling = prop.next_sibling.next_sibling.text.translate(strip)
         if "שם מקצוע" in prop.text:
-            temp_course.set_name(prop.next_sibling.next_sibling.text.translate(strip))
+            temp_course.set_name(sibling)
         if "מספר מקצוע" in prop.text:
-            temp_course.set_number(prop.next_sibling.next_sibling.text.translate(
-                    strip).translate(white_spaces))
+            temp_course.set_number(sibling.strip())
         if "נקודות" in prop.text:
-            temp_course.set_points(prop.next_sibling.next_sibling.text.translate(
-                    strip).translate(white_spaces))
+            temp_course.set_points(sibling.strip())
         if "מקצועות קדם" in prop.text:
-            temp_course.add_dependencies(prop.next_sibling.next_sibling.text.translate(
-                    strip).translate(and_trans).translate(or_trans))
+            temp_course.add_dependencies(cutDependencies(sibling.translate(and_trans).translate(or_trans)))
         if "מקצועות צמודים" in prop.text:
-            temp_course.add_parallel(prop.next_sibling.next_sibling.text.translate(strip))
+            temp_course.add_parallel(sibling.split())
         if ":מקצועות ללא זיכוי נוסף" in prop.text:
-            temp_course.add_similarities(prop.next_sibling.next_sibling.text.translate(strip))
+            temp_course.add_similarities(sibling.split())
         if "מקצועות ללא זיכוי נוסף (מוכלים)" in prop.text:
-            temp_course.add_inclusive(prop.next_sibling.next_sibling.text.translate(strip))
+            temp_course.add_inclusive(sibling.split())
     return temp_course
 
 
@@ -134,6 +143,9 @@ def prepareCourses():
     courses = list()
     for course_number in sorted(course_numbers):
         courses.append(getCourseInfo(course_number, semesters[len(semesters) - 1]))
+        print(courses[len(courses)-1])
     a = 1
 
+
 prepareCourses()
+# print(cutDependencies("(1 & 2) | (2 & 3)"))

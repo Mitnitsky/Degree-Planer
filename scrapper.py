@@ -143,9 +143,31 @@ def prepareCourses():
     courses = list()
     for course_number in sorted(course_numbers):
         courses.append(getCourseInfo(course_number, semesters[len(semesters) - 1]))
-        print(courses[len(courses)-1])
-    a = 1
+        print(courses[len(courses) - 1])
 
 
-prepareCourses()
-# print(cutDependencies("(1 & 2) | (2 & 3)"))
+def initDB():
+    db = sqlite3.connect('./db/courses.db')
+    curs = db.cursor()
+    curs.execute('CREATE TABLE IF NOT EXISTS courses(course_name,'
+                 'course_number,'
+                 'points,'
+                 'dependencies,'
+                 'parallel,'
+                 'similarities,'
+                 'inclusive)')
+    curs.close()
+    db.close()
+
+
+def dbAddCourse(course):
+    db = sqlite3.connect('./db/courses.db')
+    curs = db.cursor()
+    curs.execute('INSERT INTO courses VALUES(?, ?, ?, ?, ?, ?, ?)', course.to_list())
+    db.commit()
+    curs.close()
+    db.close()
+
+
+initDB()
+# prepareCourses()

@@ -163,11 +163,33 @@ def initDB():
 def dbAddCourse(course):
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
-    curs.execute('INSERT INTO courses VALUES(?, ?, ?, ?, ?, ?, ?)', course.to_list())
+    curs.execute('REPLACE INTO courses VALUES(?, ?, ?, ?, ?, ?, ?)', course.to_list())
     db.commit()
     curs.close()
     db.close()
 
+def converToupleToCourse(touple):
+    temp_course = course()
+    temp_course.set_name(touple[0])
+    temp_course.set_number(touple[1])
+    temp_course.set_points(touple[2])
+    temp_course.add_dependencies(pickle.loads(touple[3]))
+    temp_course.add_parallel(pickle.loads(touple[4]))
+    temp_course.add_similarities(pickle.loads(touple[5]))
+    temp_course.add_inclusive(pickle.loads(touple[6]))
+    return temp_course
 
-initDB()
+def dbToCoursesList():
+    db = sqlite3.connect('./db/courses.db')
+    curs = db.cursor()
+    courses = curs.execute('SELECT * FROM courses')
+    temp = list(map(converToupleToCourse, courses))
+    curs.close()
+    db.close()
+    return temp
+
+
+# initDB()
 # prepareCourses()
+
+dbToCoursesList()

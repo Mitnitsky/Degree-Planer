@@ -191,4 +191,4 @@ def dbToCoursesList():
 # initDB()
 # prepareCourses()
 
-dbToCoursesList()
+print(dbToCoursesList())

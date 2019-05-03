@@ -1,3 +1,6 @@
+import pickle
+
+
 class course:
     def __init__(self):
         self.name = ""
@@ -32,8 +35,9 @@ class course:
     def add_parallel(self, courses):
         self.parallel.update(courses)
 
-    def class_to_list(self):
-        return list(self.name, self.number, self.points, self.dependencies, self.parallel, self.similarities, self.inclusive)
+    def to_list(self):
+        return [self.name, self.number, self.points, pickle.dumps(self.dependencies), pickle.dumps(self.parallel),
+                pickle.dumps(self.similarities), pickle.dumps(self.inclusive)]
 
     def __repr__(self):
         repr = "שם הקורס: {} \n".format(self.name) \

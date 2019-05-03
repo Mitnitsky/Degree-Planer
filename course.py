@@ -1,7 +1,7 @@
 import pickle
 
 
-class course:
+class Course:
     def __init__(self):
         self.name = ""
         self.number = 0

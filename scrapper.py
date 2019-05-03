@@ -6,7 +6,7 @@ import sqlite3
 import requests
 from bs4 import BeautifulSoup
 
-from course import course
+from course import Course
 
 
 def preparePackage(SEM, FAC):
@@ -106,7 +106,7 @@ def getCourseInfo(course_number, semester):
     white_spaces = str.maketrans({" ": None})
     and_trans = str.maketrans({"ו": None, "-": "&"})
     or_trans = str.maketrans({"א": "|", "-": None})
-    temp_course = course()
+    temp_course = Course()
     for prop in properties:
         sibling = prop.next_sibling.next_sibling.text.translate(strip)
         if "שם מקצוע" in prop.text:
@@ -167,8 +167,9 @@ def dbAddCourse(course):
     curs.close()
     db.close()
 
-def converToupleToCourse(touple):
-    temp_course = course()
+
+def convertDbEnryToCourse(touple):
+    temp_course = Course()
     temp_course.set_name(touple[0])
     temp_course.set_number(touple[1])
     temp_course.set_points(touple[2])
@@ -178,11 +179,12 @@ def converToupleToCourse(touple):
     temp_course.add_inclusive(pickle.loads(touple[6]))
     return temp_course
 
+
 def dbToCoursesList():
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
     courses = curs.execute('SELECT * FROM courses')
-    temp = list(map(converToupleToCourse, courses))
+    temp = list(map(convertDbEnryToCourse, courses))
     curs.close()
     db.close()
     return temp

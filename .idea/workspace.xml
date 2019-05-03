@@ -22,7 +22,17 @@
     <option name="HIDDEN_KINDS">
       <set />
     </option>
-    <expand />
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="courses" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="courses" type="feb32156:DbDataSourceImpl" />
+        <item name="collations" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+    </expand>
     <select />
   </component>
   <component name="FileEditorManager">
@@ -40,27 +50,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scrapper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="781">
-              <caret line="193" column="24" selection-start-line="193" selection-start-column="24" selection-end-line="193" selection-end-column="24" />
+            <state relative-caret-position="99">
+              <caret line="146" lean-forward="true" selection-start-line="146" selection-end-line="146" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#154#844#0" />
-                <element signature="e#154#363#1" />
-                <element signature="e#382#821#0" />
-                <element signature="e#885#1149#0" />
-                <element signature="e#929#1149#0" />
-                <element signature="e#1193#1459#0" />
-                <element signature="e#1279#1459#0" />
-                <element signature="e#1505#2187#0" />
-                <element signature="e#1547#2164#0" />
-                <element signature="e#1580#1810#0" />
-                <element signature="e#1614#1810#0" />
-                <element signature="e#1663#1810#0" />
-                <element signature="e#1853#2068#0" />
-                <element signature="e#2408#2729#0" />
-                <element signature="e#2587#2705#0" />
-                <element signature="e#3292#4446#0" />
-                <element signature="e#5051#5136#0" />
               </folding>
             </state>
           </provider>
@@ -69,8 +62,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/course.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+            <state relative-caret-position="480">
+              <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
             </state>
           </provider>
         </entry>
@@ -82,6 +75,7 @@
       <find>prop.next_sibling.next_sibling</find>
       <find>&quot;&quot;</find>
       <find>.translate(strip)</find>
+      <find>Course</find>
     </findStrings>
     <replaceStrings>
       <replace>str</replace>
@@ -93,12 +87,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/course.py" />
         <option value="$PROJECT_DIR$/scrapper.py" />
+        <option value="$PROJECT_DIR$/course.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="552" />
     <option name="y" value="34" />
     <option name="width" value="1400" />
@@ -120,6 +114,10 @@
               <item name="DegreePlaner" type="b2602c69:ProjectViewProjectNode" />
               <item name="DegreePlaner" type="462c0819:PsiDirectoryNode" />
               <item name="db" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DegreePlaner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
             </path>
           </expand>
           <select />
@@ -191,16 +189,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1556841129278</updated>
-      <workItem from="1556841133079" duration="12521000" />
+      <workItem from="1556841133079" duration="13511000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12521000" />
+    <option name="totallyTimeSpent" value="13511000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="34" width="2560" height="1406" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14120923" />
@@ -215,13 +212,13 @@
       <window_info anchor="bottom" id="Database Console" weight="0.329718" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.329718" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.329718" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39985538" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="SciView" />
-      <window_info anchor="right" id="Database" visible="true" weight="0.32975337" />
+      <window_info active="true" anchor="right" id="Database" visible="true" weight="0.32975337" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -240,7 +237,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/scrapper.py</url>
-          <line>187</line>
+          <line>189</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
@@ -374,34 +371,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/course.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+        <state relative-caret-position="480">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scrapper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="781">
-          <caret line="193" column="24" selection-start-line="193" selection-start-column="24" selection-end-line="193" selection-end-column="24" />
+        <state relative-caret-position="99">
+          <caret line="146" lean-forward="true" selection-start-line="146" selection-end-line="146" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#154#844#0" />
-            <element signature="e#154#363#1" />
-            <element signature="e#382#821#0" />
-            <element signature="e#885#1149#0" />
-            <element signature="e#929#1149#0" />
-            <element signature="e#1193#1459#0" />
-            <element signature="e#1279#1459#0" />
-            <element signature="e#1505#2187#0" />
-            <element signature="e#1547#2164#0" />
-            <element signature="e#1580#1810#0" />
-            <element signature="e#1614#1810#0" />
-            <element signature="e#1663#1810#0" />
-            <element signature="e#1853#2068#0" />
-            <element signature="e#2408#2729#0" />
-            <element signature="e#2587#2705#0" />
-            <element signature="e#3292#4446#0" />
-            <element signature="e#5051#5136#0" />
           </folding>
         </state>
       </provider>

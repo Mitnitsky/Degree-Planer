@@ -1,3 +1,4 @@
+import pickle
 from itertools import product
 
 import sqlite3
@@ -140,22 +141,20 @@ def prepareCourses():
     for package in packages:
         for course in getCourses(search_url, package):
             course_numbers.add(course)
-    courses = list()
     for course_number in sorted(course_numbers):
-        courses.append(getCourseInfo(course_number, semesters[len(semesters) - 1]))
-        print(courses[len(courses) - 1])
+        dbAddCourse(getCourseInfo(course_number, semesters[len(semesters) - 1]))
 
 
 def initDB():
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
-    curs.execute('CREATE TABLE IF NOT EXISTS courses(course_name,'
-                 'course_number,'
-                 'points,'
-                 'dependencies,'
-                 'parallel,'
-                 'similarities,'
-                 'inclusive)')
+    curs.execute('CREATE TABLE IF NOT EXISTS courses(course_name STR,'
+                 'course_number INTEGER PRIMARY KEY,'
+                 'points INTEGER,'
+                 'dependencies BIT,'
+                 'parallel BIT,'
+                 'similarities BIT,'
+                 'inclusive BIT)')
     curs.close()
     db.close()
 

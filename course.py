@@ -32,6 +32,9 @@ class course:
     def add_parallel(self, courses):
         self.parallel.update(courses)
 
+    def class_to_list(self):
+        return list(self.name, self.number, self.points, self.dependencies, self.parallel, self.similarities, self.inclusive)
+
     def __repr__(self):
         repr = "שם הקורס: {} \n".format(self.name) \
                + "מספר קורס: {} \n".format(self.number) \

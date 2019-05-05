@@ -126,7 +126,7 @@ def getCourseInfo(course_number, semester):
     return temp_course
 
 
-def prepareCourses():
+def updateDb():
     semester_tag = "input"
     semester_attrs = {"type": "radio", "name": "SEM"}
     faculties_tag = "option"
@@ -191,6 +191,6 @@ def dbToCoursesList():
 
 
 # initDB()
-# prepareCourses()
+# updateDb()
 
 print(dbToCoursesList())

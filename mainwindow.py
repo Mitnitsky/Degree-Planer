@@ -43,7 +43,6 @@ class Ui_MainWindow(object):
         self.courses_tab_widget.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.courses_tab_widget.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.courses_tab_widget.setTabsClosable(True)
-        self.courses_tab_widget.setMovable(False)
         self.courses_tab_widget.setObjectName("courses_tab_widget")
         self.semester_1 = QtWidgets.QWidget()
         self.semester_1.setAccessibleName("")
@@ -56,19 +55,19 @@ class Ui_MainWindow(object):
         self.semester_add_course = QtWidgets.QPushButton(self.semester_1)
         font = QtGui.QFont()
         font.setPointSize(12)
-        font.setBold(False)
-        font.setItalic(False)
         font.setWeight(50)
         self.semester_add_course.setFont(font)
         self.semester_add_course.setObjectName("semester_add_course")
         self.gridLayout_2.addWidget(self.semester_add_course, 3, 0, 1, 1)
         self.courses_table = QtWidgets.QTableWidget(self.semester_1)
+        self.courses_table.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.courses_table.setFocusPolicy(QtCore.Qt.ClickFocus)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.courses_table.sizePolicy().hasHeightForWidth())
         self.courses_table.setSizePolicy(sizePolicy)
-        self.courses_table.setMouseTracking(True)
+        self.courses_table.setMouseTracking(False)
         self.courses_table.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.courses_table.setObjectName("courses_table")
         self.courses_table.setColumnCount(6)
@@ -728,6 +727,13 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.semester_points_in, self.semester_average_in)
         MainWindow.setTabOrder(self.semester_average_in, self.courses_tab_widget)
         MainWindow.setTabOrder(self.courses_tab_widget, self.courses_table)
+        self.semester_table_add_line.clicked.connect(self.addRow)
+        self.semester_table_remove_line.clicked.connect(self.removeRow)
+        self.settings = False
+        self.not_show = False
+
+        for i in range(0,self.courses_table.rowCount()):
+            self.courses_table.setCellWidget(i,0,self.createComboBox())
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -805,6 +811,53 @@ class Ui_MainWindow(object):
         self.search_ui.setupUi(self.searchWindow)
         self.searchWindow.show()
 
+    def createComboBox(self):
+            combo_box = QtWidgets.QComboBox()
+            combo_box.setFocusPolicy(QtCore.Qt.StrongFocus)
+            combo_box.setLayoutDirection(QtCore.Qt.RightToLeft)
+            combo_box.addItem("חובה")
+            combo_box.addItem("רשימה א")
+            combo_box.addItem("רשימה ב")
+            combo_box.addItem("פרוייקט")
+            combo_box.addItem("ספורט")
+            combo_box.addItem("מל\"ג")
+            combo_box.addItem("חופשי")
+            return combo_box
+
+    def addRow(self):
+        self.courses_table.setRowCount(self.courses_table.rowCount()+1)
+        self.courses_table.setCellWidget(self.courses_table.rowCount()-1, 0, self.createComboBox())
+
+    def removeRow(self):
+        rows = self.courses_table.rowCount()
+        if self.courses_table.item(rows-1,1) == None:
+            self.courses_table.setRowCount(rows-1)
+        else:
+            ans = self.my_close()
+            if ans:
+                self.courses_table.setRowCount(rows - 1)
+
+
+    def my_close(self):
+        if not self.not_show:
+            cb = QtWidgets.QCheckBox("לא להראות שוב.")
+            msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Question, "מחיקה", "למחוק שורה בעלת תוכן?")
+            msgbox.addButton(QtWidgets.QMessageBox.Yes)
+            msgbox.addButton(QtWidgets.QMessageBox.No)
+            msgbox.setDefaultButton(QtWidgets.QMessageBox.No)
+            msgbox.setCheckBox(cb)
+
+            reply = msgbox.exec()
+
+            self.not_show = bool(cb.isChecked())
+            if reply == QtWidgets.QMessageBox.No:
+                return False
+            else:
+                return True
+        else:
+            return True
+
+        # self.closed.emit(self)
 
 
 

@@ -67,7 +67,7 @@ class Ui_course_search(object):
         course_search.setTabOrder(self.add_course_button, self.close_search_button)
         course_search.setTabOrder(self.close_search_button, self.find_course_in)
         self.find_course_button.clicked.connect(self.findCourse)
-        self.close_search_button.clicked.connect(self)
+        # self.close_search_button.clicked.connect(self)
 
     def retranslateUi(self, course_search):
         _translate = QtCore.QCoreApplication.translate
@@ -91,12 +91,3 @@ class Ui_course_search(object):
             self.find_course_in.setPlainText("הקורס לא נמצא במערכת")
 
 
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    course_search = QtWidgets.QDialog()
-    ui = Ui_course_search()
-    ui.setupUi(course_search)
-    course_search.show()
-    sys.exit(app.exec_())

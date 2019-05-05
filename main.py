@@ -1,8 +1,8 @@
 from mainwindow import Ui_MainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
 from scrapper import initDB, updateDb, dbToCoursesList
-from findDialog import Ui_course_search
 from sys import exit
+from comboboxtable import ComboBoxDelegate
 
 
 class MyWindow(QtWidgets.QMainWindow):
@@ -14,6 +14,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.semester_add_course.clicked.connect(self.ui.openSearchDialog)
+
         self.show()
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from findDialog import Ui_course_search
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -106,10 +106,11 @@ class Ui_MainWindow(object):
         self.courses_table.horizontalHeader().setVisible(True)
         self.courses_table.horizontalHeader().setCascadingSectionResizes(False)
         self.courses_table.horizontalHeader().setSortIndicatorShown(True)
-        self.courses_table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        self.courses_table.horizontalHeader().setStretchLastSection(False)
         self.courses_table.verticalHeader().setVisible(False)
         self.courses_table.verticalHeader().setCascadingSectionResizes(True)
         self.courses_table.verticalHeader().setStretchLastSection(False)
+        self.courses_table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.gridLayout_2.addWidget(self.courses_table, 0, 0, 2, 1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout_2.addItem(spacerItem1, 1, 1, 1, 1)
@@ -764,7 +765,6 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "ציון"))
         item = self.courses_table.horizontalHeaderItem(5)
         item.setText(_translate("MainWindow", "x"))
-        item = self.courses_table.column()
         self.semester_table_add_line.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הוסף שורה</span></p></body></html>"))
         self.semester_table_remove_line.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הסר שורה</span></p></body></html>"))
         self.semester_average_label.setText(_translate("MainWindow", "ממוצע:   "))
@@ -792,21 +792,21 @@ class Ui_MainWindow(object):
         self.sport_label_7.setText(_translate("MainWindow", "ספורט:"))
         self.sport_of_in_7.setText(_translate("MainWindow", "0"))
         self.free_label_7.setText(_translate("MainWindow", "בחירה חופשית:"))
-        self.free_of_in_7.setText(_translate("MainWindow", "https://www.qt.io/qt-forqpython
-        self.english_checkbox_7.setText(_translate("MainWindhttps://www.qt.io/qt-forqpython באנגלית"))
-        self.menu.setTitle(_translate("MainWindow", "Menu"))https://www.qt.io/qt-forqpython
+        self.free_of_in_7.setText(_translate("MainWindow", "0"))
+        self.english_checkbox_7.setText(_translate("MainWindow", "פתור באנגלית"))
+        self.menu.setTitle(_translate("MainWindow", "Menu"))
         self.actionSaveAs.setText(_translate("MainWindow", "Save as."))
         self.actionLoad.setText(_translate("MainWindow", "Load"))
         self.actionUpdate_Courses_DB.setText(_translate("MainWindow", "Update Courses DB"))
-        self.courses_table.setItemDelegateForColumn(1,)
 
-class Delegate :  QObject
+    def openSearchDialog(self):
+        self.searchWindow = QtWidgets.QDialog()
+        self.search_ui = Ui_course_search()
+        self.search_ui.setupUi(self.searchWindow)
+        self.searchWindow.show()
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+
+
+
+
+

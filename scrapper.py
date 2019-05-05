@@ -180,6 +180,22 @@ def convertDbEnryToCourse(touple):
     return temp_course
 
 
+def findCourseInDB(course_number):
+    db = sqlite3.connect('./db/courses.db')
+    curs = db.cursor()
+    course_number_tup = (course_number,)
+    course = curs.execute('SELECT * FROM courses WHERE  course_number=?', course_number_tup)
+    result= course.fetchone()
+    if not result:
+        curs.close()
+        db.close()
+        return "No course found"
+    else:
+        curs.close()
+        db.close()
+        return convertDbEnryToCourse(result)
+
+
 def dbToCoursesList():
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
@@ -189,8 +205,3 @@ def dbToCoursesList():
     db.close()
     return temp
 
-
-# initDB()
-# updateDb()
-
-print(dbToCoursesList())

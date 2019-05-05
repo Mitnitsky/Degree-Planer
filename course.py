@@ -39,12 +39,34 @@ class Course:
         return [self.name, self.number, self.points, pickle.dumps(self.dependencies), pickle.dumps(self.parallel),
                 pickle.dumps(self.similarities), pickle.dumps(self.inclusive)]
 
+    # [[' 234124', '104286 '], [' 234122', '104286 '], [' 234141', '234124 '], [' 234141', '234122 ']]
+    def reprDependencies(self):
+        if len(self.dependencies) > 0:
+            result = []
+            humanify = str.maketrans({",": " ו-", "'": None})
+            separator = ""
+            for depend in self.dependencies:
+                result.append(separator)
+                result.append(str(depend).translate(humanify))
+                separator = " או- "
+            return ''.join(result)
+        else:
+            return ""
+
+    def repOtherData(self, data):
+        if len(data) > 0:
+            result = ""
+            humanify = str.maketrans({"{": None, "}": None, "'":None})
+            return str(data).translate(humanify)
+        else:
+            return ""
+
     def __repr__(self):
         repr = "שם הקורס: {} \n".format(self.name) \
                + "מספר קורס: {} \n".format(self.number) \
                + ("מס' נקודות: {} \n".format(self.points) if self.points > 0 else "") \
-               + ("מקצועות קדם: {} \n".format(self.dependencies) if len(self.dependencies) > 0 else "") \
-               + ("מקצועות צמודים: {} \n".format(self.parallel) if len(self.parallel) > 0 else "") \
-               + ("מקצועות ללא זיכוי נוסף: {} \n".format(self.similarities) if len(self.similarities) > 0 else "") \
-               + ("מקצועות ללא זיכוי נוסף (מוכלים): {} \n".format(self.inclusive) if len(self.inclusive) > 0 else "")
+               + ("מקצועות קדם: {} \n".format(self.reprDependencies()) if len(self.dependencies) > 0 else "") \
+                  + ("מקצועות צמודים: {} \n".format(self.repOtherData(self.parallel)) if len(self.parallel) > 0 else "") \
+                  + ("מקצועות ללא זיכוי נוסף: {} \n".format(self.repOtherData(self.similarities)) if len(self.similarities) > 0 else "") \
+                  + ("מקצועות ללא זיכוי נוסף (מוכלים): {} \n".format(self.repOtherData(self.inclusive)) if len(self.inclusive) > 0 else "")
         return repr

@@ -764,6 +764,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "ציון"))
         item = self.courses_table.horizontalHeaderItem(5)
         item.setText(_translate("MainWindow", "x"))
+        item = self.courses_table.column()
         self.semester_table_add_line.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הוסף שורה</span></p></body></html>"))
         self.semester_table_remove_line.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הסר שורה</span></p></body></html>"))
         self.semester_average_label.setText(_translate("MainWindow", "ממוצע:   "))
@@ -791,15 +792,15 @@ class Ui_MainWindow(object):
         self.sport_label_7.setText(_translate("MainWindow", "ספורט:"))
         self.sport_of_in_7.setText(_translate("MainWindow", "0"))
         self.free_label_7.setText(_translate("MainWindow", "בחירה חופשית:"))
-        self.free_of_in_7.setText(_translate("MainWindow", "0"))
-        self.english_checkbox_7.setText(_translate("MainWindow", "פתור באנגלית"))
-        self.menu.setTitle(_translate("MainWindow", "Menu"))
+        self.free_of_in_7.setText(_translate("MainWindow", "https://www.qt.io/qt-forqpython
+        self.english_checkbox_7.setText(_translate("MainWindhttps://www.qt.io/qt-forqpython באנגלית"))
+        self.menu.setTitle(_translate("MainWindow", "Menu"))https://www.qt.io/qt-forqpython
         self.actionSaveAs.setText(_translate("MainWindow", "Save as."))
         self.actionLoad.setText(_translate("MainWindow", "Load"))
         self.actionUpdate_Courses_DB.setText(_translate("MainWindow", "Update Courses DB"))
+        self.courses_table.setItemDelegateForColumn(1,)
 
-
-
+class Delegate :  QObject
 
 if __name__ == "__main__":
     import sys

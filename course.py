@@ -36,8 +36,13 @@ class Course:
         self.parallel.update(courses)
 
     def to_list(self):
-        return [self.name, self.number, self.points, pickle.dumps(self.dependencies), pickle.dumps(self.parallel),
-                pickle.dumps(self.similarities), pickle.dumps(self.inclusive)]
+        return [
+            self.name, self.number, self.points,
+            pickle.dumps(self.dependencies),
+            pickle.dumps(self.parallel),
+            pickle.dumps(self.similarities),
+            pickle.dumps(self.inclusive)
+        ]
 
     # [[' 234124', '104286 '], [' 234122', '104286 '], [' 234141', '234124 '], [' 234141', '234122 ']]
     def reprDependencies(self):
@@ -56,7 +61,7 @@ class Course:
     def repOtherData(self, data):
         if len(data) > 0:
             result = ""
-            humanify = str.maketrans({"{": None, "}": None, "'":None})
+            humanify = str.maketrans({"{": None, "}": None, "'": None})
             return str(data).translate(humanify)
         else:
             return ""

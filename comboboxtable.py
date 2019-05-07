@@ -5,10 +5,12 @@ class ComboBoxDelegate(QtWidgets.QStyledItemDelegate):
     """ComboBox view inside of a Table. It only shows the ComboBox when it is
        being edited.
     """
+
     def __init__(self, model, itemlist=None):
         super().__init__(model)
         self.model = model
         self.itemlist = None
+
     # end Constructor
 
     def createEditor(self, parent, option, index):
@@ -21,6 +23,7 @@ class ComboBoxDelegate(QtWidgets.QStyledItemDelegate):
         editor.setCurrentIndex(0)
         editor.installEventFilter(self)
         return editor
+
     # end createEditor
 
     def setEditorData(self, editor, index):
@@ -30,11 +33,15 @@ class ComboBoxDelegate(QtWidgets.QStyledItemDelegate):
         if i == -1:
             i = 0
         editor.setCurrentIndex(i)
+
     # end setEditorData
 
     def setModelData(self, editor, model, index):
         """Set the table's model's data when finished editing."""
         value = editor.currentText()
         model.setData(index, value)
+
     # end setModelData
+
+
 # end class ComboBoxDelegate

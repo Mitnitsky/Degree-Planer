@@ -17,27 +17,27 @@ def preparePackage(SEM, FAC):
         FAC (INT): faculty  number parsed from UG html
     """
     postPackage = {
-            'CNM':      '',
-            'CNO':      '',
-            'PNT':      '',
-            'LLN':      '',
-            'LFN':      '',
-            'RECALL':   'Y',
-            'D1':       'on',
-            'D2':       'on',
-            'D3':       'on',
-            'D4':       'on',
-            'D5':       'on',
-            'D6':       'on',
-            'FTM':      '',
-            'TTM':      '',
-            'SIL':      '',
-            'OPTCAT':   'on',
-            'OPTSEM':   'on',
-            'doSearch': 'Y',
-            'Search':   'חפש',
-            'FAC':      FAC,
-            'SEM':      SEM
+        'CNM': '',
+        'CNO': '',
+        'PNT': '',
+        'LLN': '',
+        'LFN': '',
+        'RECALL': 'Y',
+        'D1': 'on',
+        'D2': 'on',
+        'D3': 'on',
+        'D4': 'on',
+        'D5': 'on',
+        'D6': 'on',
+        'FTM': '',
+        'TTM': '',
+        'SIL': '',
+        'OPTCAT': 'on',
+        'OPTSEM': 'on',
+        'doSearch': 'Y',
+        'Search': 'חפש',
+        'FAC': FAC,
+        'SEM': SEM
     }
     return postPackage
 
@@ -90,7 +90,9 @@ def cutDependencies(dependencies):
     braces_remove = str.maketrans({"(": None, ")": None})
     for dependence in dependencies:
         temp = list()
-        temp.extend(map(lambda x: x.translate(braces_remove), map(str.strip, dependence.split('&'))))
+        temp.extend(
+            map(lambda x: x.translate(braces_remove),
+                map(str.strip, dependence.split('&'))))
         result.append(temp)
     return result
 
@@ -116,7 +118,9 @@ def getCourseInfo(course_number, semester):
         if "נקודות" in prop.text:
             temp_course.set_points(sibling.strip())
         if "מקצועות קדם" in prop.text:
-            temp_course.add_dependencies(cutDependencies(sibling.translate(and_trans).translate(or_trans)))
+            temp_course.add_dependencies(
+                cutDependencies(
+                    sibling.translate(and_trans).translate(or_trans)))
         if "מקצועות צמודים" in prop.text:
             temp_course.add_parallel(sibling.split())
         if ":מקצועות ללא זיכוי נוסף" in prop.text:
@@ -142,7 +146,8 @@ def updateDb():
         for course in getCourses(search_url, package):
             course_numbers.add(course)
     for course_number in sorted(course_numbers):
-        dbAddCourse(getCourseInfo(course_number, semesters[len(semesters) - 1]))
+        dbAddCourse(getCourseInfo(course_number,
+                                  semesters[len(semesters) - 1]))
 
 
 def initDB():
@@ -162,7 +167,8 @@ def initDB():
 def dbAddCourse(course):
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
-    curs.execute('REPLACE INTO courses VALUES(?, ?, ?, ?, ?, ?, ?)', course.to_list())
+    curs.execute('REPLACE INTO courses VALUES(?, ?, ?, ?, ?, ?, ?)',
+                 course.to_list())
     db.commit()
     curs.close()
     db.close()
@@ -183,9 +189,10 @@ def convertDbEnryToCourse(touple):
 def findCourseInDB(course_number):
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
-    course_number_tup = (course_number,)
-    course = curs.execute('SELECT * FROM courses WHERE  course_number=?', course_number_tup)
-    result= course.fetchone()
+    course_number_tup = (course_number, )
+    course = curs.execute('SELECT * FROM courses WHERE  course_number=?',
+                          course_number_tup)
+    result = course.fetchone()
     if not result:
         curs.close()
         db.close()
@@ -204,4 +211,3 @@ def dbToCoursesList():
     curs.close()
     db.close()
     return temp
-

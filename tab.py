@@ -25,18 +25,22 @@ class TabPage(object):
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.semester_average_label = QtWidgets.QLabel(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed,
+                                           QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.semester_average_label.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.semester_average_label.sizePolicy().hasHeightForWidth())
         self.semester_average_label.setSizePolicy(sizePolicy)
         self.semester_average_label.setObjectName("semester_average_label")
         self.horizontalLayout_7.addWidget(self.semester_average_label)
         self.semester_average_in = QtWidgets.QLineEdit(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed,
+                                           QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.semester_average_in.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.semester_average_in.sizePolicy().hasHeightForWidth())
         self.semester_average_in.setSizePolicy(sizePolicy)
         self.semester_average_in.setText("")
         self.semester_average_in.setAlignment(QtCore.Qt.AlignCenter)
@@ -47,18 +51,22 @@ class TabPage(object):
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.semester_points_label = QtWidgets.QLabel(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed,
+                                           QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.semester_points_label.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.semester_points_label.sizePolicy().hasHeightForWidth())
         self.semester_points_label.setSizePolicy(sizePolicy)
         self.semester_points_label.setObjectName("semester_points_label")
         self.horizontalLayout_8.addWidget(self.semester_points_label)
         self.semester_points_in = QtWidgets.QLineEdit(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed,
+                                           QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.semester_points_in.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.semester_points_in.sizePolicy().hasHeightForWidth())
         self.semester_points_in.setSizePolicy(sizePolicy)
         self.semester_points_in.setText("")
         self.semester_points_in.setAlignment(QtCore.Qt.AlignCenter)
@@ -67,7 +75,9 @@ class TabPage(object):
         self.horizontalLayout_8.addWidget(self.semester_points_in)
         self.verticalLayout_4.addLayout(self.horizontalLayout_8)
         self.verticalLayout.addLayout(self.verticalLayout_4)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(20, 40,
+                                           QtWidgets.QSizePolicy.Minimum,
+                                           QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -76,46 +86,64 @@ class TabPage(object):
         self.gridLayout.addLayout(self.horizontalLayout, 0, 1, 1, 1)
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20,
+                                            QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem1)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20,
+                                            QtWidgets.QSizePolicy.Ignored,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem2)
         self.semester_table_add_line = QtWidgets.QPushButton(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding,
+            QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.semester_table_add_line.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.semester_table_add_line.sizePolicy().hasHeightForWidth())
         self.semester_table_add_line.setSizePolicy(sizePolicy)
         self.semester_table_add_line.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.semester_table_add_line.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("images/list-add.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("images/list-add.svg"),
+                       QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.semester_table_add_line.setIcon(icon)
         self.semester_table_add_line.setIconSize(QtCore.QSize(32, 32))
         self.semester_table_add_line.setObjectName("semester_table_add_line")
         self.horizontalLayout_6.addWidget(self.semester_table_add_line)
         self.semester_table_remove_line = QtWidgets.QPushButton(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding,
+            QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.semester_table_remove_line.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.semester_table_remove_line.sizePolicy().hasHeightForWidth())
         self.semester_table_remove_line.setSizePolicy(sizePolicy)
-        self.semester_table_remove_line.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.semester_table_remove_line.setLayoutDirection(
+            QtCore.Qt.LeftToRight)
         self.semester_table_remove_line.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("images/list-remove.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("images/list-remove.svg"),
+                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.semester_table_remove_line.setIcon(icon1)
         self.semester_table_remove_line.setIconSize(QtCore.QSize(32, 32))
-        self.semester_table_remove_line.setObjectName("semester_table_remove_line")
+        self.semester_table_remove_line.setObjectName(
+            "semester_table_remove_line")
         self.horizontalLayout_6.addWidget(self.semester_table_remove_line)
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20,
+                                            QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem3)
         self.gridLayout.addLayout(self.horizontalLayout_6, 1, 0, 1, 1)
         self.courses_table = QtWidgets.QTableWidget(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding,
+                                           QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.courses_table.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.courses_table.sizePolicy().hasHeightForWidth())
         self.courses_table.setSizePolicy(sizePolicy)
         self.courses_table.setMouseTracking(True)
         self.courses_table.setLayoutDirection(QtCore.Qt.RightToLeft)
@@ -170,16 +198,14 @@ class TabPage(object):
         self.semester_add_course.setObjectName("semester_add_course")
         self.gridLayout.addWidget(self.semester_add_course, 2, 0, 1, 1)
         self.courses_table.setSortingEnabled(True)
-        self.semester_add_course.clicked.connect(self.openSearchDialog)
-        self.semester_table_add_line.clicked.connect(self.addRow)
-        self.semester_table_remove_line.clicked.connect(self.removeRow)
-        self.semester_add_course.clicked.connect(self.openSearchDialog)
         self.not_show = False
         self.courses_table.setMouseTracking(False)
         self.courses_table.setSortingEnabled(True)
         for i in range(0, self.courses_table.rowCount()):
             self.courses_table.setCellWidget(i, 0, self.createComboBox())
-        self.courses_table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+            self.courses_table.setCellWidget(i, self.courses_table.columnCount()-1, createRemoveLineButton(str(i)))
+        self.courses_table.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.Stretch)
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -189,8 +215,16 @@ class TabPage(object):
         self.semester_add_course.setText(_translate("Form", "חפש קורס"))
         self.semester_average_label.setText(_translate("Form", "ממוצע:   "))
         self.semester_points_label.setText(_translate("Form", "מס\' נק\"ז:"))
-        self.semester_table_add_line.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הוסף שורה</span></p></body></html>"))
-        self.semester_table_remove_line.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הסר שורה</span></p></body></html>"))
+        self.semester_table_add_line.setToolTip(
+            _translate(
+                "Form",
+                "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הוסף שורה</span></p></body></html>"
+            ))
+        self.semester_table_remove_line.setToolTip(
+            _translate(
+                "Form",
+                "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הסר שורה</span></p></body></html>"
+            ))
         item = self.courses_table.verticalHeaderItem(0)
         item.setText(_translate("Form", "New Row"))
         item = self.courses_table.verticalHeaderItem(1)
@@ -222,7 +256,6 @@ class TabPage(object):
         item = self.courses_table.horizontalHeaderItem(5)
         item.setText(_translate("Form", "x"))
 
-
     def createComboBox(self):
         combo_box = QtWidgets.QComboBox()
         combo_box.setFocusPolicy(QtCore.Qt.StrongFocus)
@@ -236,40 +269,30 @@ class TabPage(object):
         combo_box.addItem("חופשי")
         return combo_box
 
-    def addRow(table):
-        table.setRowCount(table.rowCount() + 1)
-        table.setCellWidget(table.rowCount() - 1, 0, self.createComboBox())
-
-    def removeRow(self):
-        rows = table.rowCount()
-        if table.item(rows - 1, 1) == None:
-            table.setRowCount(rows - 1)
-        else:
-            ans = self.my_close()
-            if ans:
-                table.setRowCount(rows - 1)
-    
-    def openSearchDialog(self):
-        self.searchWindow = QtWidgets.QDialog()
-        self.search_ui = Ui_course_search()
-        self.search_ui.setupUi(self.searchWindow)
-        self.searchWindow.show()
-
-    def my_close(self):
-        if not self.not_show:
-            cb = QtWidgets.QCheckBox("לא להראות שוב.")
-            msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Question, "מחיקה", "למחוק שורה בעלת תוכן?")
-            msgbox.addButton(QtWidgets.QMessageBox.Yes)
-            msgbox.addButton(QtWidgets.QMessageBox.No)
-            msgbox.setDefaultButton(QtWidgets.QMessageBox.No)
-            msgbox.setCheckBox(cb)
-
-            reply = msgbox.exec()
-
-            self.not_show = bool(cb.isChecked())
-            if reply == QtWidgets.QMessageBox.No:
-                return False
-            else:
-                return True
-        else:
-            return True
+def createRemoveLineButton(line):
+    semester_table_remove_line = QtWidgets.QPushButton()
+    sizePolicy = QtWidgets.QSizePolicy(
+        QtWidgets.QSizePolicy.MinimumExpanding,
+        QtWidgets.QSizePolicy.Fixed)
+    sizePolicy.setHorizontalStretch(0)
+    sizePolicy.setVerticalStretch(0)
+    sizePolicy.setHeightForWidth(
+    semester_table_remove_line.sizePolicy().hasHeightForWidth())
+    semester_table_remove_line.setSizePolicy(sizePolicy)
+    semester_table_remove_line.setLayoutDirection(
+        QtCore.Qt.LeftToRight)
+    semester_table_remove_line.setText("")
+    icon1 = QtGui.QIcon()
+    icon1.addPixmap(QtGui.QPixmap("images/row-clean.svg"),
+                    QtGui.QIcon.Normal, QtGui.QIcon.Off)
+    semester_table_remove_line.setIcon(icon1)
+    semester_table_remove_line.setIconSize(QtCore.QSize(32, 32))
+    semester_table_remove_line.setObjectName(
+        line)
+    _translate = QtCore.QCoreApplication.translate
+    semester_table_remove_line.setToolTip(
+        _translate(
+            "Form",
+            "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">איפוס שורה</span></p></body></html>"
+        ))
+    return semester_table_remove_line

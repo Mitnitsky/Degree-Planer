@@ -98,9 +98,16 @@ class MyWindow(QtWidgets.QMainWindow):
             if table.item(row,column) != None:
                 table.item(row,column).setText("")
 
+    def updateTabNames(self):
+        for i in range(self.ui.courses_tab_widget.count()):
+            tab_name = "סמסטר " + str(i+1)
+            self.ui.courses_tab_widget.setTabText(i, tab_name)
+
     def removeSemester(self, i):
-        self.my_close("semester", "האם למחוק סמסטר ?")
-        self.ui.courses_tab_widget.removeTab(i)
+        if self.my_close("semester", "האם למחוק סמסטר ?"):
+            self.ui.courses_tab_widget.removeTab(i)
+            self.updateTabNames()
+        
 
     def addRow(self, table):
         table.setRowCount(table.rowCount() + 1)

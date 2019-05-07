@@ -4,4 +4,4 @@ from logic import MyWindow
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     application = MyWindow()
-    exit(app.exec())
+    app.exec()

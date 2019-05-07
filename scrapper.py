@@ -196,7 +196,7 @@ def findCourseInDB(course_number):
     if not result:
         curs.close()
         db.close()
-        return "No course found"
+        return "הקורס לא נמצא במערכת, נסה שנית."
     else:
         curs.close()
         db.close()

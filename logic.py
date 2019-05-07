@@ -6,6 +6,7 @@ from tab import TabPage, createRemoveLineButton
 from findDialog import Ui_course_search
 from progress import Ui_Form
 from itertools import product
+from course import Course
 from updatedbthread import mythread
 import threading
 
@@ -59,7 +60,56 @@ class MyWindow(QtWidgets.QMainWindow):
         self.searchWindow = QtWidgets.QDialog()
         self.search_ui = Ui_course_search()
         self.search_ui.setupUi(self.searchWindow)
+        self.searchWindow.children()[3].clicked.connect(lambda state: self.closeIt(self.searchWindow)) #close
+        self.searchWindow.children()[4].clicked.connect(lambda state: self.addCourse(self.searchWindow)) #add
         self.searchWindow.show()
+
+    def checkIfRowIsEmpty(self,table, row):
+        for colummn in range(1, table.columnCount()-1):
+            if table.item(row,colummn):
+                if table.item(row,colummn).text() != "":
+                    return False
+        return True
+
+    def addCourseContent(self, course_num, table, row): 
+        course = findCourseInDB(course_num)
+        course_num = QtWidgets.QTableWidgetItem()
+        course_num.setText(str(course.number))
+        course_name = QtWidgets.QTableWidgetItem()
+        course_name.setText(course.name)
+        course_points = QtWidgets.QTableWidgetItem()
+        course_points.setText(str(course.points))
+        course_name.setTextAlignment(QtCore.Qt.AlignCenter)
+        course_num.setTextAlignment(QtCore.Qt.AlignCenter)
+        course_points.setTextAlignment(QtCore.Qt.AlignCenter)
+        table.setItem(row,1,course_num)
+        table.setItem(row,2,course_name)
+        table.setItem(row,3,course_points)
+        return
+
+    def findEmptyRow(self, widget):
+        table = self.ui.courses_tab_widget.currentWidget().children()[7]
+        for row in range(table.rowCount()):
+            if self.checkIfRowIsEmpty(table, row):
+                return row
+        self.addRow(table)
+        return table.rowCount()-1
+
+    def addCourse(self, widget):
+        if widget.children()[1].text() == '':
+            self.errorMsg("לא הוכנס מספר קורס, נסה שנית.")
+            return
+        inputText = widget.children()[7].toPlainText()
+        if inputText == '' or inputText == "'הקורס לא נמצא במערכת, נסה שנית.'":
+            self.errorMsg("הקורס לא נמצא במערכת, נסה שנית.")
+            return
+        row = self.findEmptyRow(widget)
+        table = self.ui.courses_tab_widget.currentWidget().children()[7]
+        self.addCourseContent( widget.children()[1].text(), table, row)
+        widget.close() #TODO: Questionable, might leave widget open to add other courses as well
+
+    def closeIt(self, widget):
+        widget.close()
 
     def createTab(self):
         self.Form = QtWidgets.QWidget()
@@ -144,6 +194,12 @@ class MyWindow(QtWidgets.QMainWindow):
             return self.warningMsg(not_show_param,msg)
         elif not_show_param == "semester" and not self.not_show_remove_semester:
             return self.warningMsg(not_show_param,msg)
+
+    def errorMsg(self, msg):
+        msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Question,
+                                    "שגיאה", msg)
+        msgbox.addButton(QtWidgets.QMessageBox.Ok)
+        msgbox.exec()
 
     def warningMsg(self, not_show_param, msg):
         cb = QtWidgets.QCheckBox("לא להראות שוב.")

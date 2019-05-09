@@ -19,7 +19,7 @@ class Course:
 
     def set_points(self, points):
         try:
-            self.points = int(points)
+            self.points = float(points)
         except ValueError:
             self.points = 0
 
@@ -43,8 +43,6 @@ class Course:
             pickle.dumps(self.similarities),
             pickle.dumps(self.inclusive)
         ]
-
-    # [[' 234124', '104286 '], [' 234122', '104286 '], [' 234141', '234124 '], [' 234141', '234122 ']]
     def reprDependencies(self):
         if len(self.dependencies) > 0:
             result = []

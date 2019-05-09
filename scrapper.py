@@ -149,13 +149,37 @@ def updateDb():
         dbAddCourse(getCourseInfo(course_number,
                                   semesters[len(semesters) - 1]))
 
+def updateDb(value):
+    semester_tag = "input"
+    semester_attrs = {"type": "radio", "name": "SEM"}
+    faculties_tag = "option"
+    faculties_attrs = {}
+    search_url = 'https://ug3.technion.ac.il/rishum/search'
+    semesters = getData(search_url, semester_tag, semester_attrs, "values")
+    faculties = getData(search_url, faculties_tag, faculties_attrs, "values")
+    packages = []
+    courses_ammount = 0
+    for combination in product(semesters, faculties):
+        packages.append(preparePackage(combination[0], combination[1]))
+    course_numbers = set()
+    for package in packages:
+        for course in getCourses(search_url, package):
+            course_numbers.add(course)
+            courses_ammount += 1 
+    cnt = 0
+    for course_number in sorted(course_numbers):
+        cnt += 1
+        value[0] = cnt/course_numbers
+        dbAddCourse(getCourseInfo(course_number,
+                                  semesters[len(semesters) - 1]))
+
 
 def initDB():
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
     curs.execute('CREATE TABLE IF NOT EXISTS courses(course_name STR,'
                  'course_number INTEGER PRIMARY KEY,'
-                 'points INTEGER,'
+                 'points REAL,'
                  'dependencies BIT,'
                  'parallel BIT,'
                  'similarities BIT,'
@@ -211,3 +235,6 @@ def dbToCoursesList():
     curs.close()
     db.close()
     return temp
+ 
+if __name__ == "__main__":
+    updateDb()

@@ -195,9 +195,13 @@ class TabPage(object):
         self.courses_table.setSortingEnabled(True)
         self.not_show = False
         self.courses_table.setMouseTracking(False)
-        self.courses_table.setSortingEnabled(True)
+        self.courses_table.setSortingEnabled(False)
         for i in range(0, self.courses_table.rowCount()):
-            self.courses_table.setCellWidget(i, 0, self.createComboBox())
+            item1 = QtWidgets.QTableWidgetItem()
+            item2 = QtWidgets.QTableWidgetItem()
+            self.courses_table.setItem(i,0,item1)
+            self.courses_table.setCellWidget(i, 0, createComboBox())
+            self.courses_table.setItem(i,self.courses_table.columnCount()-1,item2)
             self.courses_table.setCellWidget(i, self.courses_table.columnCount()-1, createRemoveLineButton(str(i)))
         self.courses_table.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.Stretch)
@@ -243,18 +247,18 @@ class TabPage(object):
         item = self.courses_table.horizontalHeaderItem(5)
         item.setText(_translate("Form", ""))
 
-    def createComboBox(self):
-        combo_box = QtWidgets.QComboBox()
-        combo_box.setFocusPolicy(QtCore.Qt.StrongFocus)
-        combo_box.setLayoutDirection(QtCore.Qt.RightToLeft)
-        combo_box.addItem("חובה")
-        combo_box.addItem("רשימה א")
-        combo_box.addItem("רשימה ב")
-        combo_box.addItem("פרוייקט")
-        combo_box.addItem("ספורט")
-        combo_box.addItem("מל\"ג")
-        combo_box.addItem("חופשי")
-        return combo_box
+def createComboBox():
+    combo_box = QtWidgets.QComboBox()
+    combo_box.setFocusPolicy(QtCore.Qt.StrongFocus)
+    combo_box.setLayoutDirection(QtCore.Qt.RightToLeft)
+    combo_box.addItem("חובה")
+    combo_box.addItem("רשימה א")
+    combo_box.addItem("רשימה ב")
+    combo_box.addItem("פרוייקט")
+    combo_box.addItem("מל\"ג")
+    combo_box.addItem("ספורט")
+    combo_box.addItem("חופשי")
+    return combo_box
 
 def createRemoveLineButton(line):
     semester_table_remove_line = QtWidgets.QPushButton()

@@ -674,7 +674,7 @@ class Ui_MainWindow(object):
             _translate("MainWindow", "נק\"ז נותרו:"))
         self.points_left_to_choose_label_7.setText(
             _translate("MainWindow", "נותר לשבץ:"))
-        self.done_label_7.setText(_translate("MainWindow", "בוצעו:"))
+        self.done_label_7.setText(_translate("MainWindow", "שובצו:"))
         self.of_label_7.setText(_translate("MainWindow", "מתוך(יש למלא):"))
         self.must_label.setText(_translate("MainWindow", "חובה:"))
         self.must_of_in.setText(_translate("MainWindow", "0"))

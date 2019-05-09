@@ -1,6 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from scrapper import *
-
 class mythread(QtCore.QThread):
 
     def __init__(self, lst, semesters):

@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'progress.ui'
+# Form implementation generated from reading ui file '/home/vov4ik/Projects/DegreePlaner/progress.ui'
 #
 # Created by: PyQt5 UI code generator 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
-# Li
-#
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -63,5 +62,4 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "דכון נתונים"))
         self.pushButton.setText(_translate("Form", "ביטול"))
 
-    
-        
+

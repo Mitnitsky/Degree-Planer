@@ -1,4 +1,4 @@
-from mainwindow import Ui_MainWindow
+from Ui_maindesign import Ui_MainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
 from scrapper import *
 from sys import exit
@@ -9,6 +9,8 @@ from itertools import product
 from course import Course
 from updatedbthread import mythread
 import threading
+import pickle
+import pandas as pd
 
 class MyWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -31,43 +33,196 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.deg_points_in.textChanged.connect(self.update)
         self.not_show_remove_course = False
         self.not_show_remove_semester = False
+        self.threadStop = [False]
+        self.saveFileName = ''
         self.ui.english_checkbox_7.stateChanged['int'].connect(self.update)
         self.show()
         self.ui.actionUpdate_Courses_DB.triggered.connect(self.dbUpdate)
+        self.ui.actionNew.triggered.connect(self.new)
+        self.ui.actionSave.triggered.connect(self.saveData)
+        self.ui.actionSaveAs.triggered.connect(self.saveAsData)
+        self.ui.actionLoad.triggered.connect(self.loadData)
+        self.ui.action_2.triggered.connect(self.showCredit)
+        self.update_allowed = True
+        self.firstStart = True
+        self.update()
+        self.ui.statusbar.setStyleSheet("font: 57 8pt \"Noto Sans\";")
+        self.ui.statusbar.showMessage("© 2019 Vladimir Parakhin")
+        self.course_update = [0]
+        try:
+            f = open('settings.cfg', "r")
+            if f:
+                filename = f.readline()
+                if '.dps' in filename:
+                    if self.loadData(filename):
+                        self.saveFileName = filename
+        except FileNotFoundError:
+            self.update_allowed = True
+            pass
+        self.firstStart = False
 
     def dbUpdate(self):
         self.progress_ui = Ui_Form()
-        self.progressBar = QtWidgets.QProgressBar()
+        self.progressBar = QtWidgets.QWidget()
         self.progress_ui.setupUi(self.progressBar)
+        self.progressBar.children()[1].children()[3].clicked.connect(self.stopSearch)
         self.progressBar.show()
-        self.course_update = [0]
-        # semester_tag = "input"
-        # semester_attrs = {"type": "radio", "name": "SEM"}
-        # faculties_tag = "option"
-        # faculties_attrs = {}
-        # search_url = 'https://ug3.technion.ac.il/rishum/search'
-        # semesters = getData(search_url, semester_tag, semester_attrs, "values")
-        # faculties = getData(search_url, faculties_tag, faculties_attrs, "values")
-        # packages = []
-        # for combination in product(semesters, faculties):
-        #     packages.append(preparePackage(combination[0], combination[1]))
-        # course_numbers = set()
-        # for package in packages:
-        #     for course in getCourses(search_url, package):
-        #         course_numbers.add(course)
-        # cnt = 0
-        # course_amount = len(course_numbers)
-        # li = [course_numbers,0]
-        self.progressBar.setValue(0)
-        self.thread = threading.Thread(target=updateDb, args=[self.course_update]).start()
-        self.thread2 = threading.Thread(target=self.updateProgressBar, args=[]).start()
-        # self.thread = mythread(li,semesters)
-        # while self.thread.isAlive():
+        self.course_update[0] = 0
+        self.threadStop[0] = False
+        for tab in range(self.ui.courses_tab_widget.count()):
+            self.ui.courses_tab_widget.widget(tab).children()[8].setEnabled(False) #search button
+            self.ui.courses_tab_widget.widget(tab).children()[8].setToolTip("אמתן לסיום עדכון הנתונים ")
+        self.progress_ui.progressBar.setValue(0)
+        self.thread = threading.Thread(target=updateDb, args=[self.course_update, self.progress_ui, self.threadStop])
+        self.thread.start()
+
+    def stopSearch(self):
+        self.threadStop[0] = True
+        self.progressBar.close()
+        for tab in range(self.ui.courses_tab_widget.count()):
+            self.ui.courses_tab_widget.widget(tab).children()[8].setEnabled(True)
+            self.ui.courses_tab_widget.widget(tab).children()[8].setToolTip("")
+    
+    def new(self, force=False):
+        if not force:
+            ans = self.warningMsg('',"למחוק את כל הנתונים?")
+        if force or ans:
+            for tab in range(self.ui.courses_tab_widget.count()-1,-1,-1):
+                self.removeSemester(tab,force=True)
+        if not force:
+            self.addSemester()
 
 
-    def updateProgressBar(self):
-        while self.thread2.isAlive():
-            self.progressBar.setValue(self.course_update[0])
+    def loadData(self, filename=''):
+        self.update_allowed = False
+        cnt = 0
+        if not self.firstStart:
+            ans = self.warningMsg('',"שינויים שלא נשמרו ימחקו")
+            if not ans:
+                self.update_allowed = True
+                return
+        if filename == '' or not filename:
+            filename = QtWidgets.QFileDialog.getOpenFileName(self, 'טעינה', '', "Save files (*.dps)")
+            if filename[0] == '':
+                self.errorMsg("הקובץ לא נמצא")
+                self.update_allowed = True
+                return False
+            filename = filename[0]
+        try:
+            filename = open(filename, "rb")
+        except FileNotFoundError:
+            self.errorMsg("פתיחת הקובץ כשלה")
+            self.update_allowed = True
+            return False
+        if not filename:
+            self.errorMsg("פתיחת הקובץ כשלה")
+            self.update_allowed = True
+            return False
+        self.new(True)
+        content = pickle.loads(filename.read())
+        index = 0
+        for semester in content:
+            self.addSemester()
+            table = self.ui.courses_tab_widget.widget(index).children()[7]
+            index_r = 0
+            for row in semester:
+                for column in range(0,len(row)):
+                    if column == 0:
+                        item = QtWidgets.QTableWidgetItem()
+                        item.setTextAlignment(QtCore.Qt.AlignCenter)
+                        table.setItem(index_r, column, item)
+                        index = table.cellWidget(index_r,column).findText(row[column], QtCore.Qt.MatchFixedString)
+                        if index >= 0:
+                            table.cellWidget(index_r,column).setCurrentIndex(index)
+                    elif column == 1:
+                        if row[column] != ' ' and row[column] != ' \n':
+                            if not table.item(index_r, column):
+                                item = QtWidgets.QTableWidgetItem()
+                                item.setTextAlignment(QtCore.Qt.AlignCenter)
+                                table.setItem(index_r, column, item)
+                                item.setToolTip(row[column])
+                                item.setText(row[column+1])
+                                column +=1
+                    else:
+                        if row[column] != ' ' and row[column] != ' \n':
+                            if not table.item(index_r, column):
+                                item = QtWidgets.QTableWidgetItem()
+                                item.setTextAlignment(QtCore.Qt.AlignCenter)
+                                table.setItem(index_r, column, item)
+                            table.item(index_r,column).setText(row[column])
+                index_r += 1
+            index += 1
+        self.update_allowed = True
+        self.update()
+        return True
+
+    def saveAsData(self):
+        self.saveFileName = ''
+        self.saveData()
+    
+    def saveData(self):
+        cnt = 0
+        if self.saveFileName == '':
+            filename = QtWidgets.QFileDialog.getSaveFileName(self, 'שמירה בשם', '', "Save files (*.dps)")
+            if filename[0] == '':
+                return
+            self.saveFileName = filename[0]
+        try:
+            f = open(self.saveFileName, "wb+")
+        except FileNotFoundError:
+            self.errorMsg("פתיחת הקובץ כשלה")
+            return
+        if not f:
+            self.errorMsg("פתיחת הקובץ כשלה")
+            return
+        byte_array = list()
+        for tab in range(self.ui.courses_tab_widget.count()):
+            table = self.ui.courses_tab_widget.widget(tab).children()[7]
+            semester = list()
+            for row in range(table.rowCount()):
+                separator ="\n"
+                rows = list()
+                for column in range(table.columnCount()-1):
+                    if column == 0:
+                        if table.cellWidget(row,column):
+                            rows.append(table.cellWidget(row,column).currentText())
+                            separator = ", "
+                    else:
+                        if table.item(row,column):
+                            if column == 1:
+                                rows.append(table.item(row,column).toolTip())
+                            rows.append(table.item(row,column).text())
+                semester.append(rows)
+            byte_array.append(semester)
+        f.write(pickle.dumps(byte_array))
+        cache = open('settings.cfg', 'w+')
+        if not cache:
+            return
+        cache.write(self.saveFileName)
+    
+    def showCredit(self):
+        message_det = """<address>
+                        Degree Planner
+                        Version: 1.0<br>
+                        Contact details:<br> 
+                        <a href='vov4ikpa@gmail.com'>\tEmail</a><br>
+                        <a href='https://github.com/Vladimir-pa/Degree-Planer'>\tGithub</a><br>
+                        © 2019 Vladimir Parakhin
+                        </address>"""
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.setText(message_det)
+        msgbox.setWindowTitle("About")
+        msgbox.setTextFormat(QtCore.Qt.RichText)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        msgbox.setSizePolicy(sizePolicy)
+        msgbox.exec()
+
+
+    def updateProgressBar(self, thread):
+        while thread.isAlive():
+            self.progress_ui.progressBar.setValue(self.course_update[0])
 
     def openSearchDialog(self):
         self.searchWindow = QtWidgets.QDialog()
@@ -218,13 +373,10 @@ class MyWindow(QtWidgets.QMainWindow):
 
 
     def update(self):
-        try:
-            #TODO: HANDLE ERRORS !
+        if self.update_allowed:
             self.updateAverage()
             self.updatePoints()
             self.updateTooltips()
-        except ZeroDivisionError:
-            return
 
     def addSemester(self):
         tab = self.createTab()
@@ -266,8 +418,8 @@ class MyWindow(QtWidgets.QMainWindow):
             tab_name = "סמסטר " + str(i+1)
             self.ui.courses_tab_widget.setTabText(i, tab_name)
 
-    def removeSemester(self, i):
-        if self.my_close("semester", "האם למחוק סמסטר ?"):
+    def removeSemester(self, i, force=False):
+        if force or self.my_close("semester", "האם למחוק סמסטר ?"):
             self.ui.courses_tab_widget.removeTab(i)
             self.updateTabNames()
             self.update()
@@ -318,18 +470,19 @@ class MyWindow(QtWidgets.QMainWindow):
         msgbox.addButton(QtWidgets.QMessageBox.Ok)
         msgbox.exec()
 
-    def warningMsg(self, not_show_param, msg):
+    def warningMsg(self, not_show_param='', msg='ERROR'):
         cb = QtWidgets.QCheckBox("לא להראות שוב.")
         msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Question,
                                     "מחיקה", msg)
         msgbox.addButton(QtWidgets.QMessageBox.Yes)
         msgbox.addButton(QtWidgets.QMessageBox.No)
         msgbox.setDefaultButton(QtWidgets.QMessageBox.No)
-        msgbox.setCheckBox(cb)
         reply = msgbox.exec()
         if not_show_param == "semester":
+            msgbox.setCheckBox(cb)
             self.not_show_remove_semester = bool(cb.isChecked())
         elif not_show_param == "row":
+            msgbox.setCheckBox(cb)
             self.not_show_remove_course = bool(cb.isChecked())
         if reply == QtWidgets.QMessageBox.No:
             return False

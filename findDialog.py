@@ -80,7 +80,7 @@ class Ui_course_search(object):
 
     def retranslateUi(self, course_search):
         _translate = QtCore.QCoreApplication.translate
-        course_search.setWindowTitle(_translate("course_search", "Dialog"))
+        course_search.setWindowTitle(_translate("course_search", "חיפוש קורס"))
         self.course_num_label.setText(_translate("course_search",
                                                  "מס\' קורס:"))
         self.close_search_button.setText(_translate("course_search", "סגור"))

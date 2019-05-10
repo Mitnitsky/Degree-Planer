@@ -149,7 +149,9 @@ def updateDb():
         dbAddCourse(getCourseInfo(course_number,
                                   semesters[len(semesters) - 1]))
 
-def updateDb(value):
+
+def updateDb(value, progressBarUI, stopFlag):
+    progressBarUI.label.setText("אוסף מידע:")
     semester_tag = "input"
     semester_attrs = {"type": "radio", "name": "SEM"}
     faculties_tag = "option"
@@ -158,18 +160,24 @@ def updateDb(value):
     semesters = getData(search_url, semester_tag, semester_attrs, "values")
     faculties = getData(search_url, faculties_tag, faculties_attrs, "values")
     packages = []
-    courses_ammount = 0
     for combination in product(semesters, faculties):
         packages.append(preparePackage(combination[0], combination[1]))
     course_numbers = set()
+    progressBarUI.label.setText("(1/2) אוסף מספרי קורסים")
     for package in packages:
         for course in getCourses(search_url, package):
+            progressBarUI.progressBar.setValue((len(course_numbers) / 600) % 6)
             course_numbers.add(course)
-            courses_ammount += 1 
+            if stopFlag[0]:
+                return
     cnt = 0
+    progressBarUI.label.setText("(2/2) מעדכן קורסים")
     for course_number in sorted(course_numbers):
+        if stopFlag[0]:
+                return
         cnt += 1
-        value[0] = cnt/course_numbers
+        value[0] = 5 + (cnt / len(course_numbers)) * 95
+        progressBarUI.progressBar.setValue(value[0])
         dbAddCourse(getCourseInfo(course_number,
                                   semesters[len(semesters) - 1]))
 
@@ -235,6 +243,7 @@ def dbToCoursesList():
     curs.close()
     db.close()
     return temp
- 
+
+
 if __name__ == "__main__":
     updateDb()

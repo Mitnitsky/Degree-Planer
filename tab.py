@@ -8,7 +8,6 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
 class TabPage(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -25,23 +24,21 @@ class TabPage(object):
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.semester_average_label = QtWidgets.QLabel(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed,
-                                           QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.semester_average_label.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(self.semester_average_label.sizePolicy().hasHeightForWidth())
         self.semester_average_label.setSizePolicy(sizePolicy)
         self.semester_average_label.setObjectName("semester_average_label")
+        self.semester_average_label.setMaximumSize(QtCore.QSize(110, 16777215))
         self.horizontalLayout_7.addWidget(self.semester_average_label)
         self.semester_average_in = QtWidgets.QLineEdit(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed,
-                                           QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.semester_average_in.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(self.semester_average_in.sizePolicy().hasHeightForWidth())
         self.semester_average_in.setSizePolicy(sizePolicy)
+        self.semester_average_in.setMaximumSize(QtCore.QSize(75, 16777215))
         self.semester_average_in.setText("")
         self.semester_average_in.setAlignment(QtCore.Qt.AlignCenter)
         self.semester_average_in.setReadOnly(True)
@@ -51,23 +48,21 @@ class TabPage(object):
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.semester_points_label = QtWidgets.QLabel(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed,
-                                           QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.semester_points_label.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(self.semester_points_label.sizePolicy().hasHeightForWidth())
         self.semester_points_label.setSizePolicy(sizePolicy)
+        self.semester_points_label.setMaximumSize(QtCore.QSize(110, 16777215))
         self.semester_points_label.setObjectName("semester_points_label")
         self.horizontalLayout_8.addWidget(self.semester_points_label)
         self.semester_points_in = QtWidgets.QLineEdit(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed,
-                                           QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.semester_points_in.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(self.semester_points_in.sizePolicy().hasHeightForWidth())
         self.semester_points_in.setSizePolicy(sizePolicy)
+        self.semester_points_in.setMaximumSize(QtCore.QSize(75, 16777215))
         self.semester_points_in.setText("")
         self.semester_points_in.setAlignment(QtCore.Qt.AlignCenter)
         self.semester_points_in.setReadOnly(True)
@@ -196,13 +191,17 @@ class TabPage(object):
         self.not_show = False
         self.courses_table.setMouseTracking(False)
         self.courses_table.setSortingEnabled(False)
-        for i in range(0, self.courses_table.rowCount()):
+        for row in range(0, self.courses_table.rowCount()):
             item1 = QtWidgets.QTableWidgetItem()
             item2 = QtWidgets.QTableWidgetItem()
-            self.courses_table.setItem(i,0,item1)
-            self.courses_table.setCellWidget(i, 0, createComboBox())
-            self.courses_table.setItem(i,self.courses_table.columnCount()-1,item2)
-            self.courses_table.setCellWidget(i, self.courses_table.columnCount()-1, createRemoveLineButton(str(i)))
+            self.courses_table.setItem(row,0,item1)
+            self.courses_table.setCellWidget(row, 0, createComboBox())
+            self.courses_table.setItem(row,self.courses_table.columnCount()-1,item2)
+            self.courses_table.setCellWidget(row, self.courses_table.columnCount()-1, createRemoveLineButton(str(row)))
+            for column in range(1, self.courses_table.columnCount()-1):
+                item = QtWidgets.QTableWidgetItem()
+                item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.courses_table.setItem(row, column, item)
         self.courses_table.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.Stretch)
         self.retranslateUi(Form)

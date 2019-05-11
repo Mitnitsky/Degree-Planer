@@ -182,6 +182,7 @@ class MyWindow(QtWidgets.QMainWindow):
                                 spin_box.setRange(0,100)
                                 spin_box.setDecimals(1)
                                 spin_box.setAlignment(QtCore.Qt.AlignCenter)
+                                spin_box.valueChanged.connect(self.update)
                                 spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
                                 if column == 3:
                                     spin_box.setSingleStep(0.5) 

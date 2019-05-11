@@ -17,22 +17,12 @@
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLineEdit" name="course_num_in">
-       <property name="inputMethodHints">
-        <set>Qt::ImhDigitsOnly</set>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QLabel" name="course_num_label">
+       <property name="styleSheet">
+        <string notr="true">font: 12pt &quot;Noto Sans&quot;;</string>
+       </property>
        <property name="text">
-        <string>מס' קורס:</string>
+        <string>הכנס מספר/שם קורס:</string>
        </property>
       </widget>
      </item>
@@ -59,20 +49,29 @@
    <item row="1" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QPushButton" name="find_course_button">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QComboBox" name="comboBox">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;מראה 50 התאמות ראשונות&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
-       <property name="text">
-        <string>חפש</string>
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="currentText">
+        <string/>
+       </property>
+       <property name="maxVisibleItems">
+        <number>50</number>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="course_info_label">
+       <property name="styleSheet">
+        <string notr="true">font: 12pt &quot;Noto Sans&quot;;</string>
+       </property>
        <property name="text">
         <string>מידע על הקורס:</string>
        </property>
@@ -106,8 +105,6 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <tabstops>
-  <tabstop>course_num_in</tabstop>
-  <tabstop>find_course_button</tabstop>
   <tabstop>add_course_button</tabstop>
   <tabstop>close_search_button</tabstop>
   <tabstop>find_course_in</tabstop>

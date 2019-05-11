@@ -138,19 +138,35 @@ class MyWindow(QtWidgets.QMainWindow):
         self.new(True)
         content = pickle.loads(filename.read())
         index = 0
+
+        self.ui.deg_points_in.setValue(content[0][0])
+        self.ui.must_of_in.setValue(content[0][1])
+        self.ui.list_a_of_in_7.setValue(content[0][2])
+        self.ui.list_b_of_in_7.setValue(content[0][3])
+        self.ui.project_of_in_7.setValue(content[0][4])
+        self.ui.malag_of_in_7.setValue(content[0][5])
+        self.ui.sport_of_in_7.setValue(content[0][6])
+        self.ui.free_of_in_7.setValue(content[0][7])
+        self.ui.english_checkbox_7.setChecked(content[0][8])
+        content = content[1:]
         for semester in content:
             self.addSemester()
             table = self.ui.courses_tab_widget.widget(index).children()[7]
             index_r = 0
+            while len(semester) > table.rowCount():
+                self.addRow(table)
+            while len(semester) < table.rowCount():
+                self.removeRow(table)
             for row in semester:
                 for column in range(0,len(row) - 1):
                     if column == 0:
                         item = QtWidgets.QTableWidgetItem()
                         item.setTextAlignment(QtCore.Qt.AlignCenter)
                         table.setItem(index_r, column, item)
-                        index = table.cellWidget(index_r,column).findText(row[column], QtCore.Qt.MatchFixedString)
-                        if index >= 0:
-                            table.cellWidget(index_r,column).setCurrentIndex(index)
+                        table.setCellWidget(index_r, column, self.createComboBox())
+                        index_combo_box = table.cellWidget(index_r,column).findText(row[column], QtCore.Qt.MatchFixedString)
+                        if index_combo_box >= 0:
+                            table.cellWidget(index_r,column).setCurrentIndex(index_combo_box)
                     elif column == 1:
                         if row[column] != ' ' and row[column] != ' \n':
                             table.item(index_r,column).setToolTip(row[column])
@@ -162,6 +178,16 @@ class MyWindow(QtWidgets.QMainWindow):
                     else:
                         if row[column+1] != ' ' and row[column+1] != ' \n':
                             try:
+                                spin_box = QtWidgets.QDoubleSpinBox()
+                                spin_box.setRange(0,100)
+                                spin_box.setDecimals(1)
+                                spin_box.setAlignment(QtCore.Qt.AlignCenter)
+                                spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
+                                if column == 3:
+                                    spin_box.setSingleStep(0.5) 
+                                else:
+                                    spin_box.setSingleStep(0.1)
+                                table.setCellWidget(index_r, column, spin_box)
                                 table.cellWidget(index_r,column).setValue(float(row[column+1]))
                             except ValueError:
                                 table.cellWidget(index_r,column).setValue(0.0)
@@ -192,6 +218,17 @@ class MyWindow(QtWidgets.QMainWindow):
             self.errorMsg("פתיחת הקובץ כשלה")
             return
         byte_array = list()
+        inputs = list()
+        inputs.append(self.ui.deg_points_in.value())
+        inputs.append(self.ui.must_of_in.value())
+        inputs.append(self.ui.list_a_of_in_7.value())
+        inputs.append(self.ui.list_b_of_in_7.value())
+        inputs.append(self.ui.project_of_in_7.value())
+        inputs.append(self.ui.malag_of_in_7.value())
+        inputs.append(self.ui.sport_of_in_7.value())
+        inputs.append(self.ui.free_of_in_7.value())
+        inputs.append(self.ui.english_checkbox_7.isChecked())
+        byte_array.append(inputs)
         for tab in range(self.ui.courses_tab_widget.count()):
             table = self.ui.courses_tab_widget.widget(tab).children()[7]
             semester = list()
@@ -203,11 +240,14 @@ class MyWindow(QtWidgets.QMainWindow):
                         if table.cellWidget(row,column):
                             rows.append(table.cellWidget(row,column).currentText())
                             separator = ", "
-                    else:
+                    elif column <= 2:
                         if table.item(row,column):
                             if column == 1:
                                 rows.append(table.item(row,column).toolTip())
                             rows.append(table.item(row,column).text())
+                    else:
+                        if table.cellWidget(row,column):
+                            rows.append(table.cellWidget(row,column).value())
                 semester.append(rows)
             byte_array.append(semester)
         f.write(pickle.dumps(byte_array))
@@ -267,10 +307,7 @@ class MyWindow(QtWidgets.QMainWindow):
         course_name = QtWidgets.QTableWidgetItem()
         course_name.setText(course.name)
         course_points = QtWidgets.QTableWidgetItem()
-        if course.points == 0:
-            course_points.setText("0")
-        else:
-            course_points.setText(str(course.points))
+        table.cellWidget(row,3).setValue(course.points)
         course_name.setTextAlignment(QtCore.Qt.AlignCenter)
         course_num.setTextAlignment(QtCore.Qt.AlignCenter)
         tooltip =  ("מקוצועות קדם: "                   + course.reprDependencies()                + "\n" if course.reprDependencies()                != "" else "" ) \
@@ -281,7 +318,6 @@ class MyWindow(QtWidgets.QMainWindow):
         course_points.setTextAlignment(QtCore.Qt.AlignCenter)
         table.setItem(row,1,course_num)
         table.setItem(row,2,course_name)
-        table.setItem(row,3,course_points)
         return
 
     def courseInTable(self, table, course_num):
@@ -449,10 +485,16 @@ class MyWindow(QtWidgets.QMainWindow):
         empty = self.checkIfRowIsEmpty(table,row)
         if empty:
             table.removeRow(row)
+            self.update()
+            return
+        table.cellWidget(row,0).setCurrentIndex(0)
         for column in range(1, table.columnCount()-1):
+            
             if table.item(row,column) != None:
                 table.item(row,column).setText("")
                 table.item(row,column).setToolTip("")
+            if column >= 3:
+                table.cellWidget(row,column).setValue(0)
         self.update()
 
     def updateTabNames(self):

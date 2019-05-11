@@ -208,6 +208,8 @@ class TabPage(object):
                     spin_box.setDecimals(1)
                     if column == 3:
                         spin_box.setSingleStep(0.5)
+                    else:
+                        spin_box.setSingleStep(0.1)
                     spin_box.setAlignment(QtCore.Qt.AlignCenter)
                     spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
                     self.courses_table.setCellWidget(row, column, spin_box)

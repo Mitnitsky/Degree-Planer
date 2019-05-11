@@ -319,7 +319,7 @@ class Ui_MainWindow(object):
         self.must_label.setFont(font)
         self.must_label.setObjectName("must_label")
         self.horizontalLayout_92.addWidget(self.must_label)
-        self.must_done_in = QtWidgets.QLineEdit(self.frame_3)
+        self.must_done_in = QtWidgets.QDoubleSpinBox(self.frame_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum,
                                            QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -327,7 +327,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(
             self.must_done_in.sizePolicy().hasHeightForWidth())
         self.must_done_in.setSizePolicy(sizePolicy)
-        self.must_done_in.setText("")
+        self.must_done_in.setValue(0.0)
         self.must_done_in.setAlignment(QtCore.Qt.AlignCenter)
         self.must_done_in.setReadOnly(True)
         self.must_done_in.setObjectName("must_done_in")
@@ -648,7 +648,7 @@ class Ui_MainWindow(object):
             _translate("MainWindow", "נק\"ז נותרו:"))
         self.points_left_to_choose_label_7.setText(
             _translate("MainWindow", "נותר לשבץ:"))
-        self.done_label_7.setText(_translate("MainWindow", "שובצו:"))
+        self.done_label_7.setText(_translate("MainWindow", "נותרו:"))
         self.of_label_7.setText(_translate("MainWindow", "מתוך(יש למלא):"))
         self.must_label.setText(_translate("MainWindow", "חובה:"))
         self.must_of_in.setText(_translate("MainWindow", "0"))

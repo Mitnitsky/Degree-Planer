@@ -25,14 +25,14 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.add_semester_but.clicked.connect(self.addSemester)
         self.ui.courses_tab_widget.tabCloseRequested.connect(
             self.removeSemester)
-        self.ui.must_of_in.textChanged.connect(self.update)
-        self.ui.list_a_of_in_7.textChanged.connect(self.update)
-        self.ui.list_b_of_in_7.textChanged.connect(self.update)
-        self.ui.project_of_in_7.textChanged.connect(self.update)
-        self.ui.sport_of_in_7.textChanged.connect(self.update)
-        self.ui.malag_of_in_7.textChanged.connect(self.update)
-        self.ui.free_done_in_7.textChanged.connect(self.update)
-        self.ui.deg_points_in.textChanged.connect(self.update)
+        self.ui.must_of_in.valueChanged.connect(self.update)
+        self.ui.list_a_of_in_7.valueChanged.connect(self.update)
+        self.ui.list_b_of_in_7.valueChanged.connect(self.update)
+        self.ui.project_of_in_7.valueChanged.connect(self.update)
+        self.ui.sport_of_in_7.valueChanged.connect(self.update)
+        self.ui.malag_of_in_7.valueChanged.connect(self.update)
+        self.ui.free_of_in_7.valueChanged.connect(self.update)
+        self.ui.deg_points_in.valueChanged.connect(self.update)
         self.not_show_remove_course = False
         self.not_show_remove_semester = False
         self.threadStop = [False]
@@ -329,10 +329,10 @@ class MyWindow(QtWidgets.QMainWindow):
             semester_average = self.ui.courses_tab_widget.widget(tab).children()[2] #Average
             for row in range(table.rowCount()):
                 try:
-                    if table.item(row,3) and float(table.item(row,3).text()) > 0:
-                        if table.item(row,4) and float(table.item(row,4).text()) > 0:
-                            semester_points += float(table.item(row,3).text())
-                            semester_sum += float(table.item(row,3).text()) * float(table.item(row,4).text())
+                    if table.cellWidget(row,3) and float(table.cellWidget(row,3).value()) > 0:
+                        if table.cellWidget(row,4) and float(table.cellWidget(row,4).value()) > 0:
+                            semester_points += float(table.cellWidget(row,3).value())
+                            semester_sum += float(table.cellWidget(row,3).value()) * float(table.cellWidget(row,4).value())
                 except (ValueError, AttributeError):
                     continue
             if(semester_points > 0):
@@ -363,33 +363,33 @@ class MyWindow(QtWidgets.QMainWindow):
             for row in range(table.rowCount()):
                 try:
                     try:
-                        table.item(row,3).setText(str(float(table.item(row,3).text())))
+                        table.cellWidget(row,3).setText(str(float(table.cellWidget(row,3).value())))
                     except (ValueError, AttributeError):
                         pass
-                    if table.item(row,3) and float(table.item(row,3).text()) > 0:
+                    if table.cellWidget(row,3) and float(table.cellWidget(row,3).value()) > 0:
                         try:
-                            if table.item(row,4) and float(table.item(row,4).text()) > 0:
-                                points_done += float(table.item(row,3).text())
+                            if table.cellWidget(row,4) and float(table.cellWidget(row,4).value()) > 0:
+                                points_done += float(table.cellWidget(row,3).value())
                         except ValueError:
                             pass
-                        points[table.cellWidget(row,0).currentText()] += float(table.item(row,3).text())
-                        table_points.setText(str(float(table_points.text()) + float(table.item(row,3).text())))
+                        points[table.cellWidget(row,0).currentText()] += float(table.cellWidget(row,3).value())
+                        table_points.setText(str(float(table_points.text()) + float(table.cellWidget(row,3).value())))
                 except (ValueError, AttributeError):
                     continue
-        self.ui.list_a_done_in_7.setText(str(float(self.ui.list_a_of_in_7.text()) - points["רשימה א"]))
-        self.ui.list_b_done_in_7.setText(str(float(self.ui.list_b_of_in_7.text()) - points["רשימה ב"]))
-        self.ui.project_done_in_7.setText(str(float(self.ui.project_of_in_7.text()) - points["פרוייקט"]))
-        self.ui.sport_done_in_7.setText(str(float(self.ui.sport_of_in_7.text()) - points["ספורט"]))
-        self.ui.malag_done_in_7.setText(str(float(self.ui.malag_of_in_7.text()) - points["מל\"ג"]))
-        self.ui.free_done_in_7.setText(str(float(self.ui.free_of_in_7.text()) - points["חופשי"]))
+        self.ui.list_a_done_in_7.setText(str(self.ui.list_a_of_in_7.value() - points["רשימה א"]))
+        self.ui.list_b_done_in_7.setText(str(self.ui.list_b_of_in_7.value() - points["רשימה ב"]))
+        self.ui.project_done_in_7.setText(str(self.ui.project_of_in_7.value() - points["פרוייקט"]))
+        self.ui.sport_done_in_7.setText(str(self.ui.sport_of_in_7.value() - points["ספורט"]))
+        self.ui.malag_done_in_7.setText(str(self.ui.malag_of_in_7.value() - points["מל\"ג"]))
+        self.ui.free_done_in_7.setText(str(self.ui.free_of_in_7.value() - points["חופשי"]))
         if self.ui.english_checkbox_7.isChecked():
             exemption = 3
         else:
             exemption = 0
-        self.ui.must_done_in.setText(str(float(points["חובה"]+exemption)))
-        self.ui.points_left_to_choose_in_7.setText(str(float(self.ui.deg_points_in.text())-sum(points.values())-exemption))
+        self.ui.must_done_in.setText(str(float(self.ui.must_of_in.value() - points["חובה"] - exemption)))
+        self.ui.points_left_to_choose_in_7.setText(str(self.ui.deg_points_in.value()-sum(points.values())-exemption))
         self.ui.points_in_7.setText(str(float(points_done)+exemption))
-        self.ui.points_left_in_7.setText(str(float(self.ui.deg_points_in.text())-float(self.ui.points_in_7.text())))
+        self.ui.points_left_in_7.setText(str(self.ui.deg_points_in.value()-float(self.ui.points_in_7.text())))
 
     def updateTooltips(self):
         for tab in range(self.ui.courses_tab_widget.count()):
@@ -428,6 +428,8 @@ class MyWindow(QtWidgets.QMainWindow):
         buttons = []
         item = QtWidgets.QTableWidgetItem()
         for i in range(0, table.rowCount()):
+            table.cellWidget(i,3).valueChanged.connect(self.update)
+            table.cellWidget(i,4).valueChanged.connect(self.update)
             button = createRemoveLineButton(str(i))
             value.append(i)
             lambdas.append(lambda state: self.clearRow(table))
@@ -479,9 +481,12 @@ class MyWindow(QtWidgets.QMainWindow):
                 spin_box.setDecimals(1)
                 if column == 3:
                     spin_box.setSingleStep(0.5)
+                else:
+                    spin_box.setSingleStep(0.1)
                 spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
                 spin_box.setAlignment(QtCore.Qt.AlignCenter)
                 table.setCellWidget(table.rowCount()-1,column,spin_box)
+                table.cellWidget(table.rowCount()-1,column).valueChanged.connect(self.update)
         button = createRemoveLineButton(str(table.rowCount()-1))
         button.clicked.connect(lambda state: self.clearRow(table))
         table.cellWidget(table.rowCount()-1,0).currentIndexChanged['int'].connect(self.update)

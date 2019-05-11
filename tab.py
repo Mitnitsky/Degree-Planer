@@ -202,6 +202,15 @@ class TabPage(object):
                 item = QtWidgets.QTableWidgetItem()
                 item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.courses_table.setItem(row, column, item)
+                if column >= 3:
+                    spin_box = QtWidgets.QDoubleSpinBox()
+                    spin_box.setRange(0,100)
+                    spin_box.setDecimals(1)
+                    if column == 3:
+                        spin_box.setSingleStep(0.5)
+                    spin_box.setAlignment(QtCore.Qt.AlignCenter)
+                    spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
+                    self.courses_table.setCellWidget(row, column, spin_box)
         self.courses_table.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.Stretch)
         self.retranslateUi(Form)

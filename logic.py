@@ -156,9 +156,15 @@ class MyWindow(QtWidgets.QMainWindow):
                             table.item(index_r,column).setToolTip(row[column])
                         if row[column+1] != ' ' and row[column+1] != ' \n':
                             table.item(index_r,column).setText(row[column+1])
-                    else:
+                    elif column == 2:
                         if row[column+1] != ' ' and row[column+1] != ' \n':
                             table.item(index_r,column).setText(row[column+1])
+                    else:
+                        if row[column+1] != ' ' and row[column+1] != ' \n':
+                            try:
+                                table.cellWidget(index_r,column).setValue(float(row[column+1]))
+                            except ValueError:
+                                table.cellWidget(index_r,column).setValue(0.0)
                 index_r += 1
             index += 1
         self.update_allowed = True
@@ -380,7 +386,7 @@ class MyWindow(QtWidgets.QMainWindow):
             exemption = 3
         else:
             exemption = 0
-        self.ui.must_done_in.setText(str(points["חובה"]+exemption))
+        self.ui.must_done_in.setText(str(float(points["חובה"]+exemption)))
         self.ui.points_left_to_choose_in_7.setText(str(float(self.ui.deg_points_in.text())-sum(points.values())-exemption))
         self.ui.points_in_7.setText(str(float(points_done)+exemption))
         self.ui.points_left_in_7.setText(str(float(self.ui.deg_points_in.text())-float(self.ui.points_in_7.text())))
@@ -467,6 +473,15 @@ class MyWindow(QtWidgets.QMainWindow):
             item = QtWidgets.QTableWidgetItem()
             item.setTextAlignment(QtCore.Qt.AlignCenter)
             table.setItem(table.rowCount()-1, column, item)
+            if column >= 3:
+                spin_box = QtWidgets.QDoubleSpinBox()
+                spin_box.setRange(0,100)
+                spin_box.setDecimals(1)
+                if column == 3:
+                    spin_box.setSingleStep(0.5)
+                spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
+                spin_box.setAlignment(QtCore.Qt.AlignCenter)
+                table.setCellWidget(table.rowCount()-1,column,spin_box)
         button = createRemoveLineButton(str(table.rowCount()-1))
         button.clicked.connect(lambda state: self.clearRow(table))
         table.cellWidget(table.rowCount()-1,0).currentIndexChanged['int'].connect(self.update)

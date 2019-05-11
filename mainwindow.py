@@ -13,7 +13,7 @@ from findDialog import Ui_course_search
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1680, 609)
+        MainWindow.resize(800, 480)
         MainWindow.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")

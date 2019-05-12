@@ -1,22 +1,20 @@
-from maindesign import Ui_MainWindow
+from Ui_maindesign import Ui_MainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
 from scrapper import *
 from sys import exit
-from tab import TabPage, createRemoveLineButton
-from findDialog import Ui_course_search
-from progress import Ui_Form
+from Ui_tab import TabPage, createRemoveLineButton
+from Ui_findDialog import Ui_course_search
+from Ui_progress import ProgressWindowForm
 from itertools import product
 from course import Course
-from updatedbthread import mythread
-from tr import tr
 import threading
 import pickle
-import pandas as pd
 
 class MyWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MyWindow, self).__init__()
         initDB()
+        self.searchWindow = False
         self.update_allowed = True
         self.courses = dbToCoursesList()
         self.ui = Ui_MainWindow()
@@ -47,6 +45,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.action_2.triggered.connect(self.showCredit)
         self.firstStart = True
         self.saved = True
+        self.db_pairs = loadCourseNameNumberPairs()
         self.update()
         self.ui.statusbar.setStyleSheet("font: 57 8pt \"Noto Sans\";")
         self.ui.statusbar.showMessage("© 2019 Vladimir Parakhin")
@@ -76,10 +75,12 @@ class MyWindow(QtWidgets.QMainWindow):
             if reply == QtWidgets.QMessageBox.Cancel:
                 event.ignore()
                 return
+        if self.searchWindow:
+            self.searchWindow.close()
         return super().closeEvent(event)
 
     def dbUpdate(self):
-        self.progress_ui = Ui_Form()
+        self.progress_ui = ProgressWindowForm()
         self.progressBar = QtWidgets.QWidget()
         self.progress_ui.setupUi(self.progressBar)
         self.progressBar.children()[1].children()[3].clicked.connect(self.stopSearch)
@@ -283,12 +284,23 @@ class MyWindow(QtWidgets.QMainWindow):
             self.progress_ui.progressBar.setValue(self.course_update[0])
 
     def openSearchDialog(self):
-        self.searchWindow = QtWidgets.QDialog()
+        self.searchWindow = QtWidgets.QWidget()
         self.search_ui = Ui_course_search()
         self.search_ui.setupUi(self.searchWindow)
-        self.searchWindow.children()[3].clicked.connect(lambda state: self.closeIt(self.searchWindow)) #close
-        self.searchWindow.children()[4].clicked.connect(lambda state: self.addCourse(self.searchWindow)) #add
+        for course in self.db_pairs:
+            self.searchWindow.children()[3].addItem(course)
+        self.searchWindow.children()[3].currentIndexChanged.connect(self.findCourse)
+        self.searchWindow.children()[6].clicked.connect(lambda state: self.closeIt(self.searchWindow)) #close
+        self.searchWindow.children()[7].clicked.connect(lambda state: self.addCourse(self.searchWindow)) #add
+        self.searchWindow.setWindowTitle("חיפוש קורסים")
+        self.searchWindow.children()[3].setCurrentText("")
         self.searchWindow.show()
+
+    def findCourse(self):
+        if self.searchWindow.children()[3].currentText() != '':
+           self.searchWindow.children()[5].setPlainText(repr(findCourseInDB(self.searchWindow.children()[3].currentText().split(" - ")[0])))
+        else:
+            self.searchWindow.children()[5].setPlainText("")
 
     def checkIfRowIsEmpty(self,table, row):
         for column in range(1, table.columnCount()-1):
@@ -336,16 +348,13 @@ class MyWindow(QtWidgets.QMainWindow):
         return table.rowCount()-1
 
     def addCourse(self, widget):
-        if widget.children()[1].text() == '':
-            self.errorMsg("לא הוכנס מספר קורס, נסה שנית.")
+        combo_text = widget.children()[3].currentText()
+        if combo_text == '':
+            self.errorMsg("לא נבחר קורס, אנא נסה שנית")
             return
-        inputText = widget.children()[7].toPlainText()
-        if inputText == '' or inputText == "'הקורס לא נמצא במערכת, נסה שנית.'":
-            self.errorMsg("הקורס לא נמצא במערכת, נסה שנית.")
-            return
-        
+        course_number = combo_text.split(" - ")[0]
         table = self.ui.courses_tab_widget.currentWidget().children()[7]
-        self.addCourseContent(widget, widget.children()[1].text(), table)
+        self.addCourseContent(widget, course_number, table)
 
     def closeIt(self, widget):
         widget.close()

@@ -72,7 +72,8 @@ def uniqueAndSortInput(selects, part):
                     sem.add(int(val))
         if part == "content":
             try:
-                sem.add(int(a.contents[0]))
+                int(a.contents[0])
+                sem.add(a.contents[0])
             except IndexError:
                 continue
             except TypeError:
@@ -150,8 +151,9 @@ def updateDb():
                                   semesters[len(semesters) - 1]))
 
 
-def updateDb(value, progressBarUI, stopFlag):
-    progressBarUI.label.setText("אוסף מידע:")
+def updateDb(value='', progressBarUI='', stopFlag='', standAloneFlag=False):
+    if not standAloneFlag:
+        progressBarUI.label.setText("אוסף מידע:")
     semester_tag = "input"
     semester_attrs = {"type": "radio", "name": "SEM"}
     faculties_tag = "option"
@@ -163,30 +165,33 @@ def updateDb(value, progressBarUI, stopFlag):
     for combination in product(semesters, faculties):
         packages.append(preparePackage(combination[0], combination[1]))
     course_numbers = set()
-    progressBarUI.label.setText("(1/2) אוסף מספרי קורסים")
+    if not standAloneFlag:
+        progressBarUI.label.setText("(1/2) אוסף מספרי קורסים")
     for package in packages:
         for course in getCourses(search_url, package):
-            progressBarUI.progressBar.setValue((len(course_numbers) / 600) % 6)
+            if not standAloneFlag:
+                progressBarUI.progressBar.setValue((len(course_numbers) / 600) % 6)
             course_numbers.add(course)
-            if stopFlag[0]:
+            if not standAloneFlag and stopFlag[0]:
                 return
     cnt = 0
-    progressBarUI.label.setText("(2/2) מעדכן קורסים")
+    if not standAloneFlag:
+        progressBarUI.label.setText("(2/2) מעדכן קורסים")
     for course_number in sorted(course_numbers):
-        if stopFlag[0]:
+        if not standAloneFlag and stopFlag[0]:
                 return
         cnt += 1
-        value[0] = 5 + (cnt / len(course_numbers)) * 95
-        progressBarUI.progressBar.setValue(value[0])
-        dbAddCourse(getCourseInfo(course_number,
-                                  semesters[len(semesters) - 1]))
+        if not standAloneFlag:
+            value[0] = 5 + (cnt /len(course_numbers)) * 95
+            progressBarUI.progressBar.setValue(value[0])
+        dbAddCourse(getCourseInfo(course_number, semesters[len(semesters) - 1]))
 
 
 def initDB():
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
     curs.execute('CREATE TABLE IF NOT EXISTS courses(course_name STR,'
-                 'course_number INTEGER PRIMARY KEY,'
+                 'course_number TEXT PRIMARY KEY,'
                  'points REAL,'
                  'dependencies BIT,'
                  'parallel BIT,'
@@ -244,6 +249,21 @@ def dbToCoursesList():
     db.close()
     return temp
 
+# combobox.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+def loadCourseNameNumberPairs():
+    db = sqlite3.connect('./db/courses.db')
+    curs = db.cursor()
+    courses = curs.execute('SELECT * FROM courses ORDER BY course_number')
+    dropdown = list()
+    for course in courses:
+        dropdown.append(str(course[1])+ " - " + course[0])
+    curs.close()
+    db.close()
+    return dropdown
 
 if __name__ == "__main__":
-    updateDb()
+    initDB()
+    updateDb(standAloneFlag=True)
+    # a = loadCourseNameNumberPairs()
+    # for b in a:
+        # print(b)

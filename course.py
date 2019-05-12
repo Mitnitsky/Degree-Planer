@@ -4,7 +4,7 @@ import pickle
 class Course:
     def __init__(self):
         self.name = ""
-        self.number = 0
+        self.number = ""
         self.points = 0
         self.dependencies = list()
         self.parallel = set()

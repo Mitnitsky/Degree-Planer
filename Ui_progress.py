@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/vov4ik/Projects/DegreePlaner/progress.ui'
+# Form implementation generated from reading ui file 'progress.ui'
 #
 # Created by: PyQt5 UI code generator 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
+# Li
+#
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
-class Ui_Form(object):
+class ProgressWindowForm(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(384, 179)
+        Form.resize(320, 180)
         Form.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.gridLayout_2 = QtWidgets.QGridLayout(Form)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -62,4 +63,5 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "דכון נתונים"))
         self.pushButton.setText(_translate("Form", "ביטול"))
 
-
+    
+        

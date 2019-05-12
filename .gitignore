@@ -3,6 +3,14 @@ __pycache__/
 *.py[cod]
 *$py.class
 .vscode/
+.idea/
+
+# Project
+settings.cfg
+*.dps
+*.spec
+*..spec
+
 
 # C extensions
 *.so

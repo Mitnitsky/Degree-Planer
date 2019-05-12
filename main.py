@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtGui
-
+from sys import exit
 from logic import MyWindow
 
 if __name__ == "__main__":

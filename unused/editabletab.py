@@ -1,6 +1,7 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+
 
 class TabBar(QTabBar):
     def __init__(self, parent):
@@ -14,8 +15,8 @@ class TabBar(QTabBar):
     def eventFilter(self, widget, event):
         if ((event.type() == QEvent.MouseButtonPress and
              not self._editor.geometry().contains(event.globalPos())) or
-            (event.type() == QEvent.KeyPress and
-             event.key() == Qt.Key_Escape)):
+                (event.type() == QEvent.KeyPress and
+                 event.key() == Qt.Key_Escape)):
             self._editor.hide()
             return True
         return QTabBar.eventFilter(self, widget, event)

@@ -1,4 +1,5 @@
-from PyQt5 import QtWidgets, QtGui, QtCore
+from PyQt5 import QtWidgets, QtGui
+
 from logic import MyWindow
 
 if __name__ == "__main__":

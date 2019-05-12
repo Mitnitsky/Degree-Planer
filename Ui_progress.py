@@ -8,7 +8,8 @@
 # Li
 #
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+
 
 class ProgressWindowForm(object):
     def setupUi(self, Form):
@@ -62,6 +63,3 @@ class ProgressWindowForm(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "דכון נתונים"))
         self.pushButton.setText(_translate("Form", "ביטול"))
-
-    
-        

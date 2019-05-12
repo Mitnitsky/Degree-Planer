@@ -1,1 +1,1 @@
-DegreePlaner
+DegreePlanner

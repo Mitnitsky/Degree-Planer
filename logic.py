@@ -1,14 +1,14 @@
-from Ui_maindesign import Ui_MainWindow
-from PyQt5 import QtCore, QtGui, QtWidgets
-from scrapper import *
-from sys import exit
-from Ui_tab import TabPage, createRemoveLineButton
-from Ui_findDialog import Ui_course_search
-from Ui_progress import ProgressWindowForm
-from itertools import product
-from course import Course
-import threading
 import pickle
+import threading
+
+from PyQt5 import QtCore, QtWidgets
+
+from Ui_findDialog import Ui_course_search
+from Ui_maindesign import Ui_MainWindow
+from Ui_progress import ProgressWindowForm
+from Ui_tab import TabPage, createRemoveLineButton
+from scrapper import *
+
 
 class MyWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -22,7 +22,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.addSemester()
         self.ui.add_semester_but.clicked.connect(self.addSemester)
         self.ui.courses_tab_widget.tabCloseRequested.connect(
-            self.removeSemester)
+                self.removeSemester)
         self.ui.must_of_in.valueChanged.connect(self.update)
         self.ui.list_a_of_in_7.valueChanged.connect(self.update)
         self.ui.list_b_of_in_7.valueChanged.connect(self.update)
@@ -67,7 +67,8 @@ class MyWindow(QtWidgets.QMainWindow):
         messageBox = QtWidgets.QMessageBox()
         messageBox.setWindowTitle(quit_msg)
         messageBox.setText("לשמור לפני יציאה ?")
-        messageBox.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Cancel)
+        messageBox.setStandardButtons(
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Cancel)
         if not self.saved:
             reply = messageBox.exec_()
             if reply == QtWidgets.QMessageBox.Yes:
@@ -88,7 +89,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.course_update[0] = 0
         self.threadStop[0] = False
         for tab in range(self.ui.courses_tab_widget.count()):
-            self.ui.courses_tab_widget.widget(tab).children()[8].setEnabled(False) #search button
+            self.ui.courses_tab_widget.widget(tab).children()[8].setEnabled(False)  # search button
             self.ui.courses_tab_widget.widget(tab).children()[8].setToolTip("אמתן לסיום עדכון הנתונים ")
         self.progress_ui.progressBar.setValue(0)
         self.thread = threading.Thread(target=updateDb, args=[self.course_update, self.progress_ui, self.threadStop])
@@ -100,22 +101,21 @@ class MyWindow(QtWidgets.QMainWindow):
         for tab in range(self.ui.courses_tab_widget.count()):
             self.ui.courses_tab_widget.widget(tab).children()[8].setEnabled(True)
             self.ui.courses_tab_widget.widget(tab).children()[8].setToolTip("")
-    
+
     def new(self, force=False):
         if not force:
-            ans = self.warningMsg('',"למחוק את כל הנתונים?")
+            ans = self.warningMsg('', "למחוק את כל הנתונים?")
         if force or ans:
-            for tab in range(self.ui.courses_tab_widget.count()-1,-1,-1):
-                self.removeSemester(tab,force=True)
+            for tab in range(self.ui.courses_tab_widget.count() - 1, -1, -1):
+                self.removeSemester(tab, force=True)
         if not force:
             self.addSemester()
-
 
     def loadData(self, filename=''):
         self.update_allowed = False
         cnt = 0
         if not self.firstStart:
-            ans = self.warningMsg('',"שינויים שלא נשמרו ימחקו")
+            ans = self.warningMsg('', "שינויים שלא נשמרו ימחקו")
             if not ans:
                 self.update_allowed = True
                 return
@@ -159,40 +159,41 @@ class MyWindow(QtWidgets.QMainWindow):
             while len(semester) < table.rowCount():
                 self.removeRow(table)
             for row in semester:
-                for column in range(0,len(row) - 1):
+                for column in range(0, len(row) - 1):
                     if column == 0:
                         item = QtWidgets.QTableWidgetItem()
                         item.setTextAlignment(QtCore.Qt.AlignCenter)
                         table.setItem(index_r, column, item)
                         table.setCellWidget(index_r, column, self.createComboBox())
-                        index_combo_box = table.cellWidget(index_r,column).findText(row[column], QtCore.Qt.MatchFixedString)
+                        index_combo_box = table.cellWidget(index_r, column).findText(row[column],
+                                                                                     QtCore.Qt.MatchFixedString)
                         if index_combo_box >= 0:
-                            table.cellWidget(index_r,column).setCurrentIndex(index_combo_box)
+                            table.cellWidget(index_r, column).setCurrentIndex(index_combo_box)
                     elif column == 1:
                         if row[column] != ' ' and row[column] != ' \n':
-                            table.item(index_r,column).setToolTip(row[column])
-                        if row[column+1] != ' ' and row[column+1] != ' \n':
-                            table.item(index_r,column).setText(row[column+1])
+                            table.item(index_r, column).setToolTip(row[column])
+                        if row[column + 1] != ' ' and row[column + 1] != ' \n':
+                            table.item(index_r, column).setText(row[column + 1])
                     elif column == 2:
-                        if row[column+1] != ' ' and row[column+1] != ' \n':
-                            table.item(index_r,column).setText(row[column+1])
+                        if row[column + 1] != ' ' and row[column + 1] != ' \n':
+                            table.item(index_r, column).setText(row[column + 1])
                     else:
-                        if row[column+1] != ' ' and row[column+1] != ' \n':
+                        if row[column + 1] != ' ' and row[column + 1] != ' \n':
                             try:
                                 spin_box = QtWidgets.QDoubleSpinBox()
-                                spin_box.setRange(0,100)
+                                spin_box.setRange(0, 100)
                                 spin_box.setDecimals(1)
                                 spin_box.setAlignment(QtCore.Qt.AlignCenter)
                                 spin_box.valueChanged.connect(self.update)
                                 spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
                                 if column == 3:
-                                    spin_box.setSingleStep(0.5) 
+                                    spin_box.setSingleStep(0.5)
                                 else:
                                     spin_box.setSingleStep(0.1)
                                 table.setCellWidget(index_r, column, spin_box)
-                                table.cellWidget(index_r,column).setValue(float(row[column+1]))
+                                table.cellWidget(index_r, column).setValue(float(row[column + 1]))
                             except ValueError:
-                                table.cellWidget(index_r,column).setValue(0.0)
+                                table.cellWidget(index_r, column).setValue(0.0)
                 index_r += 1
             index += 1
         self.update_allowed = True
@@ -203,7 +204,7 @@ class MyWindow(QtWidgets.QMainWindow):
     def saveAsData(self):
         self.saveFileName = ''
         self.saveData()
-    
+
     def saveData(self):
         cnt = 0
         if self.saveFileName == '':
@@ -235,21 +236,21 @@ class MyWindow(QtWidgets.QMainWindow):
             table = self.ui.courses_tab_widget.widget(tab).children()[7]
             semester = list()
             for row in range(table.rowCount()):
-                separator ="\n"
+                separator = "\n"
                 rows = list()
-                for column in range(table.columnCount()-1):
+                for column in range(table.columnCount() - 1):
                     if column == 0:
-                        if table.cellWidget(row,column):
-                            rows.append(table.cellWidget(row,column).currentText())
+                        if table.cellWidget(row, column):
+                            rows.append(table.cellWidget(row, column).currentText())
                             separator = ", "
                     elif column <= 2:
-                        if table.item(row,column):
+                        if table.item(row, column):
                             if column == 1:
-                                rows.append(table.item(row,column).toolTip())
-                            rows.append(table.item(row,column).text())
+                                rows.append(table.item(row, column).toolTip())
+                            rows.append(table.item(row, column).text())
                     else:
-                        if table.cellWidget(row,column):
-                            rows.append(table.cellWidget(row,column).value())
+                        if table.cellWidget(row, column):
+                            rows.append(table.cellWidget(row, column).value())
                 semester.append(rows)
             byte_array.append(semester)
         f.write(pickle.dumps(byte_array))
@@ -258,14 +259,14 @@ class MyWindow(QtWidgets.QMainWindow):
             return
         cache.write(self.saveFileName)
         self.saved = True
-    
+
     def showCredit(self):
         message_det = """<address>
                         Degree Planner
                         Version: 1.0<br>
                         Contact details:<br> 
                         <a href='vov4ikpa@gmail.com'>\tEmail</a><br>
-                        <a href='https://github.com/Vladimir-pa/Degree-Planer'>\tGithub</a><br>
+                        <a href='https://github.com/Vladimir-pa/Degree-Planner'>\tGithub</a><br>
                         © 2019 Vladimir Parakhin
                         </address>"""
         msgbox = QtWidgets.QMessageBox()
@@ -278,7 +279,6 @@ class MyWindow(QtWidgets.QMainWindow):
         msgbox.setSizePolicy(sizePolicy)
         msgbox.exec()
 
-
     def updateProgressBar(self, thread):
         while thread.isAlive():
             self.progress_ui.progressBar.setValue(self.course_update[0])
@@ -290,29 +290,30 @@ class MyWindow(QtWidgets.QMainWindow):
         for course in self.db_pairs:
             self.searchWindow.children()[3].addItem(course)
         self.searchWindow.children()[3].currentIndexChanged.connect(self.findCourse)
-        self.searchWindow.children()[6].clicked.connect(lambda state: self.closeIt(self.searchWindow)) #close
-        self.searchWindow.children()[7].clicked.connect(lambda state: self.addCourse(self.searchWindow)) #add
+        self.searchWindow.children()[6].clicked.connect(lambda state: self.closeIt(self.searchWindow))  # close
+        self.searchWindow.children()[7].clicked.connect(lambda state: self.addCourse(self.searchWindow))  # add
         self.searchWindow.setWindowTitle("חיפוש קורסים")
         self.searchWindow.children()[3].setCurrentText("")
         self.searchWindow.show()
 
     def findCourse(self):
         if self.searchWindow.children()[3].currentText() != '':
-           self.searchWindow.children()[5].setPlainText(repr(findCourseInDB(self.searchWindow.children()[3].currentText().split(" - ")[0])))
+            self.searchWindow.children()[5].setPlainText(
+                repr(findCourseInDB(self.searchWindow.children()[3].currentText().split(" - ")[0])))
         else:
             self.searchWindow.children()[5].setPlainText("")
 
-    def checkIfRowIsEmpty(self,table, row):
-        for column in range(1, table.columnCount()-1):
-            if table.item(row,column):
-                if table.item(row,column).text() != "":
+    def checkIfRowIsEmpty(self, table, row):
+        for column in range(1, table.columnCount() - 1):
+            if table.item(row, column):
+                if table.item(row, column).text() != "":
                     return False
         return True
 
     def addCourseContent(self, widget, course_num, table):
         course = findCourseInDB(course_num)
         if self.courseInTable(table, str(course.number)):
-            if not self.warningMsg(msg="הקורס "+str(course.number)+" קיים בטבלה, להוסיף שוב?"):
+            if not self.warningMsg(msg="הקורס " + str(course.number) + " קיים בטבלה, להוסיף שוב?"):
                 return
         row = self.findEmptyRow(widget)
         course_num = QtWidgets.QTableWidgetItem()
@@ -320,22 +321,25 @@ class MyWindow(QtWidgets.QMainWindow):
         course_name = QtWidgets.QTableWidgetItem()
         course_name.setText(course.name)
         course_points = QtWidgets.QTableWidgetItem()
-        table.cellWidget(row,3).setValue(course.points)
+        table.cellWidget(row, 3).setValue(course.points)
         course_name.setTextAlignment(QtCore.Qt.AlignCenter)
         course_num.setTextAlignment(QtCore.Qt.AlignCenter)
-        tooltip =  ("מקוצועות קדם: "                   + course.reprDependencies()                + "\n" if course.reprDependencies()                != "" else "" ) \
-                 + ("מקצועות צמודים: "                 + course.repOtherData(course.parallel)     + "\n" if course.repOtherData(course.parallel)     != "" else "" ) \
-                 + ("מקצועות ללא זיכוי נוסף: "         + course.repOtherData(course.similarities) + "\n" if course.repOtherData(course.similarities) != "" else "" ) \
-                 + ("מקצועות ללא זיכוי נוסף(מוכלים): " + course.repOtherData(course.inclusive)           if course.repOtherData(course.inclusive)    != "" else "" )
+        tooltip = ("מקוצועות קדם: " + course.reprDependencies() + "\n" if course.reprDependencies() != "" else "") \
+                  + ("מקצועות צמודים: " + course.repOtherData(course.parallel) + "\n" if course.repOtherData(
+            course.parallel) != "" else "") \
+                  + ("מקצועות ללא זיכוי נוסף: " + course.repOtherData(
+            course.similarities) + "\n" if course.repOtherData(course.similarities) != "" else "") \
+                  + ("מקצועות ללא זיכוי נוסף(מוכלים): " + course.repOtherData(course.inclusive) if course.repOtherData(
+            course.inclusive) != "" else "")
         course_num.setToolTip(tooltip)
         course_points.setTextAlignment(QtCore.Qt.AlignCenter)
-        table.setItem(row,1,course_num)
-        table.setItem(row,2,course_name)
+        table.setItem(row, 1, course_num)
+        table.setItem(row, 2, course_name)
         return
 
     def courseInTable(self, table, course_num):
         for row in range(0, table.rowCount()):
-            if table.item(row, 1) and table.item(row,1).text() == course_num:
+            if table.item(row, 1) and table.item(row, 1).text() == course_num:
                 return True
         return False
 
@@ -345,7 +349,7 @@ class MyWindow(QtWidgets.QMainWindow):
             if self.checkIfRowIsEmpty(table, row):
                 return row
         self.addRow(table)
-        return table.rowCount()-1
+        return table.rowCount() - 1
 
     def addCourse(self, widget):
         combo_text = widget.children()[3].currentText()
@@ -364,7 +368,7 @@ class MyWindow(QtWidgets.QMainWindow):
         ui = TabPage()
         ui.setupUi(self.Form)
         return self.Form
-    
+
     def updateAverage(self):
         total_sum = 0
         total_points = 0
@@ -372,16 +376,17 @@ class MyWindow(QtWidgets.QMainWindow):
             semester_sum = 0
             semester_points = 0
             table = self.ui.courses_tab_widget.widget(tab).children()[7]
-            semester_average = self.ui.courses_tab_widget.widget(tab).children()[2] #Average
+            semester_average = self.ui.courses_tab_widget.widget(tab).children()[2]  # Average
             for row in range(table.rowCount()):
                 try:
-                    if table.cellWidget(row,3) and float(table.cellWidget(row,3).value()) > 0:
-                        if table.cellWidget(row,4) and float(table.cellWidget(row,4).value()) > 0:
-                            semester_points += float(table.cellWidget(row,3).value())
-                            semester_sum += float(table.cellWidget(row,3).value()) * float(table.cellWidget(row,4).value())
+                    if table.cellWidget(row, 3) and float(table.cellWidget(row, 3).value()) > 0:
+                        if table.cellWidget(row, 4) and float(table.cellWidget(row, 4).value()) > 0:
+                            semester_points += float(table.cellWidget(row, 3).value())
+                            semester_sum += float(table.cellWidget(row, 3).value()) * float(
+                                table.cellWidget(row, 4).value())
                 except (ValueError, AttributeError):
                     continue
-            if(semester_points > 0):
+            if (semester_points > 0):
                 semester_average.setText(str(round(semester_sum / semester_points, 2)))
             else:
                 semester_average.setText(str(0.0))
@@ -391,35 +396,34 @@ class MyWindow(QtWidgets.QMainWindow):
             self.ui.average_in_7.setText(str(round(total_sum / total_points, 2)))
         else:
             self.ui.average_in_7.setText(str(0.0))
-            
 
     def updatePoints(self):
-        points = {"חובה":0, \
-                  "רשימה א":0, \
-                  "רשימה ב":0, \
-                  "פרוייקט":0, \
-                  "ספורט":0, \
-                  "מל\"ג":0, \
-                  "חופשי":0}
+        points = {"חובה":    0, \
+                  "רשימה א": 0, \
+                  "רשימה ב": 0, \
+                  "פרוייקט": 0, \
+                  "ספורט":   0, \
+                  "מל\"ג":   0, \
+                  "חופשי":   0}
         points_done = 0
         for tab in range(self.ui.courses_tab_widget.count()):
             table = self.ui.courses_tab_widget.widget(tab).children()[7]
-            table_points = self.ui.courses_tab_widget.widget(tab).children()[4] #Points
+            table_points = self.ui.courses_tab_widget.widget(tab).children()[4]  # Points
             table_points.setText("0")
             for row in range(table.rowCount()):
                 try:
                     try:
-                        table.cellWidget(row,3).setText(str(float(table.cellWidget(row,3).value())))
+                        table.cellWidget(row, 3).setText(str(float(table.cellWidget(row, 3).value())))
                     except (ValueError, AttributeError):
                         pass
-                    if table.cellWidget(row,3) and float(table.cellWidget(row,3).value()) > 0:
+                    if table.cellWidget(row, 3) and float(table.cellWidget(row, 3).value()) > 0:
                         try:
-                            if table.cellWidget(row,4) and float(table.cellWidget(row,4).value()) > 0:
-                                points_done += float(table.cellWidget(row,3).value())
+                            if table.cellWidget(row, 4) and float(table.cellWidget(row, 4).value()) > 0:
+                                points_done += float(table.cellWidget(row, 3).value())
                         except ValueError:
                             pass
-                        points[table.cellWidget(row,0).currentText()] += float(table.cellWidget(row,3).value())
-                        table_points.setText(str(float(table_points.text()) + float(table.cellWidget(row,3).value())))
+                        points[table.cellWidget(row, 0).currentText()] += float(table.cellWidget(row, 3).value())
+                        table_points.setText(str(float(table_points.text()) + float(table.cellWidget(row, 3).value())))
                 except (ValueError, AttributeError):
                     continue
         self.ui.list_a_done_in_7.setText(str(self.ui.list_a_of_in_7.value() - points["רשימה א"]))
@@ -433,22 +437,22 @@ class MyWindow(QtWidgets.QMainWindow):
         else:
             exemption = 0
         self.ui.must_done_in.setText(str(float(self.ui.must_of_in.value() - points["חובה"] - exemption)))
-        self.ui.points_left_to_choose_in_7.setText(str(self.ui.deg_points_in.value()-sum(points.values())-exemption))
-        self.ui.points_in_7.setText(str(float(points_done)+exemption))
-        self.ui.points_left_in_7.setText(str(self.ui.deg_points_in.value()-float(self.ui.points_in_7.text())))
+        self.ui.points_left_to_choose_in_7.setText(
+            str(self.ui.deg_points_in.value() - sum(points.values()) - exemption))
+        self.ui.points_in_7.setText(str(float(points_done) + exemption))
+        self.ui.points_left_in_7.setText(str(self.ui.deg_points_in.value() - float(self.ui.points_in_7.text())))
 
     def updateTooltips(self):
         for tab in range(self.ui.courses_tab_widget.count()):
             table = self.ui.courses_tab_widget.widget(tab).children()[7]
             for row in range(table.rowCount()):
                 try:
-                    if table.item(row,1) and (table.item(row,1).text() == '' or table.item(row,1).text() == ' '):
-                       table.item(row,1).setToolTip("")
-                    if table.item(row,2) and not (table.item(row,2).text() == '' or table.item(row,2).text() == ' '):
-                        table.item(row,2).setToolTip(table.item(row,2).text())
+                    if table.item(row, 1) and (table.item(row, 1).text() == '' or table.item(row, 1).text() == ' '):
+                        table.item(row, 1).setToolTip("")
+                    if table.item(row, 2) and not (table.item(row, 2).text() == '' or table.item(row, 2).text() == ' '):
+                        table.item(row, 2).setToolTip(table.item(row, 2).text())
                 except (ValueError, AttributeError):
                     continue
-
 
     def update(self):
         if self.update_allowed:
@@ -463,53 +467,53 @@ class MyWindow(QtWidgets.QMainWindow):
     def addSemester(self):
         tab = self.createTab()
         table = tab.children()[7]
-        table.cellChanged['int','int'].connect(self.update)
+        table.cellChanged['int', 'int'].connect(self.update)
         tab.children()[5].clicked.connect(lambda state: self.addRow(
-            table))
+                table))
         tab.children()[6].clicked.connect(lambda state: self.removeRow(
-            table))
+                table))
         tab.children()[8].clicked.connect(self.openSearchDialog)
         value = []
         lambdas = []
         buttons = []
         item = QtWidgets.QTableWidgetItem()
         for i in range(0, table.rowCount()):
-            table.cellWidget(i,3).valueChanged.connect(self.update)
-            table.cellWidget(i,4).valueChanged.connect(self.update)
+            table.cellWidget(i, 3).valueChanged.connect(self.update)
+            table.cellWidget(i, 4).valueChanged.connect(self.update)
             button = createRemoveLineButton(str(i))
             value.append(i)
             lambdas.append(lambda state: self.clearRow(table))
             button.clicked.connect(lambdas[i])
             buttons.append(button)
-            table.setCellWidget(i, table.columnCount()-1, buttons[i])
-            table.cellWidget(i,0).currentIndexChanged['int'].connect(self.update)
+            table.setCellWidget(i, table.columnCount() - 1, buttons[i])
+            table.cellWidget(i, 0).currentIndexChanged['int'].connect(self.update)
         self.ui.semesters.append(tab)
         self.ui.courses_tab_widget.insertTab(
-            self.ui.courses_tab_widget.count(),
-            self.ui.semesters[len(self.ui.semesters) - 1],
-            str(self.ui.courses_tab_widget.count() + 1) + " סמסטר")
+                self.ui.courses_tab_widget.count(),
+                self.ui.semesters[len(self.ui.semesters) - 1],
+                str(self.ui.courses_tab_widget.count() + 1) + " סמסטר")
         self.update()
-    
+
     def clearRow(self, table):
         row = int(self.sender().objectName())
-        empty = self.checkIfRowIsEmpty(table,row)
+        empty = self.checkIfRowIsEmpty(table, row)
         if empty:
             table.removeRow(row)
             self.update()
             return
-        table.cellWidget(row,0).setCurrentIndex(0)
-        for column in range(1, table.columnCount()-1):
-            
-            if table.item(row,column) != None:
-                table.item(row,column).setText("")
-                table.item(row,column).setToolTip("")
+        table.cellWidget(row, 0).setCurrentIndex(0)
+        for column in range(1, table.columnCount() - 1):
+
+            if table.item(row, column) != None:
+                table.item(row, column).setText("")
+                table.item(row, column).setToolTip("")
             if column >= 3:
-                table.cellWidget(row,column).setValue(0)
+                table.cellWidget(row, column).setValue(0)
         self.update()
 
     def updateTabNames(self):
         for i in range(self.ui.courses_tab_widget.count()):
-            tab_name = "סמסטר " + str(i+1)
+            tab_name = "סמסטר " + str(i + 1)
             self.ui.courses_tab_widget.setTabText(i, tab_name)
 
     def removeSemester(self, i, force=False):
@@ -517,19 +521,18 @@ class MyWindow(QtWidgets.QMainWindow):
             self.ui.courses_tab_widget.removeTab(i)
             self.updateTabNames()
             self.update()
-        
 
     def addRow(self, table):
         table.setRowCount(table.rowCount() + 1)
-        table.setItem(table.rowCount()-1, 0, QtWidgets.QTableWidgetItem())
+        table.setItem(table.rowCount() - 1, 0, QtWidgets.QTableWidgetItem())
         table.setCellWidget(table.rowCount() - 1, 0, self.createComboBox())
-        for column in range(1 , table.columnCount()-1):
+        for column in range(1, table.columnCount() - 1):
             item = QtWidgets.QTableWidgetItem()
             item.setTextAlignment(QtCore.Qt.AlignCenter)
-            table.setItem(table.rowCount()-1, column, item)
+            table.setItem(table.rowCount() - 1, column, item)
             if column >= 3:
                 spin_box = QtWidgets.QDoubleSpinBox()
-                spin_box.setRange(0,100)
+                spin_box.setRange(0, 100)
                 spin_box.setDecimals(1)
                 if column == 3:
                     spin_box.setSingleStep(0.5)
@@ -537,12 +540,12 @@ class MyWindow(QtWidgets.QMainWindow):
                     spin_box.setSingleStep(0.1)
                 spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
                 spin_box.setAlignment(QtCore.Qt.AlignCenter)
-                table.setCellWidget(table.rowCount()-1,column,spin_box)
-                table.cellWidget(table.rowCount()-1,column).valueChanged.connect(self.update)
-        button = createRemoveLineButton(str(table.rowCount()-1))
+                table.setCellWidget(table.rowCount() - 1, column, spin_box)
+                table.cellWidget(table.rowCount() - 1, column).valueChanged.connect(self.update)
+        button = createRemoveLineButton(str(table.rowCount() - 1))
         button.clicked.connect(lambda state: self.clearRow(table))
-        table.cellWidget(table.rowCount()-1,0).currentIndexChanged['int'].connect(self.update)
-        table.setCellWidget(table.rowCount() - 1, table.columnCount()-1, button)
+        table.cellWidget(table.rowCount() - 1, 0).currentIndexChanged['int'].connect(self.update)
+        table.setCellWidget(table.rowCount() - 1, table.columnCount() - 1, button)
 
     def removeRow(self, table):
         rows = table.rowCount()
@@ -555,11 +558,12 @@ class MyWindow(QtWidgets.QMainWindow):
             if ans:
                 table.setRowCount(rows - 1)
         self.update()
-    
+
     def lastRowIsEmpty(self, table):
         rows = table.rowCount()
         for column in range(0, table.columnCount()):
-            if table.item(rows-1, column) and table.item(rows-1, column).text() != '' and table.item(rows-1, column).text() != ' ':
+            if table.item(rows - 1, column) and table.item(rows - 1, column).text() != '' and table.item(rows - 1,
+                                                                                                         column).text() != ' ':
                 return False
         return True
 
@@ -587,14 +591,14 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def errorMsg(self, msg):
         msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Question,
-                                    "שגיאה", msg)
+                                       "שגיאה", msg)
         msgbox.addButton(QtWidgets.QMessageBox.Ok)
         msgbox.exec()
 
     def warningMsg(self, not_show_param='', msg='ERROR'):
         cb = QtWidgets.QCheckBox("לא להראות שוב.")
         msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Question,
-                                    "מחיקה", msg)
+                                       "מחיקה", msg)
         msgbox.addButton(QtWidgets.QMessageBox.Yes)
         msgbox.addButton(QtWidgets.QMessageBox.No)
         msgbox.setDefaultButton(QtWidgets.QMessageBox.No)
@@ -609,4 +613,3 @@ class MyWindow(QtWidgets.QMainWindow):
             return False
         else:
             return True
-    #TODO:

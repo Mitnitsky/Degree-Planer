@@ -1,9 +1,10 @@
-#Credit to Tamas Haver 
+# Credit to Tamas Haver
 # https://stackoverflow.com/questions/4827207/how-do-i-filter-the-pyqt-qcombobox-items-based-on-the-text-input
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore
 from PyQt5.QtCore import Qt, QSortFilterProxyModel
 from PyQt5.QtWidgets import QCompleter, QComboBox
+
 
 class ExtendedComboBox(QComboBox):
     def __init__(self, parent=None):
@@ -28,27 +29,24 @@ class ExtendedComboBox(QComboBox):
         self.lineEdit().textEdited.connect(self.pFilterModel.setFilterFixedString)
         self.completer.activated.connect(self.on_completer_activated)
 
-
-    # on selection of an item from the completer, select the corresponding item from combobox 
+    # on selection of an item from the completer, select the corresponding item from combobox
     def on_completer_activated(self, text):
         if text:
             index = self.findText(text)
             self.setCurrentIndex(index)
             self.activated[str].emit(self.itemText(index))
 
-
-    # on model change, update the models of the filter and completer as well 
+    # on model change, update the models of the filter and completer as well
     def setModel(self, model):
         super(ExtendedComboBox, self).setModel(model)
         self.pFilterModel.setSourceModel(model)
         self.completer.setModel(self.pFilterModel)
 
-
     # on model column change, update the model column of the filter and completer as well
     def setModelColumn(self, column):
         self.completer.setCompletionColumn(column)
         self.pFilterModel.setFilterKeyColumn(column)
-        super(ExtendedComboBox, self).setModelColumn(column)    
-    
+        super(ExtendedComboBox, self).setModelColumn(column)
+
     def keyPressEvent(self, e):
         return super().keyPressEvent(e)

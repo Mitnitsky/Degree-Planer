@@ -2,7 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="923052ae-4d6e-4a28-b4ab-d5d28fb12001" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/mainwindow.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/.ropeproject/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/.ropeproject/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui_findDialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_findDialog.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui_maindesign.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_maindesign.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui_progress.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_progress.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_tab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/course.py" beforeDir="false" afterPath="$PROJECT_DIR$/course.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extended_combo_box.py" beforeDir="false" afterPath="$PROJECT_DIR$/extended_combo_box.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/scrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unused/editabletab.py" beforeDir="false" afterPath="$PROJECT_DIR$/unused/editabletab.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -47,32 +57,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/course.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="896">
-              <caret line="56" column="21" selection-start-line="56" selection-start-column="21" selection-end-line="56" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/logic.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="573">
-              <caret line="433" column="47" selection-start-line="433" selection-start-column="47" selection-end-line="433" selection-end-column="47" />
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="176">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
+              <folding>
+                <element signature="e#0#34#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -117,16 +109,16 @@
         <option value="$PROJECT_DIR$/scrapper.py" />
         <option value="$PROJECT_DIR$/course.py" />
         <option value="$PROJECT_DIR$/comboboxtable.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/findDialog.py" />
         <option value="$PROJECT_DIR$/mainwindow.py" />
         <option value="$PROJECT_DIR$/logic.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-24" />
-    <option name="y" value="141" />
+    <option name="x" value="651" />
+    <option name="y" value="122" />
     <option name="width" value="1744" />
     <option name="height" value="1406" />
   </component>
@@ -135,7 +127,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -145,17 +136,13 @@
             </path>
             <path>
               <item name="DegreePlaner" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DegreePlaner" type="462c0819:PsiDirectoryNode" />
-              <item name="db" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DegreePlaner" type="b2602c69:ProjectViewProjectNode" />
               <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -325,16 +312,17 @@
       <workItem from="1557279980549" duration="1584000" />
       <workItem from="1557434934890" duration="17000" />
       <workItem from="1557583503128" duration="3000" />
+      <workItem from="1557607153276" duration="19840000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38741000" />
+    <option name="totallyTimeSpent" value="58581000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-24" y="141" width="1744" height="1406" extended-state="0" />
+    <frame x="651" y="122" width="1744" height="1406" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19846879" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2008245" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -397,12 +385,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/logic.py</url>
-          <line>209</line>
+          <line>211</line>
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/logic.py</url>
-          <line>153</line>
+          <line>154</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
@@ -631,10 +619,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/comboboxtable.py">
+    <entry file="file://$PROJECT_DIR$/comboboxtable.py" />
+    <entry file="file://$PROJECT_DIR$/mainwindow.py" />
+    <entry file="file://$PROJECT_DIR$/logic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="640">
-          <caret line="40" column="36" selection-start-line="40" selection-start-column="36" selection-end-line="40" selection-end-column="36" />
+        <state relative-caret-position="2253">
+          <caret line="442" column="47" selection-start-line="442" selection-start-column="47" selection-end-line="442" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -647,27 +640,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mainwindow.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11008">
-          <caret line="689" selection-start-line="689" selection-end-line="689" />
+        <state relative-caret-position="176">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
           <folding>
-            <element signature="e#199#241#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="573">
-          <caret line="433" column="47" selection-start-line="433" selection-start-column="47" selection-end-line="433" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
+            <element signature="e#0#34#0" expanded="true" />
           </folding>
         </state>
       </provider>

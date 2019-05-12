@@ -1,7 +1,6 @@
 import pickle
-from itertools import product
-
 import sqlite3
+from itertools import product
 
 import requests
 from bs4 import BeautifulSoup
@@ -17,27 +16,27 @@ def preparePackage(SEM, FAC):
         FAC (INT): faculty  number parsed from UG html
     """
     postPackage = {
-        'CNM': '',
-        'CNO': '',
-        'PNT': '',
-        'LLN': '',
-        'LFN': '',
-        'RECALL': 'Y',
-        'D1': 'on',
-        'D2': 'on',
-        'D3': 'on',
-        'D4': 'on',
-        'D5': 'on',
-        'D6': 'on',
-        'FTM': '',
-        'TTM': '',
-        'SIL': '',
-        'OPTCAT': 'on',
-        'OPTSEM': 'on',
-        'doSearch': 'Y',
-        'Search': 'חפש',
-        'FAC': FAC,
-        'SEM': SEM
+            'CNM':      '',
+            'CNO':      '',
+            'PNT':      '',
+            'LLN':      '',
+            'LFN':      '',
+            'RECALL':   'Y',
+            'D1':       'on',
+            'D2':       'on',
+            'D3':       'on',
+            'D4':       'on',
+            'D5':       'on',
+            'D6':       'on',
+            'FTM':      '',
+            'TTM':      '',
+            'SIL':      '',
+            'OPTCAT':   'on',
+            'OPTSEM':   'on',
+            'doSearch': 'Y',
+            'Search':   'חפש',
+            'FAC':      FAC,
+            'SEM':      SEM
     }
     return postPackage
 
@@ -81,7 +80,7 @@ def uniqueAndSortInput(selects, part):
             except ValueError:
                 continue
         if part == "course":
-            return selects  # TODO: maybe split this to another page
+            return selects  
     return sorted(sem)
 
 
@@ -92,8 +91,8 @@ def cutDependencies(dependencies):
     for dependence in dependencies:
         temp = list()
         temp.extend(
-            map(lambda x: x.translate(braces_remove),
-                map(str.strip, dependence.split('&'))))
+                map(lambda x: x.translate(braces_remove),
+                    map(str.strip, dependence.split('&'))))
         result.append(temp)
     return result
 
@@ -120,8 +119,8 @@ def getCourseInfo(course_number, semester):
             temp_course.set_points(sibling.strip())
         if "מקצועות קדם" in prop.text:
             temp_course.add_dependencies(
-                cutDependencies(
-                    sibling.translate(and_trans).translate(or_trans)))
+                    cutDependencies(
+                            sibling.translate(and_trans).translate(or_trans)))
         if "מקצועות צמודים" in prop.text:
             temp_course.add_parallel(sibling.split())
         if ":מקצועות ללא זיכוי נוסף" in prop.text:
@@ -179,10 +178,10 @@ def updateDb(value='', progressBarUI='', stopFlag='', standAloneFlag=False):
         progressBarUI.label.setText("(2/2) מעדכן קורסים")
     for course_number in sorted(course_numbers):
         if not standAloneFlag and stopFlag[0]:
-                return
+            return
         cnt += 1
         if not standAloneFlag:
-            value[0] = 5 + (cnt /len(course_numbers)) * 95
+            value[0] = 5 + (cnt / len(course_numbers)) * 95
             progressBarUI.progressBar.setValue(value[0])
         dbAddCourse(getCourseInfo(course_number, semesters[len(semesters) - 1]))
 
@@ -226,7 +225,7 @@ def convertDbEnryToCourse(touple):
 def findCourseInDB(course_number):
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
-    course_number_tup = (course_number, )
+    course_number_tup = (course_number,)
     course = curs.execute('SELECT * FROM courses WHERE  course_number=?',
                           course_number_tup)
     result = course.fetchone()
@@ -249,6 +248,7 @@ def dbToCoursesList():
     db.close()
     return temp
 
+
 # combobox.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
 def loadCourseNameNumberPairs():
     db = sqlite3.connect('./db/courses.db')
@@ -256,14 +256,15 @@ def loadCourseNameNumberPairs():
     courses = curs.execute('SELECT * FROM courses ORDER BY course_number')
     dropdown = list()
     for course in courses:
-        dropdown.append(str(course[1])+ " - " + course[0])
+        dropdown.append(str(course[1]) + " - " + course[0])
     curs.close()
     db.close()
     return dropdown
+
 
 if __name__ == "__main__":
     initDB()
     updateDb(standAloneFlag=True)
     # a = loadCourseNameNumberPairs()
     # for b in a:
-        # print(b)
+    # print(b)

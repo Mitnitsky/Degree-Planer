@@ -37,12 +37,13 @@ class Course:
 
     def to_list(self):
         return [
-            self.name, self.number, self.points,
-            pickle.dumps(self.dependencies),
-            pickle.dumps(self.parallel),
-            pickle.dumps(self.similarities),
-            pickle.dumps(self.inclusive)
+                self.name, self.number, self.points,
+                pickle.dumps(self.dependencies),
+                pickle.dumps(self.parallel),
+                pickle.dumps(self.similarities),
+                pickle.dumps(self.inclusive)
         ]
+
     def reprDependencies(self):
         if len(self.dependencies) > 0:
             result = []
@@ -69,7 +70,9 @@ class Course:
                + "מספר קורס: {} \n".format(self.number) \
                + ("מס' נקודות: {} \n".format(self.points) if self.points > 0 else "") \
                + ("מקצועות קדם: {} \n".format(self.reprDependencies()) if len(self.dependencies) > 0 else "") \
-                  + ("מקצועות צמודים: {} \n".format(self.repOtherData(self.parallel)) if len(self.parallel) > 0 else "") \
-                  + ("מקצועות ללא זיכוי נוסף: {} \n".format(self.repOtherData(self.similarities)) if len(self.similarities) > 0 else "") \
-                  + ("מקצועות ללא זיכוי נוסף (מוכלים): {} \n".format(self.repOtherData(self.inclusive)) if len(self.inclusive) > 0 else "")
+               + ("מקצועות צמודים: {} \n".format(self.repOtherData(self.parallel)) if len(self.parallel) > 0 else "") \
+               + ("מקצועות ללא זיכוי נוסף: {} \n".format(self.repOtherData(self.similarities)) if len(
+            self.similarities) > 0 else "") \
+               + ("מקצועות ללא זיכוי נוסף (מוכלים): {} \n".format(self.repOtherData(self.inclusive)) if len(
+            self.inclusive) > 0 else "")
         return repr

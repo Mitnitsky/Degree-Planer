@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/vov4ik/Projects/DegreePlaner/maindesign.ui'
+# Form implementation generated from reading ui file '/home/vov4ik/Projects/DegreePlanner/maindesign.ui'
 #
 # Created by: PyQt5 UI code generator 5.12.1
 #
@@ -36,9 +36,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addItem(spacerItem)
         self.horizontalLayout.addLayout(self.verticalLayout_4)
         self.courses_tab_widget = QtWidgets.QTabWidget(self.centralwidget)
-        # TODO : Left an option for name-able semesters
-        # self.tab_bar = QtWidgets.QTabBar() 
-        # self.courses_tab_widget.setTabBar(TabBar(self.tab_bar))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -72,8 +69,8 @@ class Ui_MainWindow(object):
         self.progress_label_8.setFont(font)
         self.progress_label_8.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.progress_label_8.setStyleSheet("font: 16pt \"Noto Sans\";\n"
-"text-decoration: underline;")
-        self.progress_label_8.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
+                                            "text-decoration: underline;")
+        self.progress_label_8.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
         self.progress_label_8.setObjectName("progress_label_8")
         self.verticalLayout_15.addWidget(self.progress_label_8)
         self.frame_11 = QtWidgets.QFrame(self.centralwidget)
@@ -241,7 +238,8 @@ class Ui_MainWindow(object):
         self.points_left_to_choose_in_7.setObjectName("points_left_to_choose_in_7")
         self.horizontalLayout_83.addWidget(self.points_left_to_choose_in_7)
         self.verticalLayout_21.addLayout(self.horizontalLayout_83)
-        spacerItem5 = QtWidgets.QSpacerItem(20, 77, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
+        spacerItem5 = QtWidgets.QSpacerItem(20, 77, QtWidgets.QSizePolicy.Minimum,
+                                            QtWidgets.QSizePolicy.MinimumExpanding)
         self.verticalLayout_21.addItem(spacerItem5)
         self.gridLayout_7.addLayout(self.verticalLayout_21, 0, 0, 1, 1)
         self.horizontalLayout_44.addWidget(self.frame)
@@ -337,7 +335,7 @@ class Ui_MainWindow(object):
         self.must_done_in.setObjectName("must_done_in")
         self.horizontalLayout_92.addWidget(self.must_done_in)
         self.must_of_in = QtWidgets.QDoubleSpinBox(self.frame_3)
-        self.must_of_in.setRange(0,1000)
+        self.must_of_in.setRange(0, 1000)
         self.must_of_in.setDecimals(1)
         self.must_of_in.setSingleStep(0.5)
         self.must_of_in.setAlignment(QtCore.Qt.AlignCenter)
@@ -380,7 +378,7 @@ class Ui_MainWindow(object):
         self.list_a_done_in_7.setObjectName("list_a_done_in_7")
         self.horizontalLayout_86.addWidget(self.list_a_done_in_7)
         self.list_a_of_in_7 = QtWidgets.QDoubleSpinBox(self.frame_3)
-        self.list_a_of_in_7.setRange(0,1000)
+        self.list_a_of_in_7.setRange(0, 1000)
         self.list_a_of_in_7.setDecimals(1)
         self.list_a_of_in_7.setSingleStep(0.5)
         self.list_a_of_in_7.setAlignment(QtCore.Qt.AlignCenter)
@@ -423,7 +421,7 @@ class Ui_MainWindow(object):
         self.list_b_done_in_7.setObjectName("list_b_done_in_7")
         self.horizontalLayout_87.addWidget(self.list_b_done_in_7)
         self.list_b_of_in_7 = QtWidgets.QDoubleSpinBox(self.frame_3)
-        self.list_b_of_in_7.setRange(0,1000)
+        self.list_b_of_in_7.setRange(0, 1000)
         self.list_b_of_in_7.setDecimals(1)
         self.list_b_of_in_7.setSingleStep(0.5)
         self.list_b_of_in_7.setAlignment(QtCore.Qt.AlignCenter)
@@ -466,7 +464,7 @@ class Ui_MainWindow(object):
         self.project_done_in_7.setObjectName("project_done_in_7")
         self.horizontalLayout_88.addWidget(self.project_done_in_7)
         self.project_of_in_7 = QtWidgets.QDoubleSpinBox(self.frame_3)
-        self.project_of_in_7.setRange(0,1000)
+        self.project_of_in_7.setRange(0, 1000)
         self.project_of_in_7.setDecimals(1)
         self.project_of_in_7.setSingleStep(0.5)
         self.project_of_in_7.setAlignment(QtCore.Qt.AlignCenter)
@@ -496,7 +494,7 @@ class Ui_MainWindow(object):
         font.setUnderline(True)
         self.malag_label_7.setFont(font)
         self.malag_label_7.setObjectName("malag_label_7")
-        
+
         self.horizontalLayout_94.addWidget(self.malag_label_7)
         self.malag_done_in_7 = QtWidgets.QLineEdit(self.frame_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
@@ -511,7 +509,7 @@ class Ui_MainWindow(object):
         self.malag_done_in_7.setObjectName("malag_done_in_7")
         self.horizontalLayout_94.addWidget(self.malag_done_in_7)
         self.malag_of_in_7 = QtWidgets.QDoubleSpinBox(self.frame_3)
-        self.malag_of_in_7.setRange(0,1000)
+        self.malag_of_in_7.setRange(0, 1000)
         self.malag_of_in_7.setDecimals(1)
         self.malag_of_in_7.setSingleStep(0.5)
         self.malag_of_in_7.setAlignment(QtCore.Qt.AlignCenter)
@@ -537,7 +535,7 @@ class Ui_MainWindow(object):
         self.sport_label_7.setSizePolicy(sizePolicy)
         self.sport_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         self.sport_label_7.setStyleSheet("font: 10pt \"Noto Sans\";\n"
-"text-decoration: underline;")
+                                         "text-decoration: underline;")
         self.sport_label_7.setObjectName("sport_label_7")
         self.horizontalLayout_89.addWidget(self.sport_label_7)
         self.sport_done_in_7 = QtWidgets.QLineEdit(self.frame_3)
@@ -553,7 +551,7 @@ class Ui_MainWindow(object):
         self.sport_done_in_7.setObjectName("sport_done_in_7")
         self.horizontalLayout_89.addWidget(self.sport_done_in_7)
         self.sport_of_in_7 = QtWidgets.QDoubleSpinBox(self.frame_3)
-        self.sport_of_in_7.setRange(0,1000)
+        self.sport_of_in_7.setRange(0, 1000)
         self.sport_of_in_7.setDecimals(1)
         self.sport_of_in_7.setSingleStep(0.5)
         self.sport_of_in_7.setAlignment(QtCore.Qt.AlignCenter)
@@ -579,7 +577,7 @@ class Ui_MainWindow(object):
         self.free_label_7.setSizePolicy(sizePolicy)
         self.free_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         self.free_label_7.setStyleSheet("font: 10pt \"Noto Sans\";\n"
-"text-decoration: underline;")
+                                        "text-decoration: underline;")
         self.free_label_7.setObjectName("free_label_7")
         self.horizontalLayout_90.addWidget(self.free_label_7)
         self.free_done_in_7 = QtWidgets.QLineEdit(self.frame_3)
@@ -595,7 +593,7 @@ class Ui_MainWindow(object):
         self.free_done_in_7.setObjectName("free_done_in_7")
         self.horizontalLayout_90.addWidget(self.free_done_in_7)
         self.free_of_in_7 = QtWidgets.QDoubleSpinBox(self.frame_3)
-        self.free_of_in_7.setRange(0,1000)
+        self.free_of_in_7.setRange(0, 1000)
         self.free_of_in_7.setDecimals(1)
         self.free_of_in_7.setSingleStep(0.5)
         self.free_of_in_7.setAlignment(QtCore.Qt.AlignCenter)
@@ -646,7 +644,7 @@ class Ui_MainWindow(object):
         self.deg_points_label.setObjectName("deg_points_label")
         self.horizontalLayout_45.addWidget(self.deg_points_label)
         self.deg_points_in = QtWidgets.QDoubleSpinBox(self.frame_11)
-        self.deg_points_in.setRange(0,1000)
+        self.deg_points_in.setRange(0, 1000)
         self.deg_points_in.setDecimals(1)
         self.deg_points_in.setSingleStep(0.5)
         self.deg_points_in.setAlignment(QtCore.Qt.AlignCenter)
@@ -693,7 +691,7 @@ class Ui_MainWindow(object):
         self.action_2 = QtWidgets.QAction(MainWindow)
         self.action_2.setObjectName("action_2")
         self.actionNew.setShortcut("CTRL+N")
-        self.actionSave.setShortcut("CTRL+S" )
+        self.actionSave.setShortcut("CTRL+S")
         self.actionSaveAs.setShortcut("CTRL+SHIFT+S")
         self.actionLoad.setShortcut("CTRL+O")
         self.menu.addAction(self.actionNew)
@@ -745,4 +743,3 @@ class Ui_MainWindow(object):
         self.actionLoad.setText(_translate("MainWindow", "טעינה"))
         self.actionUpdate_Courses_DB.setText(_translate("MainWindow", "עדכון קורסים"))
         self.action_2.setText(_translate("MainWindow", "הודות"))
-

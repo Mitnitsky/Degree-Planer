@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class TabPage(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -91,12 +92,12 @@ class TabPage(object):
         self.horizontalLayout_6.addItem(spacerItem2)
         self.semester_table_add_line = QtWidgets.QPushButton(Form)
         sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.MinimumExpanding,
-            QtWidgets.QSizePolicy.Fixed)
+                QtWidgets.QSizePolicy.MinimumExpanding,
+                QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(
-            self.semester_table_add_line.sizePolicy().hasHeightForWidth())
+                self.semester_table_add_line.sizePolicy().hasHeightForWidth())
         self.semester_table_add_line.setSizePolicy(sizePolicy)
         self.semester_table_add_line.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.semester_table_add_line.setText("")
@@ -109,15 +110,15 @@ class TabPage(object):
         self.horizontalLayout_6.addWidget(self.semester_table_add_line)
         self.semester_table_remove_line = QtWidgets.QPushButton(Form)
         sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.MinimumExpanding,
-            QtWidgets.QSizePolicy.Fixed)
+                QtWidgets.QSizePolicy.MinimumExpanding,
+                QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(
-            self.semester_table_remove_line.sizePolicy().hasHeightForWidth())
+                self.semester_table_remove_line.sizePolicy().hasHeightForWidth())
         self.semester_table_remove_line.setSizePolicy(sizePolicy)
         self.semester_table_remove_line.setLayoutDirection(
-            QtCore.Qt.LeftToRight)
+                QtCore.Qt.LeftToRight)
         self.semester_table_remove_line.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("images/list-remove.svg"),
@@ -125,7 +126,7 @@ class TabPage(object):
         self.semester_table_remove_line.setIcon(icon1)
         self.semester_table_remove_line.setIconSize(QtCore.QSize(32, 32))
         self.semester_table_remove_line.setObjectName(
-            "semester_table_remove_line")
+                "semester_table_remove_line")
         self.horizontalLayout_6.addWidget(self.semester_table_remove_line)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20,
                                             QtWidgets.QSizePolicy.Expanding,
@@ -138,7 +139,7 @@ class TabPage(object):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(
-            self.courses_table.sizePolicy().hasHeightForWidth())
+                self.courses_table.sizePolicy().hasHeightForWidth())
         self.courses_table.setSizePolicy(sizePolicy)
         self.courses_table.setMouseTracking(True)
         self.courses_table.setLayoutDirection(QtCore.Qt.RightToLeft)
@@ -194,17 +195,18 @@ class TabPage(object):
         for row in range(0, self.courses_table.rowCount()):
             item1 = QtWidgets.QTableWidgetItem()
             item2 = QtWidgets.QTableWidgetItem()
-            self.courses_table.setItem(row,0,item1)
+            self.courses_table.setItem(row, 0, item1)
             self.courses_table.setCellWidget(row, 0, createComboBox())
-            self.courses_table.setItem(row,self.courses_table.columnCount()-1,item2)
-            self.courses_table.setCellWidget(row, self.courses_table.columnCount()-1, createRemoveLineButton(str(row)))
-            for column in range(1, self.courses_table.columnCount()-1):
+            self.courses_table.setItem(row, self.courses_table.columnCount() - 1, item2)
+            self.courses_table.setCellWidget(row, self.courses_table.columnCount() - 1,
+                                             createRemoveLineButton(str(row)))
+            for column in range(1, self.courses_table.columnCount() - 1):
                 item = QtWidgets.QTableWidgetItem()
                 item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.courses_table.setItem(row, column, item)
                 if column >= 3:
                     spin_box = QtWidgets.QDoubleSpinBox()
-                    spin_box.setRange(0,100)
+                    spin_box.setRange(0, 100)
                     spin_box.setDecimals(1)
                     if column == 3:
                         spin_box.setSingleStep(0.5)
@@ -214,7 +216,7 @@ class TabPage(object):
                     spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
                     self.courses_table.setCellWidget(row, column, spin_box)
         self.courses_table.horizontalHeader().setSectionResizeMode(
-            QtWidgets.QHeaderView.Stretch)
+                QtWidgets.QHeaderView.Stretch)
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -225,15 +227,15 @@ class TabPage(object):
         self.semester_average_label.setText(_translate("Form", "ממוצע:   "))
         self.semester_points_label.setText(_translate("Form", "מס\' נק\"ז:"))
         self.semester_table_add_line.setToolTip(
-            _translate(
-                "Form",
-                "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הוסף שורה</span></p></body></html>"
-            ))
+                _translate(
+                        "Form",
+                        "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הוסף שורה</span></p></body></html>"
+                ))
         self.semester_table_remove_line.setToolTip(
-            _translate(
-                "Form",
-                "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הסר שורה</span></p></body></html>"
-            ))
+                _translate(
+                        "Form",
+                        "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הסר שורה</span></p></body></html>"
+                ))
         item = self.courses_table.verticalHeaderItem(0)
         item.setText(_translate("Form", "New Row"))
         item = self.courses_table.verticalHeaderItem(1)
@@ -257,6 +259,7 @@ class TabPage(object):
         item = self.courses_table.horizontalHeaderItem(5)
         item.setText(_translate("Form", ""))
 
+
 def createComboBox():
     combo_box = QtWidgets.QComboBox()
     combo_box.setFocusPolicy(QtCore.Qt.StrongFocus)
@@ -270,18 +273,19 @@ def createComboBox():
     combo_box.addItem("חופשי")
     return combo_box
 
+
 def createRemoveLineButton(line):
     semester_table_remove_line = QtWidgets.QPushButton()
     sizePolicy = QtWidgets.QSizePolicy(
-        QtWidgets.QSizePolicy.MinimumExpanding,
-        QtWidgets.QSizePolicy.Fixed)
+            QtWidgets.QSizePolicy.MinimumExpanding,
+            QtWidgets.QSizePolicy.Fixed)
     sizePolicy.setHorizontalStretch(0)
     sizePolicy.setVerticalStretch(0)
     sizePolicy.setHeightForWidth(
-    semester_table_remove_line.sizePolicy().hasHeightForWidth())
+            semester_table_remove_line.sizePolicy().hasHeightForWidth())
     semester_table_remove_line.setSizePolicy(sizePolicy)
     semester_table_remove_line.setLayoutDirection(
-        QtCore.Qt.LeftToRight)
+            QtCore.Qt.LeftToRight)
     semester_table_remove_line.setText("")
     icon1 = QtGui.QIcon()
     icon1.addPixmap(QtGui.QPixmap("images/row-clean.svg"),
@@ -289,11 +293,11 @@ def createRemoveLineButton(line):
     semester_table_remove_line.setIcon(icon1)
     semester_table_remove_line.setIconSize(QtCore.QSize(32, 32))
     semester_table_remove_line.setObjectName(
-        line)
+            line)
     _translate = QtCore.QCoreApplication.translate
     semester_table_remove_line.setToolTip(
-        _translate(
-            "Form",
-            "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">איפוס שורה</span></p></body></html>"
-        ))
+            _translate(
+                    "Form",
+                    "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">איפוס שורה</span></p></body></html>"
+            ))
     return semester_table_remove_line

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/vov4ik/Projects/DegreePlaner/findDialog.ui'
+# Form implementation generated from reading ui file '/home/vov4ik/Projects/DegreePlanner/findDialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 from extended_combo_box import ExtendedComboBox
 
 
@@ -51,7 +52,8 @@ class Ui_course_search(object):
         self.find_course_in.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.find_course_in.setLocale(QtCore.QLocale(QtCore.QLocale.Hebrew, QtCore.QLocale.Israel))
         self.find_course_in.setAutoFormatting(QtWidgets.QTextEdit.AutoNone)
-        self.find_course_in.setTextInteractionFlags(QtCore.Qt.TextSelectableByKeyboard|QtCore.Qt.TextSelectableByMouse)
+        self.find_course_in.setTextInteractionFlags(
+            QtCore.Qt.TextSelectableByKeyboard | QtCore.Qt.TextSelectableByMouse)
         self.find_course_in.setObjectName("find_course_in")
         self.verticalLayout.addWidget(self.find_course_in)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
@@ -77,12 +79,11 @@ class Ui_course_search(object):
         course_search.setWindowTitle(_translate("course_search", "Dialog"))
         self.course_num_label.setText(_translate("course_search", "הכנס מספר/שם קורס:"))
         self.course_info_label.setText(_translate("course_search", "מידע על הקורס:"))
-        self.find_course_in.setHtml(_translate("course_search", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Noto Sans\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"right\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.find_course_in.setHtml(_translate("course_search",
+                                               "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                               "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                               "p, li { white-space: pre-wrap; }\n"
+                                               "</style></head><body style=\" font-family:\'Noto Sans\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+                                               "<p align=\"right\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.close_search_button.setText(_translate("course_search", "סגור"))
         self.add_course_button.setText(_translate("course_search", "הוסף"))
-
-

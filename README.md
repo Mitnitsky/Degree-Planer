@@ -1,6 +1,31 @@
-![# Degree Planner](/images/github_cover.png)
+![](/images/github_cover.png)
 
 Degree Planner is an application made to ease the degree planning of Technion students.
+
+## Features
+
+- Save/Load your degree plan.
+
+- Search/Add courses using offline courses data-base.
+
+- Keep data-base updated.
+
+- Total degree Average.
+
+- Per semester Average.
+
+- Keep track of various courses types.
+
+    >(חובה,רשימה א',רשימה ב',ספורט,מל"ג,פרוייקט)
+   
+## Dependencies
+Those are required in order to run the python script without installation:
+```bash
+pip install bs4
+pip install requests
+pip install PyQt5
+```
+
 ## Installation
 
 Windows:
@@ -11,9 +36,7 @@ Linux:
 
 [DegreePlanner](http://Link.com)
 
-
 ## Usage
-
 
 
 ## Contributing

@@ -205,13 +205,14 @@ class TabPage(object):
                 item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.courses_table.setItem(row, column, item)
                 if column >= 3:
-                    spin_box = QtWidgets.QDoubleSpinBox()
-                    spin_box.setRange(0, 100)
-                    spin_box.setDecimals(1)
                     if column == 3:
+                        spin_box = QtWidgets.QDoubleSpinBox()
+                        spin_box.setDecimals(1)
                         spin_box.setSingleStep(0.5)
                     else:
-                        spin_box.setSingleStep(0.1)
+                        spib_box = QtWidgets.QSpinBox()
+                        spin_box.setSingleStep(1)
+                    spin_box.setRange(0, 100)
                     spin_box.setAlignment(QtCore.Qt.AlignCenter)
                     spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
                     self.courses_table.setCellWidget(row, column, spin_box)

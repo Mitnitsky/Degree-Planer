@@ -57,6 +57,14 @@ class MyWindow(QtWidgets.QMainWindow):
                 if '.dps' in filename:
                     if self.loadData(filename):
                         self.saveFileName = filename
+                        f.close()
+                    else:
+                        f.close()
+                        f = open('settings.cfg', "w")
+                        f.write("")
+
+
+                    
         except FileNotFoundError:
             self.update_allowed = True
             pass
@@ -129,11 +137,11 @@ class MyWindow(QtWidgets.QMainWindow):
         try:
             filename = open(filename, "rb")
         except FileNotFoundError:
-            self.errorMsg("פתיחת הקובץ כשלה")
+            self.errorMsg("פתיחת קובץ כשלה")
             self.update_allowed = True
             return False
         if not filename:
-            self.errorMsg("פתיחת הקובץ כשלה")
+            self.errorMsg("פתיחת קובץ כשלה")
             self.update_allowed = True
             return False
         self.new(True)
@@ -180,16 +188,17 @@ class MyWindow(QtWidgets.QMainWindow):
                     else:
                         if row[column + 1] != ' ' and row[column + 1] != ' \n':
                             try:
-                                spin_box = QtWidgets.QDoubleSpinBox()
+                                if column == 3:
+                                    spin_box = QtWidgets.QDoubleSpinBox()
+                                    spin_box.setDecimals(1)
+                                    spin_box.setSingleStep(0.5)
+                                else:
+                                    spin_box = QtWidgets.QSpinBox()
+                                    spin_box.setSingleStep(1)
                                 spin_box.setRange(0, 100)
-                                spin_box.setDecimals(1)
                                 spin_box.setAlignment(QtCore.Qt.AlignCenter)
                                 spin_box.valueChanged.connect(self.update)
                                 spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
-                                if column == 3:
-                                    spin_box.setSingleStep(0.5)
-                                else:
-                                    spin_box.setSingleStep(0.1)
                                 table.setCellWidget(index_r, column, spin_box)
                                 table.cellWidget(index_r, column).setValue(float(row[column + 1]))
                             except ValueError:
@@ -215,10 +224,10 @@ class MyWindow(QtWidgets.QMainWindow):
         try:
             f = open(self.saveFileName, "wb+")
         except FileNotFoundError:
-            self.errorMsg("פתיחת הקובץ כשלה")
+            self.errorMsg("פתיחת קובץ כשלה")
             return
         if not f:
-            self.errorMsg("פתיחת הקובץ כשלה")
+            self.errorMsg("פתיחת קובץ כשלה")
             return
         byte_array = list()
         inputs = list()
@@ -306,6 +315,9 @@ class MyWindow(QtWidgets.QMainWindow):
     def checkIfRowIsEmpty(self, table, row):
         for column in range(1, table.columnCount() - 1):
             if table.item(row, column):
+                if column >= 3:
+                    if table.cellWidget(row,column).value() > 0:
+                        return False
                 if table.item(row, column).text() != "":
                     return False
         return True
@@ -423,7 +435,7 @@ class MyWindow(QtWidgets.QMainWindow):
                         except ValueError:
                             pass
                         points[table.cellWidget(row, 0).currentText()] += float(table.cellWidget(row, 3).value())
-                        table_points.setText(str(float(table_points.text()) + float(table.cellWidget(row, 3).value())))
+                        table_points.setText(str(round(float(table_points.text()) + float(table.cellWidget(row, 3).value()),1)))
                 except (ValueError, AttributeError):
                     continue
         self.ui.list_a_done_in_7.setText(str(self.ui.list_a_of_in_7.value() - points["רשימה א"]))
@@ -517,7 +529,12 @@ class MyWindow(QtWidgets.QMainWindow):
             self.ui.courses_tab_widget.setTabText(i, tab_name)
 
     def removeSemester(self, i, force=False):
-        if force or self.my_close("semester", "האם למחוק סמסטר ?"):
+        emptySemester = True
+        for row in range(self.ui.courses_tab_widget.widget(i).children()[7].rowCount()):
+            if not self.checkIfRowIsEmpty(self.ui.courses_tab_widget.widget(i).children()[7], row):
+                emptySemester = False
+                break
+        if force or emptySemester  or self.my_close("semester", "למחוק סמסטר בעל תוכן?"):
             self.ui.courses_tab_widget.removeTab(i)
             self.updateTabNames()
             self.update()
@@ -531,13 +548,14 @@ class MyWindow(QtWidgets.QMainWindow):
             item.setTextAlignment(QtCore.Qt.AlignCenter)
             table.setItem(table.rowCount() - 1, column, item)
             if column >= 3:
-                spin_box = QtWidgets.QDoubleSpinBox()
-                spin_box.setRange(0, 100)
-                spin_box.setDecimals(1)
                 if column == 3:
+                    spin_box = QtWidgets.QDoubleSpinBox()
+                    spin_box.setDecimals(1)
                     spin_box.setSingleStep(0.5)
                 else:
-                    spin_box.setSingleStep(0.1)
+                    spin_box = QtWidgets.QSpinBox()
+                    spin_box.setSingleStep(1)
+                spin_box.setRange(0, 100)
                 spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
                 spin_box.setAlignment(QtCore.Qt.AlignCenter)
                 table.setCellWidget(table.rowCount() - 1, column, spin_box)
@@ -551,21 +569,13 @@ class MyWindow(QtWidgets.QMainWindow):
         rows = table.rowCount()
         if rows == 0:
             return
-        if self.lastRowIsEmpty(table):
+        if self.checkIfRowIsEmpty(table,table.rowCount()-1):
             table.setRowCount(rows - 1)
         else:
             ans = self.my_close("row", "למחוק שורה בעלת תוכן?")
             if ans:
                 table.setRowCount(rows - 1)
         self.update()
-
-    def lastRowIsEmpty(self, table):
-        rows = table.rowCount()
-        for column in range(0, table.columnCount()):
-            if table.item(rows - 1, column) and table.item(rows - 1, column).text() != '' and table.item(rows - 1,
-                                                                                                         column).text() != ' ':
-                return False
-        return True
 
     def createComboBox(self):
         combo_box = QtWidgets.QComboBox()
@@ -592,16 +602,18 @@ class MyWindow(QtWidgets.QMainWindow):
     def errorMsg(self, msg):
         msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Question,
                                        "שגיאה", msg)
-        msgbox.addButton(QtWidgets.QMessageBox.Ok)
+        msgbox.addButton(QtWidgets.QPushButton('המשך'), QtWidgets.QMessageBox.YesRole)
         msgbox.exec()
 
     def warningMsg(self, not_show_param='', msg='ERROR'):
-        cb = QtWidgets.QCheckBox("לא להראות שוב.")
+        cb = QtWidgets.QCheckBox("לא להראות שוב")
+        msgbox = QtWidgets.QMessageBox(self)
         msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Question,
                                        "מחיקה", msg)
-        msgbox.addButton(QtWidgets.QMessageBox.Yes)
-        msgbox.addButton(QtWidgets.QMessageBox.No)
-        msgbox.setDefaultButton(QtWidgets.QMessageBox.No)
+        no_button = QtWidgets.QPushButton('לא')
+        msgbox.addButton(QtWidgets.QPushButton('כן'), QtWidgets.QMessageBox.YesRole)
+        msgbox.addButton(no_button, QtWidgets.QMessageBox.NoRole)
+        msgbox.setDefaultButton(no_button)
         if not_show_param == "semester" or not_show_param == "row":
             msgbox.setCheckBox(cb)
         reply = msgbox.exec()
@@ -609,7 +621,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.not_show_remove_semester = bool(cb.isChecked())
         elif not_show_param == "row":
             self.not_show_remove_course = bool(cb.isChecked())
-        if reply == QtWidgets.QMessageBox.No:
-            return False
-        else:
+        if reply == QtWidgets.QMessageBox.Yes:
             return True
+        else:
+            return False

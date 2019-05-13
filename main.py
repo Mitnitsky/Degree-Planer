@@ -8,6 +8,9 @@ if __name__ == "__main__":
     icon = QtGui.QIcon()
     icon.addPixmap(QtGui.QPixmap("images/main_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
     app.setWindowIcon(icon)
-    app.setStyle("Breeze")
+    if 'Breeze' in QtWidgets.QStyleFactory.keys():
+        app.setStyle('Breeze')
+    else:
+        app.setStyle('Fusion')
     application = MyWindow()
     exit(app.exec())

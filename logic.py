@@ -17,10 +17,28 @@ class MyWindow(QtWidgets.QMainWindow):
         initDB()
         self.searchWindow = False
         self.update_allowed = True
-        self.courses = dbToCoursesList()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.addSemester()
+        self.not_show_remove_course = False
+        self.not_show_remove_semester = False
+        self.threadStop = [False]
+        self.saveFileName = ''
+        self.firstStart = True
+        self.saved = True
+        self.db_pairs = loadCourseNameNumberPairs()
+        self.course_update = [0]
+        self.ui.statusbar.setStyleSheet("font: 57 8pt \"Noto Sans\";")
+        self.ui.statusbar.showMessage("© 2019 Vladimir Parakhin")
+        self.update()
+        self.show()
+        self.ui.english_checkbox_7.stateChanged['int'].connect(self.update)
+        self.ui.actionUpdate_Courses_DB.triggered.connect(self.dbUpdate)
+        self.ui.actionNew.triggered.connect(self.clearData)
+        self.ui.actionSave.triggered.connect(self.saveData)
+        self.ui.actionSaveAs.triggered.connect(self.saveAsData)
+        self.ui.actionLoad.triggered.connect(self.loadData)
+        self.ui.action_2.triggered.connect(self.showCredit)
         self.ui.add_semester_but.clicked.connect(self.addSemester)
         self.ui.courses_tab_widget.tabCloseRequested.connect(
                 self.removeSemester)
@@ -32,45 +50,24 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.malag_of_in_7.valueChanged.connect(self.update)
         self.ui.free_of_in_7.valueChanged.connect(self.update)
         self.ui.deg_points_in.valueChanged.connect(self.update)
-        self.not_show_remove_course = False
-        self.not_show_remove_semester = False
-        self.threadStop = [False]
-        self.saveFileName = ''
-        self.ui.english_checkbox_7.stateChanged['int'].connect(self.update)
-        self.show()
-        self.ui.actionUpdate_Courses_DB.triggered.connect(self.dbUpdate)
-        self.ui.actionNew.triggered.connect(self.new)
-        self.ui.actionSave.triggered.connect(self.saveData)
-        self.ui.actionSaveAs.triggered.connect(self.saveAsData)
-        self.ui.actionLoad.triggered.connect(self.loadData)
-        self.ui.action_2.triggered.connect(self.showCredit)
-        self.firstStart = True
-        self.saved = True
-        self.db_pairs = loadCourseNameNumberPairs()
-        self.update()
-        self.ui.statusbar.setStyleSheet("font: 57 8pt \"Noto Sans\";")
-        self.ui.statusbar.showMessage("© 2019 Vladimir Parakhin")
-        self.course_update = [0]
         try:
-            f = open('settings.cfg', "r")
-            if f:
-                filename = f.readline()
+            file = open('settings.cfg', "r")
+            if file:
+                filename = file.readline()
                 if '.dps' in filename:
                     if self.loadData(filename):
                         self.saveFileName = filename
-                        f.close()
+                        file.close()
                     else:
-                        f.close()
-                        f = open('settings.cfg', "w")
-                        f.write("")
-
-
-                    
+                        file.close()
+                        file = open('settings.cfg', "w")
+                        file.write("")
         except FileNotFoundError:
             self.update_allowed = True
             pass
         self.firstStart = False
 
+    #Closing main windows override, check if there is unsaved data and prompts the user if so for save
     def closeEvent(self, event):
         quit_msg = "יציאה"
         messageBox = QtWidgets.QMessageBox()
@@ -89,11 +86,12 @@ class MyWindow(QtWidgets.QMainWindow):
             self.searchWindow.close()
         return super().closeEvent(event)
 
+    #Function which launches data base update, poping progress bar window
     def dbUpdate(self):
         self.progress_ui = ProgressWindowForm()
         self.progressBar = QtWidgets.QWidget()
         self.progress_ui.setupUi(self.progressBar)
-        self.progressBar.children()[1].children()[3].clicked.connect(self.setStop)
+        self.progressBar.children()[1].children()[3].clicked.connect(self.setStopThread)
         self.progressBar.show()
         self.course_update[0] = 0
         self.threadStop[0] = False
@@ -101,14 +99,16 @@ class MyWindow(QtWidgets.QMainWindow):
             self.ui.courses_tab_widget.widget(tab).children()[8].setEnabled(False)  # search button
             self.ui.courses_tab_widget.widget(tab).children()[8].setToolTip("אמתן לסיום עדכון הנתונים ")
         self.progress_ui.progressBar.setValue(0)
-        self.thread = threading.Thread(target=updateDb, args=[self, self.course_update, self.progress_ui, self.threadStop])
-        self.thread2 = threading.Thread(target=self.stopSearch, args=[])
-        self.thread.start()
-        self.thread2.start()
+        self.thread_update = threading.Thread(target=updateDb, args=[self, self.course_update, self.progress_ui, self.threadStop])
+        self.thread_stop_checker = threading.Thread(target=self.stopSearch, args=[])
+        self.thread_update.start()
+        self.thread_stop_checker.start()
 
-    def setStop(self):
+    # Function to set a signal for update db thread to stop
+    def setStopThread(self):
         self.threadStop[0] = True
 
+    # Function which check whether update db thread finished and restores find course button functionality
     def stopSearch(self):
         while not self.threadStop[0] and self.thread.isAlive:
             sleep(0.2)
@@ -118,21 +118,33 @@ class MyWindow(QtWidgets.QMainWindow):
             self.ui.courses_tab_widget.widget(tab).children()[8].setEnabled(True)
             self.ui.courses_tab_widget.widget(tab).children()[8].setToolTip("")
 
-    def new(self, force=False):
-        if not force:
-            ans = self.warningMsg('', "למחוק את כל הנתונים?")
-        if force or ans:
+    # Clearing the UI input completely 
+    def clearData(self, forced=False):
+        if not forced:
+            anwser = self.warningMsg('', "למחוק את כל הנתונים?")
+        if forced or anwser:
             for tab in range(self.ui.courses_tab_widget.count() - 1, -1, -1):
                 self.removeSemester(tab, force=True)
-        if not force and ans:
+            self.ui.project_of_in_7.setValue(0.0)
+            self.ui.list_a_of_in_7.setValue(0.0)
+            self.ui.list_b_of_in_7.setValue(0.0)
+            self.ui.sport_of_in_7.setValue(0.0)
+            self.ui.malag_of_in_7.setValue(0.0)
+            self.ui.deg_points_in.setValue(0.0)
+            self.ui.free_of_in_7.setValue(0.0)
+            self.ui.must_of_in.setValue(0.0)
+            self.ui.english_checkbox_7.setChecked(False)
+            self.update()
+        if not forced and anwser:
             self.addSemester()
 
+    # Load saved data from file using pickle module
     def loadData(self, filename=''):
         self.update_allowed = False
-        cnt = 0
+        counter = 0
         if not self.firstStart:
-            ans = self.warningMsg('', "שינויים שלא נשמרו ימחקו")
-            if not ans:
+            anwser = self.warningMsg('', "שינויים שלא נשמרו ימחקו")
+            if not anwser:
                 self.update_allowed = True
                 return
         if filename == '' or not filename:
@@ -152,10 +164,11 @@ class MyWindow(QtWidgets.QMainWindow):
             self.errorMsg("פתיחת קובץ כשלה")
             self.update_allowed = True
             return False
-        self.new(True)
-        content = pickle.loads(filename.read())
+        self.clearData(True)
+        # The data is stored in the following way 
+        # content[0] first list contains values from the points value which the user stored
         index = 0
-
+        content = pickle.loads(filename.read())
         self.ui.deg_points_in.setValue(content[0][0])
         self.ui.must_of_in.setValue(content[0][1])
         self.ui.list_a_of_in_7.setValue(content[0][2])
@@ -166,10 +179,14 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.free_of_in_7.setValue(content[0][7])
         self.ui.english_checkbox_7.setChecked(content[0][8])
         content = content[1:]
+        #The other data saved in the following order
+        # [i]-semester
+        # [i][j]-row
+        # [i][j][k]-column
         for semester in content:
             self.addSemester()
             table = self.ui.courses_tab_widget.widget(index).children()[7]
-            index_r = 0
+            row_index = 0
             while len(semester) > table.rowCount():
                 self.addRow(table)
             while len(semester) < table.rowCount():
@@ -179,27 +196,31 @@ class MyWindow(QtWidgets.QMainWindow):
                     if column == 0:
                         item = QtWidgets.QTableWidgetItem()
                         item.setTextAlignment(QtCore.Qt.AlignCenter)
-                        table.setItem(index_r, column, item)
-                        table.setCellWidget(index_r, column, self.createComboBox())
-                        index_combo_box = table.cellWidget(index_r, column).findText(row[column],
-                                                                                     QtCore.Qt.MatchFixedString)
+                        table.setItem(row_index, column, item)
+                        table.setCellWidget(row_index, column, self.createComboBox())
+                        index_combo_box = table.cellWidget(row_index, column).findText(row[column], QtCore.Qt.MatchFixedString)
                         if index_combo_box >= 0:
-                            table.cellWidget(index_r, column).setCurrentIndex(index_combo_box)
+                            table.cellWidget(row_index, column).setCurrentIndex(index_combo_box)
+                    # Course number
                     elif column == 1:
                         if row[column] != ' ' and row[column] != ' \n':
-                            table.item(index_r, column).setToolTip(row[column])
+                            # Course dependencies (parallel, similar, inclusive)
+                            table.item(row_index, column).setToolTip(row[column])
                         if row[column + 1] != ' ' and row[column + 1] != ' \n':
-                            table.item(index_r, column).setText(row[column + 1])
+                            table.item(row_index, column).setText(row[column + 1])
+                    # Course name
                     elif column == 2:
                         if row[column + 1] != ' ' and row[column + 1] != ' \n':
-                            table.item(index_r, column).setText(row[column + 1])
+                            table.item(row_index, column).setText(row[column + 1])
                     else:
                         if row[column + 1] != ' ' and row[column + 1] != ' \n':
                             try:
+                                # Course-points spin-box
                                 if column == 3:
                                     spin_box = QtWidgets.QDoubleSpinBox()
                                     spin_box.setDecimals(1)
                                     spin_box.setSingleStep(0.5)
+                                # Course-grade spin-box
                                 else:
                                     spin_box = QtWidgets.QSpinBox()
                                     spin_box.setSingleStep(1)
@@ -207,34 +228,36 @@ class MyWindow(QtWidgets.QMainWindow):
                                 spin_box.setAlignment(QtCore.Qt.AlignCenter)
                                 spin_box.valueChanged.connect(self.update)
                                 spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
-                                table.setCellWidget(index_r, column, spin_box)
-                                table.cellWidget(index_r, column).setValue(float(row[column + 1]))
+                                table.setCellWidget(row_index, column, spin_box)
+                                table.cellWidget(row_index, column).setValue(float(row[column + 1]))
                             except ValueError:
-                                table.cellWidget(index_r, column).setValue(0.0)
-                index_r += 1
+                                table.cellWidget(row_index, column).setValue(0.0)
+                row_index += 1
             index += 1
         self.update_allowed = True
         self.update()
         self.saved = True
         return True
-
+    
+    # Save as function change the pointer to current saved file
     def saveAsData(self):
         self.saveFileName = ''
         self.saveData()
 
+    # Save function, saves the data from the app using pickle
     def saveData(self):
-        cnt = 0
+        counter = 0
         if self.saveFileName == '':
             filename = QtWidgets.QFileDialog.getSaveFileName(self, 'שמירה בשם', '', "Save files (*.dps)")
             if filename[0] == '':
                 return
             self.saveFileName = filename[0]
         try:
-            f = open(self.saveFileName, "wb+")
+            file = open(self.saveFileName, "wb+")
         except FileNotFoundError:
             self.errorMsg("פתיחת קובץ כשלה")
             return
-        if not f:
+        if not file:
             self.errorMsg("פתיחת קובץ כשלה")
             return
         byte_array = list()
@@ -270,13 +293,15 @@ class MyWindow(QtWidgets.QMainWindow):
                             rows.append(table.cellWidget(row, column).value())
                 semester.append(rows)
             byte_array.append(semester)
-        f.write(pickle.dumps(byte_array))
+        file.write(pickle.dumps(byte_array))
+        #Caching the filename in settings.cfg in order to use save function seamlessly afterwards
         cache = open('settings.cfg', 'w+')
         if not cache:
             return
         cache.write(self.saveFileName)
         self.saved = True
 
+    #Function which shows credit window with contact information
     def showCredit(self):
         message_det = """<address>
                         Degree Planner
@@ -296,14 +321,14 @@ class MyWindow(QtWidgets.QMainWindow):
         msgbox.setSizePolicy(sizePolicy)
         msgbox.exec()
 
-    def updateProgressBar(self, thread):
-        while thread.isAlive():
-            self.progress_ui.progressBar.setValue(self.course_update[0])
-
+    # Function which opens the course search dialog in order to search within 
+    #   the data base for courses and add them into the table
     def openSearchDialog(self):
         self.searchWindow = QtWidgets.QWidget()
         self.search_ui = Ui_course_search()
         self.search_ui.setupUi(self.searchWindow)
+        #db_pairs contains all courses from the technion for quicklookup
+        # in the following format "<course-name> - <course-number>"
         for course in self.db_pairs:
             self.searchWindow.children()[3].addItem(course)
         self.searchWindow.children()[3].currentIndexChanged.connect(self.findCourse)
@@ -313,6 +338,9 @@ class MyWindow(QtWidgets.QMainWindow):
         self.searchWindow.children()[3].setCurrentText("")
         self.searchWindow.show()
 
+    # Function which find the course in the data-base list in course search ui
+    # the function is being called on index change of the spinbox with the course in the ui
+    # the function updates the additional information about the course
     def findCourse(self):
         if self.searchWindow.children()[3].currentText() != '':
             self.searchWindow.children()[5].setPlainText(
@@ -320,6 +348,8 @@ class MyWindow(QtWidgets.QMainWindow):
         else:
             self.searchWindow.children()[5].setPlainText("")
 
+
+    # Given a table and a row checks whether the row is empty
     def checkIfRowIsEmpty(self, table, row):
         for column in range(1, table.columnCount() - 1):
             if table.item(row, column):
@@ -330,12 +360,13 @@ class MyWindow(QtWidgets.QMainWindow):
                     return False
         return True
 
-    def addCourseContent(self, widget, course_num, table):
+    # Function which adds the course content into the table on current open semester in an empty row
+    def addCourseContent(self, course_num, table):
         course = findCourseInDB(course_num)
         if self.courseInTable(table, str(course.number)):
             if not self.warningMsg(msg="הקורס " + str(course.number) + " קיים בטבלה, להוסיף שוב?"):
                 return
-        row = self.findEmptyRow(widget)
+        row = self.findEmptyRow(table)
         course_num = QtWidgets.QTableWidgetItem()
         course_num.setText(str(course.number))
         course_name = QtWidgets.QTableWidgetItem()
@@ -357,38 +388,44 @@ class MyWindow(QtWidgets.QMainWindow):
         table.setItem(row, 2, course_name)
         return
 
+    # Function which check whether or not the course with the given course number is present in the table in current semester
     def courseInTable(self, table, course_num):
         for row in range(0, table.rowCount()):
             if table.item(row, 1) and table.item(row, 1).text() == course_num:
                 return True
         return False
 
-    def findEmptyRow(self, widget):
-        table = self.ui.courses_tab_widget.currentWidget().children()[7]
+    #   Function which find an empty row in the current semester table
+    def findEmptyRow(self, table):
         for row in range(table.rowCount()):
             if self.checkIfRowIsEmpty(table, row):
                 return row
         self.addRow(table)
         return table.rowCount() - 1
 
-    def addCourse(self, widget):
-        combo_text = widget.children()[3].currentText()
+    # Function which adds the course from the search ui on add-course button click event
+    def addCourse(self, course_info):
+        combo_text = course_info.children()[3].currentText()
         if combo_text == '':
             self.errorMsg("לא נבחר קורס, אנא נסה שנית")
             return
         course_number = combo_text.split(" - ")[0]
         table = self.ui.courses_tab_widget.currentWidget().children()[7]
-        self.addCourseContent(widget, course_number, table)
+        self.addCourseContent(course_number, table)
 
+    # Function which closes the widget
     def closeIt(self, widget):
         widget.close()
 
+    # Function which creates a new tab for a new semester
     def createTab(self):
         self.Form = QtWidgets.QWidget()
         ui = TabPage()
         ui.setupUi(self.Form)
         return self.Form
 
+    # Function which is a part of update() function
+    # the function calculates and updates the averages of each semester and the total average
     def updateAverage(self):
         total_sum = 0
         total_points = 0
@@ -396,7 +433,7 @@ class MyWindow(QtWidgets.QMainWindow):
             semester_sum = 0
             semester_points = 0
             table = self.ui.courses_tab_widget.widget(tab).children()[7]
-            semester_average = self.ui.courses_tab_widget.widget(tab).children()[2]  # Average
+            semester_average = self.ui.courses_tab_widget.widget(tab).children()[2]  
             for row in range(table.rowCount()):
                 try:
                     if table.cellWidget(row, 3) and float(table.cellWidget(row, 3).value()) > 0:
@@ -417,6 +454,8 @@ class MyWindow(QtWidgets.QMainWindow):
         else:
             self.ui.average_in_7.setText(str(0.0))
 
+    # Function which is a part of update() function
+    # the function calculates and updates the points of each semester and the total points information
     def updatePoints(self):
         points = {"חובה":    0, \
                   "רשימה א": 0, \
@@ -462,6 +501,8 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.points_in_7.setText(str(float(points_done) + exemption))
         self.ui.points_left_in_7.setText(str(self.ui.deg_points_in.value() - float(self.ui.points_in_7.text())))
 
+    # Function which is a part of update() function
+    # the function calculates and updates the tooltips for every course in the semester
     def updateTooltips(self):
         for tab in range(self.ui.courses_tab_widget.count()):
             table = self.ui.courses_tab_widget.widget(tab).children()[7]
@@ -474,6 +515,7 @@ class MyWindow(QtWidgets.QMainWindow):
                 except (ValueError, AttributeError):
                     continue
 
+    # Update function which keeps all the data of the program updated
     def update(self):
         if self.update_allowed:
             try:
@@ -484,6 +526,7 @@ class MyWindow(QtWidgets.QMainWindow):
             except (ValueError, AttributeError):
                 pass
 
+    # Add new empty semester to the program
     def addSemester(self):
         tab = self.createTab()
         table = tab.children()[7]
@@ -497,16 +540,16 @@ class MyWindow(QtWidgets.QMainWindow):
         lambdas = []
         buttons = []
         item = QtWidgets.QTableWidgetItem()
-        for i in range(0, table.rowCount()):
-            table.cellWidget(i, 3).valueChanged.connect(self.update)
-            table.cellWidget(i, 4).valueChanged.connect(self.update)
-            button = createRemoveLineButton(str(i))
-            value.append(i)
+        for row in range(0, table.rowCount()):
+            table.cellWidget(row, 3).valueChanged.connect(self.update) #Check wether course points were update
+            table.cellWidget(row, 4).valueChanged.connect(self.update) #Check wether course grade was updated
+            button = createRemoveLineButton(str(row))
+            value.append(row)
             lambdas.append(lambda state: self.clearRow(table))
-            button.clicked.connect(lambdas[i])
+            button.clicked.connect(lambdas[row])
             buttons.append(button)
-            table.setCellWidget(i, table.columnCount() - 1, buttons[i])
-            table.cellWidget(i, 0).currentIndexChanged['int'].connect(self.update)
+            table.setCellWidget(row, table.columnCount() - 1, buttons[row])
+            table.cellWidget(row, 0).currentIndexChanged['int'].connect(self.update)
         self.ui.semesters.append(tab)
         self.ui.courses_tab_widget.insertTab(
                 self.ui.courses_tab_widget.count(),
@@ -514,8 +557,10 @@ class MyWindow(QtWidgets.QMainWindow):
                 str(self.ui.courses_tab_widget.count() + 1) + " סמסטר")
         self.update()
 
+    # Function which is being called on clear-row button clicked in the table event
+    # the function clears rows content, if the row is clear removes the row
     def clearRow(self, table):
-        row = int(self.sender().objectName())
+        row = self.find_row(table, self.sender().objectName())
         empty = self.checkIfRowIsEmpty(table, row)
         if empty:
             table.removeRow(row)
@@ -523,7 +568,6 @@ class MyWindow(QtWidgets.QMainWindow):
             return
         table.cellWidget(row, 0).setCurrentIndex(0)
         for column in range(1, table.columnCount() - 1):
-
             if table.item(row, column) != None:
                 table.item(row, column).setText("")
                 table.item(row, column).setToolTip("")
@@ -531,11 +575,24 @@ class MyWindow(QtWidgets.QMainWindow):
                 table.cellWidget(row, column).setValue(0)
         self.update()
 
+    # Function which finds the row number of signal sender
+    def find_row(self, table, senders_id):
+        for row in range(0, table.rowCount()):
+            clear_button_cell = table.columnCount() -1
+            if table.cellWidget(row, clear_button_cell):
+                if table.cellWidget(row, clear_button_cell).objectName() == senders_id:
+                    return row
+        return table.rowCount()
+
+    # Function which updates the numeric order of semester names in case of removal
     def updateTabNames(self):
         for i in range(self.ui.courses_tab_widget.count()):
             tab_name = "סמסטר " + str(i + 1)
             self.ui.courses_tab_widget.setTabText(i, tab_name)
 
+    # Function which check if the semester has any input data,
+    # if so prompts the user to ensure that he wants to remove the semester
+    # and deletes it
     def removeSemester(self, i, force=False):
         emptySemester = True
         for row in range(self.ui.courses_tab_widget.widget(i).children()[7].rowCount()):
@@ -547,6 +604,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.updateTabNames()
             self.update()
 
+    # Function which adds an empty row to the current semester
     def addRow(self, table):
         table.setRowCount(table.rowCount() + 1)
         table.setItem(table.rowCount() - 1, 0, QtWidgets.QTableWidgetItem())
@@ -573,6 +631,8 @@ class MyWindow(QtWidgets.QMainWindow):
         table.cellWidget(table.rowCount() - 1, 0).currentIndexChanged['int'].connect(self.update)
         table.setCellWidget(table.rowCount() - 1, table.columnCount() - 1, button)
 
+    # Function which deletes the last row from the semester
+    # if it is not empty prompts request 
     def removeRow(self, table):
         rows = table.rowCount()
         if rows == 0:
@@ -580,11 +640,12 @@ class MyWindow(QtWidgets.QMainWindow):
         if self.checkIfRowIsEmpty(table,table.rowCount()-1):
             table.setRowCount(rows - 1)
         else:
-            ans = self.my_close("row", "למחוק שורה בעלת תוכן?")
-            if ans:
+            anwser = self.my_close("row", "למחוק שורה בעלת תוכן?")
+            if anwser:
                 table.setRowCount(rows - 1)
         self.update()
 
+    # Modified Combo box factory for the courses category
     def createComboBox(self):
         combo_box = QtWidgets.QComboBox()
         combo_box.setFocusPolicy(QtCore.Qt.StrongFocus)
@@ -598,23 +659,27 @@ class MyWindow(QtWidgets.QMainWindow):
         combo_box.addItem("חופשי")
         return combo_box
 
+    # Function which transforms check if there is "do not ask again" flag for removal
+    # was checked if so allows removal without dialog, otherwise opens dialog to ensure removal
     def my_close(self, not_show_param, msg):
         if not_show_param == "row" and not self.not_show_remove_course:
-            ans = self.warningMsg(not_show_param, msg)
-            return ans
+            anwser = self.warningMsg(not_show_param, msg)
+            return anwser
         elif not_show_param == "semester" and not self.not_show_remove_semester:
-            ans = self.warningMsg(not_show_param, msg)
-            return ans
+            anwser = self.warningMsg(not_show_param, msg)
+            return anwser
         return True
 
+    # Function which displays error message
     def errorMsg(self, msg):
         msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Question,
                                        "שגיאה", msg)
         msgbox.addButton(QtWidgets.QPushButton('המשך'), QtWidgets.QMessageBox.YesRole)
         msgbox.exec()
 
+    # Function which creates a prompt of removal or save
     def warningMsg(self, not_show_param='', msg='ERROR'):
-        cb = QtWidgets.QCheckBox("לא להראות שוב")
+        check_box = QtWidgets.QCheckBox("לא להראות שוב")
         msgbox = QtWidgets.QMessageBox(self)
         msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Question,
                                        "מחיקה", msg)
@@ -623,12 +688,12 @@ class MyWindow(QtWidgets.QMainWindow):
         msgbox.addButton(no_button, QtWidgets.QMessageBox.NoRole)
         msgbox.setDefaultButton(no_button)
         if not_show_param == "semester" or not_show_param == "row":
-            msgbox.setCheckBox(cb)
+            msgbox.setCheckBox(check_box)
         reply = msgbox.exec()
         if not_show_param == "semester":
-            self.not_show_remove_semester = bool(cb.isChecked())
+            self.not_show_remove_semester = bool(check_box.isChecked())
         elif not_show_param == "row":
-            self.not_show_remove_course = bool(cb.isChecked())
+            self.not_show_remove_course = bool(check_box.isChecked())
         if reply == 0:
             return True
         elif reply == 1:

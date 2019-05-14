@@ -1,6 +1,14 @@
 import pickle
 
-
+#Technion courses class
+# contains information about an course
+# e.g:
+#   name   = "מערכות הפעלה"
+#   number = "234123"
+#   dependencies = {[234218]} courses which are pre-requisite
+#   parallel = {[234118]} courses which are either pre-requisite or must be taken together with the course
+#   similarities = {[]} courses which are similar to this course
+#   incluse = {[]} courses which are included in this course and covered by it
 class Course:
     def __init__(self):
         self.name = ""
@@ -34,7 +42,7 @@ class Course:
 
     def add_parallel(self, courses):
         self.parallel.update(courses)
-
+    #Prepare the course data into a list to insert into DB (some is getting serialized)
     def to_list(self):
         return [
                 self.name, self.number, self.points,

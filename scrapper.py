@@ -40,7 +40,8 @@ def preparePackage(SEM, FAC):
     }
     return postPackage
 
-
+#Function which scraps ug website using the given package
+# in order to get all the course numbers from the page
 def getCourses(url, postPackage):
     with requests.Session() as session:
         get = session.post(url, data=postPackage)
@@ -48,31 +49,31 @@ def getCourses(url, postPackage):
         selects = soup.find_all(lambda a: a.has_attr('href'))
         return uniqueAndSortInput(selects, "content")
 
-
+# Function which gets all the possible semesters/faculties
+# from ug website
 def getData(url, tag, attrs, types):
-    # //TODO : Get old one working aswell
     with requests.Session() as session:
         get = session.post(url)
         soup = BeautifulSoup(get.content, features="html5lib")
         selects = soup.find_all(tag, attrs)
         return uniqueAndSortInput(selects, types)
 
-
+# Function which get only unique strings and sorts them by natural order
 def uniqueAndSortInput(selects, part):
-    sem = set()
-    for a in selects:
+    semester = set()
+    for selection in selects:
         if part == "values":
-            if a.attrs != {}:
-                for val in a.attrs.values():
+            if selection.attrs != {}:
+                for val in selection.attrs.values():
                     try:
                         int(val)
                     except ValueError:
                         continue
-                    sem.add(int(val))
+                    semester.add(int(val))
         if part == "content":
             try:
-                int(a.contents[0])
-                sem.add(a.contents[0])
+                int(selection.contents[0])
+                semester.add(selection.contents[0])
             except IndexError:
                 continue
             except TypeError:
@@ -81,9 +82,9 @@ def uniqueAndSortInput(selects, part):
                 continue
         if part == "course":
             return selects
-    return sorted(sem)
+    return sorted(semester)
 
-
+# Function which humanities dependencies
 def cutDependencies(dependencies):
     result = list()
     dependencies = list(map(str.strip, dependencies.split('|')))
@@ -96,7 +97,8 @@ def cutDependencies(dependencies):
         result.append(temp)
     return result
 
-
+# Function which gets a course info from ug website
+# Creates a course class instance and writes all the data into it
 def getCourseInfo(course_number, semester):
     url = "https://ug3.technion.ac.il/rishum/course/" + \
           str(course_number) + "/" + str(semester)
@@ -129,8 +131,9 @@ def getCourseInfo(course_number, semester):
             temp_course.add_inclusive(sibling.split())
     return temp_course
 
-
+# Function which updates the Courses data baseS
 def updateDb(MainWindow, value='', progressBarUI='', stopFlag='', standAloneFlag=False):
+    initDB()
     if not standAloneFlag:
         progressBarUI.label.setText("אוסף מידע:")
     semester_tag = "input"
@@ -141,8 +144,9 @@ def updateDb(MainWindow, value='', progressBarUI='', stopFlag='', standAloneFlag
     semesters = getData(search_url, semester_tag, semester_attrs, "values")
     faculties = getData(search_url, faculties_tag, faculties_attrs, "values")
     packages = []
-    for SEM in semesters:
-        for package in sportPackages(SEM):
+    #Getting all the sports courses because they don't belong to any faculty
+    for semester in semesters:
+        for package in sportPackages(semester):
             packages.append(package)
     for combination in product(semesters, faculties):
         packages.append(preparePackage(combination[0], combination[1]))
@@ -158,30 +162,32 @@ def updateDb(MainWindow, value='', progressBarUI='', stopFlag='', standAloneFlag
                 course_numbers.add(course)
                 if not standAloneFlag and stopFlag[0]:
                     return
-    cnt = 0
+    counter = 0
     if not standAloneFlag:
         progressBarUI.label.setText("(2/2) מעדכן קורסים")
     for course_number in sorted(course_numbers):
         if MainWindow.progressBar:
             if not standAloneFlag and stopFlag[0]:
                 return
-            cnt += 1
+            counter += 1
             if not standAloneFlag:
-                value[0] = 5 + (cnt / len(course_numbers)) * 95
+                value[0] = 5 + (counter / len(course_numbers)) * 95
                 progressBarUI.progressBar.setValue(value[0])
             dbAddCourse(getCourseInfo(course_number,
                                     semesters[len(semesters) - 1]))
     MainWindow.stopSearch()
 
 
-def sportPackages(SEM):
-    package = preparePackage(SEM, '')
-    package2 = preparePackage(SEM, '')
+#Function which creates possible packages to prompt ug for sport course with the given semester
+def sportPackages(semester):
+    package = preparePackage(semester, '')
+    package2 = preparePackage(semester, '')
     package2['CNM'] = 'חינוך גופני'
     package['CNM'] = 'ספורט'
     return [package, package2]
 
 
+# Function which initializes an courses data-base, does nothing if the db exists
 def initDB():
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
@@ -195,7 +201,7 @@ def initDB():
     curs.close()
     db.close()
 
-
+# Function which addeds a course to the data base
 def dbAddCourse(course):
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
@@ -205,7 +211,7 @@ def dbAddCourse(course):
     curs.close()
     db.close()
 
-
+# Function which convers data-base entry into course instance
 def convertDbEnryToCourse(touple):
     temp_course = Course()
     temp_course.set_name(touple[0])
@@ -217,7 +223,8 @@ def convertDbEnryToCourse(touple):
     temp_course.add_inclusive(pickle.loads(touple[6]))
     return temp_course
 
-
+# Function which search for the given course_number in the data-base
+# return an course instance if found oneS
 def findCourseInDB(course_number):
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
@@ -234,18 +241,8 @@ def findCourseInDB(course_number):
         db.close()
         return convertDbEnryToCourse(result)
 
-
-def dbToCoursesList():
-    db = sqlite3.connect('./db/courses.db')
-    curs = db.cursor()
-    courses = curs.execute('SELECT * FROM courses')
-    temp = list(map(convertDbEnryToCourse, courses))
-    curs.close()
-    db.close()
-    return temp
-
-
-# combobox.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+# Function which creates a list of all the courses in the data base
+# return courses list
 def loadCourseNameNumberPairs():
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()

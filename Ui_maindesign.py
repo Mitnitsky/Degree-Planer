@@ -129,6 +129,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_80 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_80.setSpacing(12)
         self.horizontalLayout_80.setObjectName("horizontalLayout_80")
+        
+        ## Degree summary UI init
         self.average_lab_7 = QtWidgets.QLabel(self.frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
@@ -310,6 +312,9 @@ class Ui_MainWindow(object):
         self.of_label_7.setObjectName("of_label_7")
         self.horizontalLayout_85.addWidget(self.of_label_7)
         self.verticalLayout_23.addLayout(self.horizontalLayout_85)
+        ### End of degree summy Init
+
+        ### Start of Subjects Points summary
         self.horizontalLayout_92 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_92.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.horizontalLayout_92.setSpacing(12)
@@ -681,6 +686,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addLayout(self.verticalLayout_15)
         self.horizontalLayout_22.addLayout(self.horizontalLayout)
         self.gridLayout_3.addLayout(self.horizontalLayout_22, 0, 0, 1, 1)
+        #End of points summary init
+
+        #Start of menu Init
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1680, 36))
@@ -716,6 +724,8 @@ class Ui_MainWindow(object):
         self.menu.addAction(self.actionUpdate_Courses_DB)
         self.menu.addAction(self.action_2)
         self.menubar.addAction(self.menu.menuAction())
+        #End of menu init
+        
         self.retranslateUi(MainWindow)
         self.courses_tab_widget.setCurrentIndex(0)
 

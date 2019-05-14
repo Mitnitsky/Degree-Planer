@@ -1,8 +1,6 @@
 from PyQt5 import QtWidgets, QtGui
 from sys import exit
 from logic import MyWindow
-from PyQt5.QtCore import QFile, QTextStream
-import breeze_resources
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])

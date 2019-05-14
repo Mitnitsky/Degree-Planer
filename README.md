@@ -30,13 +30,34 @@ pip install PyQt5
 
 Windows:
 
-[Degree_installer.exe](http://Link.com)
+[Degree_installer.exe](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.0/degree_planer_install.exe)
+
+1.Download
+
+2.Execute installer
+
+3.Run
 
 Linux:
 
-[DegreePlanner](http://Link.com)
+[DegreePlanner.zip](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.0/degreePlanner_linux.zip)
 
-## Usage
+1.Download
+
+2.Unzip to desired destination
+
+3.Execute degreePlanner 
+
+## Screenshots
+
+### Courses view
+![](/images/screen/screen_main_window.png)
+
+### Courses addition
+![](/images/screen/screen_search.png)
+
+### Database update
+![](/images/screen/screen_update.png)
 
 
 ## Contributing

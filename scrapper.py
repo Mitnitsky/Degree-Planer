@@ -9,34 +9,34 @@ from course import Course
 
 
 def preparePackage(SEM, FAC):
-    """Preparing package with given semseter and faculty in order to get courses from UG
+    """Preparing package with given semester and faculty in order to get courses from UG
 
     Args:
         SEM (INT): semester number (eg. "201802")
         FAC (INT): faculty  number parsed from UG html
     """
     postPackage = {
-            'CNM':      '',
-            'CNO':      '',
-            'PNT':      '',
-            'LLN':      '',
-            'LFN':      '',
-            'RECALL':   'Y',
-            'D1':       'on',
-            'D2':       'on',
-            'D3':       'on',
-            'D4':       'on',
-            'D5':       'on',
-            'D6':       'on',
-            'FTM':      '',
-            'TTM':      '',
-            'SIL':      '',
-            'OPTCAT':   'on',
-            'OPTSEM':   'on',
-            'doSearch': 'Y',
-            'Search':   'חפש',
-            'FAC':      FAC,
-            'SEM':      SEM
+        'CNM': '',
+        'CNO': '',
+        'PNT': '',
+        'LLN': '',
+        'LFN': '',
+        'RECALL': 'Y',
+        'D1': 'on',
+        'D2': 'on',
+        'D3': 'on',
+        'D4': 'on',
+        'D5': 'on',
+        'D6': 'on',
+        'FTM': '',
+        'TTM': '',
+        'SIL': '',
+        'OPTCAT': 'on',
+        'OPTSEM': 'on',
+        'doSearch': 'Y',
+        'Search': 'חפש',
+        'FAC': FAC,
+        'SEM': SEM
     }
     return postPackage
 
@@ -80,7 +80,7 @@ def uniqueAndSortInput(selects, part):
             except ValueError:
                 continue
         if part == "course":
-            return selects  
+            return selects
     return sorted(sem)
 
 
@@ -91,8 +91,8 @@ def cutDependencies(dependencies):
     for dependence in dependencies:
         temp = list()
         temp.extend(
-                map(lambda x: x.translate(braces_remove),
-                    map(str.strip, dependence.split('&'))))
+            map(lambda x: x.translate(braces_remove),
+                map(str.strip, dependence.split('&'))))
         result.append(temp)
     return result
 
@@ -119,8 +119,8 @@ def getCourseInfo(course_number, semester):
             temp_course.set_points(sibling.strip())
         if "מקצועות קדם" in prop.text:
             temp_course.add_dependencies(
-                    cutDependencies(
-                            sibling.translate(and_trans).translate(or_trans)))
+                cutDependencies(
+                    sibling.translate(and_trans).translate(or_trans)))
         if "מקצועות צמודים" in prop.text:
             temp_course.add_parallel(sibling.split())
         if ":מקצועות ללא זיכוי נוסף" in prop.text:
@@ -130,27 +130,7 @@ def getCourseInfo(course_number, semester):
     return temp_course
 
 
-def updateDb():
-    semester_tag = "input"
-    semester_attrs = {"type": "radio", "name": "SEM"}
-    faculties_tag = "option"
-    faculties_attrs = {}
-    search_url = 'https://ug3.technion.ac.il/rishum/search'
-    semesters = getData(search_url, semester_tag, semester_attrs, "values")
-    faculties = getData(search_url, faculties_tag, faculties_attrs, "values")
-    packages = []
-    for combination in product(semesters, faculties):
-        packages.append(preparePackage(combination[0], combination[1]))
-    course_numbers = set()
-    for package in packages:
-        for course in getCourses(search_url, package):
-            course_numbers.add(course)
-    for course_number in sorted(course_numbers):
-        dbAddCourse(getCourseInfo(course_number,
-                                  semesters[len(semesters) - 1]))
-
-
-def updateDb(value='', progressBarUI='', stopFlag='', standAloneFlag=False):
+def updateDb(MainWindow, value='', progressBarUI='', stopFlag='', standAloneFlag=False):
     if not standAloneFlag:
         progressBarUI.label.setText("אוסף מידע:")
     semester_tag = "input"
@@ -161,29 +141,45 @@ def updateDb(value='', progressBarUI='', stopFlag='', standAloneFlag=False):
     semesters = getData(search_url, semester_tag, semester_attrs, "values")
     faculties = getData(search_url, faculties_tag, faculties_attrs, "values")
     packages = []
+    for SEM in semesters:
+        for package in sportPackages(SEM):
+            packages.append(package)
     for combination in product(semesters, faculties):
         packages.append(preparePackage(combination[0], combination[1]))
     course_numbers = set()
     if not standAloneFlag:
         progressBarUI.label.setText("(1/2) אוסף מספרי קורסים")
     for package in packages:
-        for course in getCourses(search_url, package):
-            if not standAloneFlag:
-                progressBarUI.progressBar.setValue((len(course_numbers) / 600) % 6)
-            course_numbers.add(course)
-            if not standAloneFlag and stopFlag[0]:
-                return
+        if MainWindow.progressBar:
+            for course in getCourses(search_url, package):
+                if not standAloneFlag:
+                    progressBarUI.progressBar.setValue(
+                        (len(course_numbers) / 600) % 6)
+                course_numbers.add(course)
+                if not standAloneFlag and stopFlag[0]:
+                    return
     cnt = 0
     if not standAloneFlag:
         progressBarUI.label.setText("(2/2) מעדכן קורסים")
     for course_number in sorted(course_numbers):
-        if not standAloneFlag and stopFlag[0]:
-            return
-        cnt += 1
-        if not standAloneFlag:
-            value[0] = 5 + (cnt / len(course_numbers)) * 95
-            progressBarUI.progressBar.setValue(value[0])
-        dbAddCourse(getCourseInfo(course_number, semesters[len(semesters) - 1]))
+        if MainWindow.progressBar:
+            if not standAloneFlag and stopFlag[0]:
+                return
+            cnt += 1
+            if not standAloneFlag:
+                value[0] = 5 + (cnt / len(course_numbers)) * 95
+                progressBarUI.progressBar.setValue(value[0])
+            dbAddCourse(getCourseInfo(course_number,
+                                    semesters[len(semesters) - 1]))
+    MainWindow.stopSearch()
+
+
+def sportPackages(SEM):
+    package = preparePackage(SEM, '')
+    package2 = preparePackage(SEM, '')
+    package2['CNM'] = 'חינוך גופני'
+    package['CNM'] = 'ספורט'
+    return [package, package2]
 
 
 def initDB():
@@ -225,7 +221,7 @@ def convertDbEnryToCourse(touple):
 def findCourseInDB(course_number):
     db = sqlite3.connect('./db/courses.db')
     curs = db.cursor()
-    course_number_tup = (course_number,)
+    course_number_tup = (course_number, )
     course = curs.execute('SELECT * FROM courses WHERE  course_number=?',
                           course_number_tup)
     result = course.fetchone()
@@ -260,11 +256,3 @@ def loadCourseNameNumberPairs():
     curs.close()
     db.close()
     return dropdown
-
-
-if __name__ == "__main__":
-    initDB()
-    updateDb(standAloneFlag=True)
-    # a = loadCourseNameNumberPairs()
-    # for b in a:
-    # print(b)

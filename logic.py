@@ -8,6 +8,7 @@ from Ui_maindesign import Ui_MainWindow
 from Ui_progress import ProgressWindowForm
 from Ui_tab import TabPage, createRemoveLineButton
 from scrapper import *
+from time import sleep
 
 
 class MyWindow(QtWidgets.QMainWindow):
@@ -92,7 +93,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.progress_ui = ProgressWindowForm()
         self.progressBar = QtWidgets.QWidget()
         self.progress_ui.setupUi(self.progressBar)
-        self.progressBar.children()[1].children()[3].clicked.connect(self.stopSearch)
+        self.progressBar.children()[1].children()[3].clicked.connect(self.setStop)
         self.progressBar.show()
         self.course_update[0] = 0
         self.threadStop[0] = False
@@ -100,12 +101,19 @@ class MyWindow(QtWidgets.QMainWindow):
             self.ui.courses_tab_widget.widget(tab).children()[8].setEnabled(False)  # search button
             self.ui.courses_tab_widget.widget(tab).children()[8].setToolTip("אמתן לסיום עדכון הנתונים ")
         self.progress_ui.progressBar.setValue(0)
-        self.thread = threading.Thread(target=updateDb, args=[self.course_update, self.progress_ui, self.threadStop])
+        self.thread = threading.Thread(target=updateDb, args=[self, self.course_update, self.progress_ui, self.threadStop])
+        self.thread2 = threading.Thread(target=self.stopSearch, args=[])
         self.thread.start()
+        self.thread2.start()
+
+    def setStop(self):
+        self.threadStop[0] = True
 
     def stopSearch(self):
-        self.threadStop[0] = True
+        while not self.threadStop[0] and self.thread.isAlive:
+            sleep(0.2)
         self.progressBar.close()
+        self.progressBar.destroy()
         for tab in range(self.ui.courses_tab_widget.count()):
             self.ui.courses_tab_widget.widget(tab).children()[8].setEnabled(True)
             self.ui.courses_tab_widget.widget(tab).children()[8].setToolTip("")
@@ -116,7 +124,7 @@ class MyWindow(QtWidgets.QMainWindow):
         if force or ans:
             for tab in range(self.ui.courses_tab_widget.count() - 1, -1, -1):
                 self.removeSemester(tab, force=True)
-        if not force:
+        if not force and ans:
             self.addSemester()
 
     def loadData(self, filename=''):
@@ -621,7 +629,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.not_show_remove_semester = bool(cb.isChecked())
         elif not_show_param == "row":
             self.not_show_remove_course = bool(cb.isChecked())
-        if reply == QtWidgets.QMessageBox.Yes:
+        if reply == 0:
             return True
-        else:
+        elif reply == 1:
             return False

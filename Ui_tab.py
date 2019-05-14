@@ -210,7 +210,7 @@ class TabPage(object):
                         spin_box.setDecimals(1)
                         spin_box.setSingleStep(0.5)
                     else:
-                        spib_box = QtWidgets.QSpinBox()
+                        spin_box = QtWidgets.QSpinBox()
                         spin_box.setSingleStep(1)
                     spin_box.setRange(0, 100)
                     spin_box.setAlignment(QtCore.Qt.AlignCenter)

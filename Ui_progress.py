@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtWidgets
 
 
 class ProgressWindowForm(object):
-    def setupUi(self, Form):
+    def setupUi(self, Form, language):
         Form.setObjectName("Form")
         Form.resize(320, 180)
         Form.setLayoutDirection(QtCore.Qt.RightToLeft)
@@ -30,7 +30,8 @@ class ProgressWindowForm(object):
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
         self.progressBar = QtWidgets.QProgressBar(self.frame)
-        self.progressBar.setLayoutDirection(QtCore.Qt.RightToLeft)
+        if not language:
+            self.progressBar.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.progressBar.setProperty("value", 24)
         self.progressBar.setAlignment(QtCore.Qt.AlignCenter)
         self.progressBar.setOrientation(QtCore.Qt.Horizontal)
@@ -56,10 +57,14 @@ class ProgressWindowForm(object):
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
         self.gridLayout_2.addWidget(self.frame, 0, 0, 1, 1)
 
-        self.retranslateUi(Form)
+        self.retranslateUi(Form, language)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self, Form, language):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "דכון נתונים"))
-        self.pushButton.setText(_translate("Form", "ביטול"))
+        if language:
+            Form.setWindowTitle(_translate("Form", "Update"))
+            self.pushButton.setText(_translate("Form", "Abort"))
+        else:
+            self.pushButton.setText(_translate("Form", "ביטול"))
+            Form.setWindowTitle(_translate("Form", "עדכון נתונים"))

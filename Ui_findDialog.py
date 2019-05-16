@@ -12,7 +12,7 @@ from extended_combo_box import ExtendedComboBox
 
 
 class Ui_course_search(object):
-    def setupUi(self, course_search):
+    def setupUi(self, course_search, english_ui):
         course_search.setObjectName("course_search")
         course_search.resize(498, 443)
         self.gridLayout = QtWidgets.QGridLayout(course_search)
@@ -29,20 +29,26 @@ class Ui_course_search(object):
         self.pushButton.setMaximumSize(QtCore.QSize(50, 16777215))
         self.pushButton.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("images/row-clean.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        if english_ui:
+            icon.addPixmap(QtGui.QPixmap("images/row-clean.svg").transformed(QtGui.QTransform().rotate(180)), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        else:
+            icon.addPixmap(QtGui.QPixmap("images/row-clean.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton.setIcon(icon)
         self.pushButton.setIconSize(QtCore.QSize(32, 32))
         self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout.addWidget(self.pushButton)
         self.comboBox = ExtendedComboBox(course_search)
-        self.comboBox.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.comboBox.setCurrentText("")
         self.comboBox.setMaxVisibleItems(50)
         self.comboBox.setObjectName("comboBox")
-        self.comboBox.lineEdit().setLayoutDirection(QtCore.Qt.RightToLeft)
-        self.comboBox.lineEdit().setLayoutDirection(QtCore.Qt.RightToLeft)
-
-        self.horizontalLayout.addWidget(self.comboBox)
+        if english_ui:
+            self.horizontalLayout.addWidget(self.comboBox)
+            self.horizontalLayout.addWidget(self.pushButton)
+        else:
+            self.horizontalLayout.addWidget(self.pushButton)
+            self.horizontalLayout.addWidget(self.comboBox)
+            self.comboBox.setLayoutDirection(QtCore.Qt.RightToLeft)
+            self.comboBox.lineEdit().setLayoutDirection(QtCore.Qt.RightToLeft)
+            self.comboBox.lineEdit().setLayoutDirection(QtCore.Qt.RightToLeft)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.course_info_label = QtWidgets.QLabel(course_search)
         self.course_info_label.setStyleSheet("font: 12pt \"Noto Sans\";")
@@ -67,23 +73,28 @@ class Ui_course_search(object):
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.gridLayout.addLayout(self.verticalLayout, 1, 0, 1, 1)
 
-        self.retranslateUi(course_search)
+        self.retranslateUi(course_search, english_ui)
         self.pushButton.clearFocus()
         self.pushButton.clicked.connect(self.comboBox.clearEditText)
         QtCore.QMetaObject.connectSlotsByName(course_search)
         course_search.setTabOrder(self.comboBox, self.pushButton)
         course_search.setTabOrder(self.close_search_button, self.find_course_in)
 
-    def retranslateUi(self, course_search):
+    def retranslateUi(self, course_search, english_ui):
         _translate = QtCore.QCoreApplication.translate
-        course_search.setWindowTitle(_translate("course_search", "Dialog"))
-        self.course_num_label.setText(_translate("course_search", "הכנס מספר/שם קורס:"))
-        self.course_info_label.setText(_translate("course_search", "מידע על הקורס:"))
+        if english_ui:
+            self.course_num_label.setText(_translate("course_search", "Enter course number:"))
+            self.course_info_label.setText(_translate("course_search", "Course information:"))
+            self.close_search_button.setText(_translate("course_search", "Close"))
+            self.add_course_button.setText(_translate("course_search", "Add"))
+        else:
+            self.course_num_label.setText(_translate("course_search", "הכנס מספר קורס:"))
+            self.course_info_label.setText(_translate("course_search", "מידע על הקורס:"))
+            self.close_search_button.setText(_translate("course_search", "סגור"))
+            self.add_course_button.setText(_translate("course_search", "הוסף"))
         self.find_course_in.setHtml(_translate("course_search",
                                                "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                "p, li { white-space: pre-wrap; }\n"
                                                "</style></head><body style=\" font-family:\'Noto Sans\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
                                                "<p align=\"right\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.close_search_button.setText(_translate("course_search", "סגור"))
-        self.add_course_button.setText(_translate("course_search", "הוסף"))

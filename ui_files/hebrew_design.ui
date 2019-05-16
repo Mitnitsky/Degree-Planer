@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1680</width>
-    <height>609</height>
+    <width>1696</width>
+    <height>601</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,11 +33,17 @@
              <enum>Qt::LeftToRight</enum>
             </property>
             <property name="text">
-             <string>הוסף סמסטר</string>
+             <string>סמסטר</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../../.designer/backup/images/list-add.svg</normaloff>../../.designer/backup/images/list-add.svg</iconset>
+              <normaloff>../images/list-add.svg</normaloff>../images/list-add.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>16</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -124,35 +130,6 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="semester_table_add_line">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;הוסף שורה&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="layoutDirection">
-                   <enum>Qt::LeftToRight</enum>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="icon">
-                   <iconset>
-                    <normaloff>../../.designer/backup/images/list-add.svg</normaloff>../../.designer/backup/images/list-add.svg</iconset>
-                  </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>32</width>
-                    <height>32</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-                <item>
                  <widget class="QPushButton" name="semester_table_remove_line">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -171,7 +148,36 @@
                   </property>
                   <property name="icon">
                    <iconset>
-                    <normaloff>../../.designer/backup/images/list-remove.svg</normaloff>../../.designer/backup/images/list-remove.svg</iconset>
+                    <normaloff>../images/list-remove.svg</normaloff>../images/list-remove.svg</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>32</width>
+                    <height>32</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="semester_table_add_line">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;הוסף שורה&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="layoutDirection">
+                   <enum>Qt::LeftToRight</enum>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset>
+                    <normaloff>../images/list-add.svg</normaloff>../images/list-add.svg</iconset>
                   </property>
                   <property name="iconSize">
                    <size>
@@ -949,7 +955,7 @@ text-decoration: underline;</string>
                          <string notr="true">font: 57 10pt &quot;Noto Sans&quot;;</string>
                         </property>
                         <property name="text">
-                         <string>שובצו:</string>
+                         <string>נותרו:</string>
                         </property>
                        </widget>
                       </item>
@@ -1244,92 +1250,14 @@ text-decoration: underline;</string>
                      </layout>
                     </item>
                     <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_88">
+                     <layout class="QHBoxLayout" name="horizontalLayout_94">
                       <property name="spacing">
                        <number>12</number>
                       </property>
                       <item>
-                       <widget class="QLabel" name="project_label_7">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>110</width>
-                          <height>16777215</height>
-                         </size>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <underline>true</underline>
-                         </font>
-                        </property>
-                        <property name="text">
-                         <string>פרוייקט:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLineEdit" name="project_done_in_7">
+                       <widget class="QLabel" name="malag_label_">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>75</width>
-                          <height>16777215</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="readOnly">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLineEdit" name="project_of_in_7">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>75</width>
-                          <height>16777215</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string>0</string>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                    <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_89">
-                      <property name="spacing">
-                       <number>12</number>
-                      </property>
-                      <item>
-                       <widget class="QLabel" name="sport_label_7">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                           <horstretch>0</horstretch>
                           <verstretch>0</verstretch>
                          </sizepolicy>
@@ -1345,12 +1273,12 @@ text-decoration: underline;</string>
 text-decoration: underline;</string>
                         </property>
                         <property name="text">
-                         <string>ספורט:</string>
+                         <string>מל&quot;ג:</string>
                         </property>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QLineEdit" name="sport_done_in_7">
+                       <widget class="QLineEdit" name="malag_done_in">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                           <horstretch>0</horstretch>
@@ -1375,7 +1303,7 @@ text-decoration: underline;</string>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QLineEdit" name="sport_of_in_7">
+                       <widget class="QLineEdit" name="malag_of_in">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
                           <horstretch>0</horstretch>
@@ -1476,6 +1404,167 @@ text-decoration: underline;</string>
                      </layout>
                     </item>
                     <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_88">
+                      <property name="spacing">
+                       <number>12</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="project_label_7">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>110</width>
+                          <height>16777215</height>
+                         </size>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <underline>true</underline>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>פרוייקט:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="project_done_in_7">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>75</width>
+                          <height>16777215</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                        <property name="readOnly">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="project_of_in_7">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>75</width>
+                          <height>16777215</height>
+                         </size>
+                        </property>
+                        <property name="layoutDirection">
+                         <enum>Qt::LeftToRight</enum>
+                        </property>
+                        <property name="text">
+                         <string>0</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_89">
+                      <property name="spacing">
+                       <number>12</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="sport_label_7">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>110</width>
+                          <height>16777215</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">font: 10pt &quot;Noto Sans&quot;;
+text-decoration: underline;</string>
+                        </property>
+                        <property name="text">
+                         <string>ספורט:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="sport_done_in_7">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>75</width>
+                          <height>16777215</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                        <property name="readOnly">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="sport_of_in_7">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>75</width>
+                          <height>16777215</height>
+                         </size>
+                        </property>
+                        <property name="layoutDirection">
+                         <enum>Qt::LeftToRight</enum>
+                        </property>
+                        <property name="text">
+                         <string>0</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
                      <layout class="QHBoxLayout" name="horizontalLayout_91">
                       <property name="spacing">
                        <number>12</number>
@@ -1502,11 +1591,11 @@ text-decoration: underline;</string>
                          <enum>Qt::Horizontal</enum>
                         </property>
                         <property name="sizeType">
-                         <enum>QSizePolicy::Expanding</enum>
+                         <enum>QSizePolicy::Fixed</enum>
                         </property>
                         <property name="sizeHint" stdset="0">
                          <size>
-                          <width>109</width>
+                          <width>195</width>
                           <height>20</height>
                          </size>
                         </property>
@@ -1642,7 +1731,7 @@ text-decoration: underline;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1680</width>
+     <width>1696</width>
      <height>36</height>
     </rect>
    </property>
@@ -1653,21 +1742,31 @@ text-decoration: underline;</string>
     <property name="title">
      <string>תפריט</string>
     </property>
-    <addaction name="actionSaveAs"/>
+    <addaction name="actionNew_2"/>
+    <addaction name="actionSave_2"/>
+    <addaction name="actionSaveAs_2"/>
     <addaction name="actionLoad"/>
     <addaction name="separator"/>
-    <addaction name="actionUpdate_Courses_DB"/>
-    <addaction name="action_2"/>
+    <addaction name="actionUpdate_Courses_DB_2"/>
+    <addaction name="action_9"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>שפה</string>
+    </property>
+    <addaction name="actionEnglish"/>
+    <addaction name="actionInfo"/>
    </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionSaveAs">
+  <action name="actionNew">
    <property name="text">
     <string>שמירה בשם</string>
    </property>
   </action>
-  <action name="actionLoad">
+  <action name="actionSave">
    <property name="text">
     <string>טעינה</string>
    </property>
@@ -1682,15 +1781,61 @@ text-decoration: underline;</string>
     <string>מידע</string>
    </property>
   </action>
+  <action name="actionEnglish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionInfo">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>עברית</string>
+   </property>
+  </action>
+  <action name="actionNew_2">
+   <property name="text">
+    <string>חדש</string>
+   </property>
+  </action>
+  <action name="actionSave_2">
+   <property name="text">
+    <string>שמירה</string>
+   </property>
+  </action>
+  <action name="actionSaveAs_2">
+   <property name="text">
+    <string>שמירה בשם</string>
+   </property>
+  </action>
+  <action name="actionLoad">
+   <property name="text">
+    <string>טעינה</string>
+   </property>
+  </action>
+  <action name="actionUpdate_Courses_DB_2">
+   <property name="text">
+    <string>עדכון קורסים</string>
+   </property>
+  </action>
+  <action name="action_9">
+   <property name="text">
+    <string>אודות</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>deg_points_in</tabstop>
   <tabstop>must_of_in</tabstop>
   <tabstop>list_a_of_in_7</tabstop>
-  <tabstop>project_of_in_7</tabstop>
-  <tabstop>sport_of_in_7</tabstop>
   <tabstop>add_semester_but</tabstop>
-  <tabstop>semester_table_add_line</tabstop>
   <tabstop>semester_table_remove_line</tabstop>
   <tabstop>semester_add_course</tabstop>
   <tabstop>english_checkbox_7</tabstop>
@@ -1824,54 +1969,6 @@ text-decoration: underline;</string>
    </hints>
   </connection>
   <connection>
-   <sender>project_of_in_7</sender>
-   <signal>textEdited(QString)</signal>
-   <receiver>project_done_in_7</receiver>
-   <slot>update()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>153</x>
-     <y>348</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>219</x>
-     <y>352</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>sport_of_in_7</sender>
-   <signal>textEdited(QString)</signal>
-   <receiver>sport_done_in_7</receiver>
-   <slot>update()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>188</x>
-     <y>387</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>244</x>
-     <y>386</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>free_done_in_7</sender>
-   <signal>textEdited(QString)</signal>
-   <receiver>free_of_in_7</receiver>
-   <slot>update()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>180</x>
-     <y>440</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>254</x>
-     <y>436</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>english_checkbox_7</sender>
    <signal>stateChanged(int)</signal>
    <receiver>points_in_7</receiver>
@@ -1932,6 +2029,22 @@ text-decoration: underline;</string>
     <hint type="destinationlabel">
      <x>640</x>
      <y>282</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>free_done_in_7</sender>
+   <signal>textEdited(QString)</signal>
+   <receiver>free_of_in_7</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>180</x>
+     <y>440</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>254</x>
+     <y>436</y>
     </hint>
    </hints>
   </connection>

@@ -9,7 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class TabPage(object):
+class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1064, 541)
@@ -182,24 +182,6 @@ class TabPage(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.courses_table_2.setSortingEnabled(True)
-        item = self.courses_table_2.verticalHeaderItem(0)
-        item.setText(_translate("Form", "New Row"))
-        item = self.courses_table_2.verticalHeaderItem(1)
-        item.setText(_translate("Form", "New Row"))
-        item = self.courses_table_2.verticalHeaderItem(2)
-        item.setText(_translate("Form", "New Row"))
-        item = self.courses_table_2.verticalHeaderItem(3)
-        item.setText(_translate("Form", "New Row"))
-        item = self.courses_table_2.verticalHeaderItem(4)
-        item.setText(_translate("Form", "New Row"))
-        item = self.courses_table_2.verticalHeaderItem(5)
-        item.setText(_translate("Form", "New Row"))
-        item = self.courses_table_2.verticalHeaderItem(6)
-        item.setText(_translate("Form", "New Row"))
-        item = self.courses_table_2.verticalHeaderItem(7)
-        item.setText(_translate("Form", "New Row"))
-        item = self.courses_table_2.verticalHeaderItem(8)
-        item.setText(_translate("Form", "New Row"))
         item = self.courses_table_2.horizontalHeaderItem(0)
         item.setText(_translate("Form", "Course"))
         item = self.courses_table_2.horizontalHeaderItem(1)
@@ -215,48 +197,5 @@ class TabPage(object):
         self.semester_average_label_2.setText(_translate("Form", "Average:"))
         self.semester_points_label_2.setText(_translate("Form", "Points:"))
         self.semester_add_course_2.setText(_translate("Form", "Find Course"))
-        
-def createComboBox():
-    combo_box = QtWidgets.QComboBox()
-    combo_box.setFocusPolicy(QtCore.Qt.StrongFocus)
-    combo_box.setLayoutDirection(QtCore.Qt.RightToLeft)
-    combo_box.addItem("חובה")
-    combo_box.addItem("רשימה א")
-    combo_box.addItem("רשימה ב")
-    combo_box.addItem("פרוייקט")
-    combo_box.addItem("מל\"ג")
-    combo_box.addItem("ספורט")
-    combo_box.addItem("חופשי")
-    return combo_box
-
-
-def createRemoveLineButton(line):
-    semester_table_remove_line = QtWidgets.QPushButton()
-    sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.MinimumExpanding,
-            QtWidgets.QSizePolicy.Fixed)
-    sizePolicy.setHorizontalStretch(0)
-    sizePolicy.setVerticalStretch(0)
-    sizePolicy.setHeightForWidth(
-            semester_table_remove_line.sizePolicy().hasHeightForWidth())
-    semester_table_remove_line.setSizePolicy(sizePolicy)
-    semester_table_remove_line.setLayoutDirection(
-            QtCore.Qt.LeftToRight)
-    semester_table_remove_line.setText("")
-    icon1 = QtGui.QIcon()
-    icon1.addPixmap(QtGui.QPixmap("images/row-clean.svg"),
-                    QtGui.QIcon.Normal, QtGui.QIcon.Off)
-    semester_table_remove_line.setIcon(icon1)
-    semester_table_remove_line.setIconSize(QtCore.QSize(32, 32))
-    semester_table_remove_line.setObjectName(
-            line)
-    _translate = QtCore.QCoreApplication.translate
-    semester_table_remove_line.setToolTip(
-            _translate(
-                    "Form",
-                    "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">איפוס שורה</span></p></body></html>"
-            ))
-    return semester_table_remove_line
-
 
 

@@ -135,7 +135,10 @@ def getCourseInfo(course_number, semester):
 def updateDb(MainWindow, value='', progressBarUI='', stopFlag='', standAloneFlag=False):
     initDB()
     if not standAloneFlag:
-        progressBarUI.label.setText("אוסף מידע:")
+        if MainWindow.english_ui:
+            progressBarUI.label.setText("Collecting information:")
+        else:
+            progressBarUI.label.setText("אוסף מידע:")
     semester_tag = "input"
     semester_attrs = {"type": "radio", "name": "SEM"}
     faculties_tag = "option"
@@ -152,7 +155,10 @@ def updateDb(MainWindow, value='', progressBarUI='', stopFlag='', standAloneFlag
         packages.append(preparePackage(combination[0], combination[1]))
     course_numbers = set()
     if not standAloneFlag:
-        progressBarUI.label.setText("(1/2) אוסף מספרי קורסים")
+        if MainWindow.english_ui:
+            progressBarUI.label.setText("(1/2) Collecting course numbers")
+        else:
+            progressBarUI.label.setText("(1/2) אוסף מספרי קורסים")
     for package in packages:
         if MainWindow.progressBar:
             for course in getCourses(search_url, package):
@@ -164,7 +170,10 @@ def updateDb(MainWindow, value='', progressBarUI='', stopFlag='', standAloneFlag
                     return
     counter = 0
     if not standAloneFlag:
-        progressBarUI.label.setText("(2/2) מעדכן קורסים")
+        if language:
+            progressBarUI.label.setText("(2/2) Updating courses:")
+        else:
+            progressBarUI.label.setText("(2/2) מעדכן קורסים")
     for course_number in sorted(course_numbers):
         if MainWindow.progressBar:
             if not standAloneFlag and stopFlag[0]:

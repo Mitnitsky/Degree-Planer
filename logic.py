@@ -54,6 +54,8 @@ class MyWindow(QtWidgets.QMainWindow):
                     self.addSemester()
                     self.saved = True
         except FileNotFoundError:
+            if self.ui.courses_tab_widget.count() == 0:
+                self.addSemester()
             self.update_allowed = True
             self.saved = True
             pass
@@ -82,7 +84,14 @@ class MyWindow(QtWidgets.QMainWindow):
                 return
         if self.searchWindow:
             self.searchWindow.close()
+        self.saveWindowDimensions()
         return super().closeEvent(event)
+
+    def saveWindowDimensions(self):
+        filename = open("dimensions.cfg", "w+")
+        filename.write("width="+str(self.width())+"\n")
+        filename.write("height="+str(self.height())+"\n")
+
 
     def loadLanguage(self):
         try:
@@ -791,7 +800,7 @@ class MyWindow(QtWidgets.QMainWindow):
             if not self.checkIfRowIsEmpty(table, row):
                 emptySemester = False
                 break
-        if force or emptySemester  or (self.english_ui and self.my_close("semester", "Remove non-empty semester?")) or self.my_close("semester", "למחוק סמסטר בעל תוכן?"):
+        if force or emptySemester  or (self.english_ui and self.my_close("semester", "Remove non-empty semester?")) or (not self.english_ui and self.my_close("semester", "למחוק סמסטר בעל תוכן?")):
             self.ui.courses_tab_widget.removeTab(i)
             if self.ui.courses_tab_widget.count() == 0:
                 self.addSemester()

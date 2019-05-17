@@ -11,8 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        width, height = loadDimensions()
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1696, 601)
+        MainWindow.resize(width, height)
         MainWindow.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -823,3 +824,12 @@ def createRemoveLineButton(line):
                     "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">איפוס שורה</span></p></body></html>"
             ))
     return semester_table_remove_line
+
+def loadDimensions():
+        try:
+            file = open("dimensions.cfg", "r")
+            width = file.readline()
+            height = file.readline()
+            return int(width.split("=")[1]), int(height.split("=")[1])
+        except FileNotFoundError:
+            return 1320,565

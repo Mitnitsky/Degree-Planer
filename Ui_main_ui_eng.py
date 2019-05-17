@@ -11,8 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        width, height = loadDimensions()
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1696, 601)
+        MainWindow.resize(width, height)
         MainWindow.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -804,4 +805,12 @@ class Ui_MainWindow(object):
         self.actionUpdate_Courses_DB.setText(_translate("MainWindow", "Update Courses"))
         self.actionInfo.setText(_translate("MainWindow", "Info"))
 
-
+def loadDimensions():
+        try:
+            filename = open("dimensions.cfg", "r")
+            width = filename.readline()
+            height = filename.readline()
+            filename.close()
+            return int(width.split("=")[1]), int(height.split("=")[1])
+        except (FileNotFoundError, ValueError):
+            return 1320,565

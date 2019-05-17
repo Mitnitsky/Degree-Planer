@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import json
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -823,10 +823,9 @@ def createRemoveLineButton(line):
     return semester_table_remove_line
 
 def loadDimensions():
-        try:
-            file = open("dimensions.cfg", "r")
-            width = file.readline()
-            height = file.readline()
-            return int(width.split("=")[1]), int(height.split("=")[1])
-        except FileNotFoundError:
-            return 1320,565
+        with open("settings.json", "r") as read_file:
+            data = json.load(read_file)
+            width = data['dimensions'][0]['width']
+            height = data['dimensions'][0]['height']
+            return width, height
+        return 1320,565

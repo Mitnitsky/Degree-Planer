@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import json
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -803,11 +803,9 @@ class Ui_MainWindow(object):
         self.actionInfo.setText(_translate("MainWindow", "Info"))
 
 def loadDimensions():
-        try:
-            filename = open("dimensions.cfg", "r")
-            width = filename.readline()
-            height = filename.readline()
-            filename.close()
-            return int(width.split("=")[1]), int(height.split("=")[1])
-        except (FileNotFoundError, ValueError):
-            return 1320,565
+        with open("settings.json", "r") as read_file:
+            data = json.load(read_file)
+            width = data['dimensions'][0]['width']
+            height = data['dimensions'][0]['height']
+            return width, height
+        return 1320,565

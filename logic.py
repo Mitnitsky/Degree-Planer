@@ -1,6 +1,6 @@
 import pickle
 import threading
-
+import json
 from PyQt5 import QtCore, QtWidgets
 
 from Ui_findDialog import Ui_course_search
@@ -39,17 +39,20 @@ class MyWindow(QtWidgets.QMainWindow):
         self.show()
         self.setEventHandlers()
         try:
-            file = open('settings.cfg', "r")
+            file = open('settings.json', "r")
             if file:
-                filename = file.readline()
-                if '.dps' in filename:
-                    if self.loadData(filename):
-                        self.saveFileName = filename
+                data = json.load(file)
+                if '.dps' in data['save_file']:
+                    if self.loadData(data['save_file']):
+                        self.saveFileName = data['save_file']
                         file.close()
                     else:
+                        data['save_file'] = ""
                         file.close()
-                        file = open('settings.cfg', "w")
-                        file.write("")
+                        file = open('settings.json', "w")
+                        json.dump(data, file, indent=4)
+                        file.close()
+
                 if self.ui.courses_tab_widget.count() == 0:
                     self.addSemester()
                     self.saved = True
@@ -88,25 +91,24 @@ class MyWindow(QtWidgets.QMainWindow):
         return super().closeEvent(event)
 
     def saveWindowDimensions(self):
-        filename = open("dimensions.cfg", "w+")
-        filename.write("width="+str(self.width())+"\n")
-        filename.write("height="+str(self.height())+"\n")
+        filename = open("settings.json", "r")
+        if filename:
+            data = json.load(filename)
+            filename.close()
+            data['dimensions'][0]['width'] = self.width()
+            data['dimensions'][0]['height'] = self.height()
+            with open("settings.json", "w") as write_file:
+                json.dump(data,write_file, indent=4)
 
 
     def loadLanguage(self):
-        try:
-            filename = open("lng.cfg", "r")
-            language = filename.readline()
-            filename.close()
-            if filename:
-                if 'language=eng' in language:
-                    return True
-                elif 'language=heb':
-                    return False
-            else:
+        with open("settings.json", "r") as read_file:
+            data = json.load(read_file)
+            if data['language'] == 'heb':
                 return False
-        except FileNotFoundError:
-            return False
+            elif data['language'] == 'eng':
+                return True
+        return False
 
     def languageChange(self, language):
         if self.english_ui and language == 'eng':
@@ -118,17 +120,23 @@ class MyWindow(QtWidgets.QMainWindow):
             self.english_ui = False
             self.ui = Ui_main_ui_heb.Ui_MainWindow()
             self.ui.setupUi(self)
-            filename = open("lng.cfg", "w+")
-            filename.write("language=heb")
-            filename.close()
+            with open("settings.json", "r+") as read_file:
+                data_json = json.load(read_file)
+                data_json['language'] = 'heb'
+                read_file.seek(0)
+                json.dump(data_json, read_file, indent=4)
+                read_file.truncate()
         elif not self.english_ui and language == 'eng':
             data = self.extractData()
             self.english_ui = True
             self.ui = Ui_MainWindow()
             self.ui.setupUi(self)
-            filename = open("lng.cfg", "w+")
-            filename.write("language=eng")
-            filename.close()
+            with open("settings.json", "r+") as read_file:
+                data_json = json.load(read_file)
+                data_json['language'] = 'eng'
+                read_file.seek(0)
+                json.dump(data_json, read_file, indent=4)
+                read_file.truncate()
         self.setEventHandlers()
         self.loadData('', data)
 
@@ -222,9 +230,8 @@ class MyWindow(QtWidgets.QMainWindow):
                     anwser = self.warningMsg('', "Do you want save all the changes?")
                 else:
                     anwser = self.warningMsg('', "שינויים שלא נשמרו ימחקו")
-                if not anwser:
-                    self.update_allowed = True
-                    return
+                if anwser:
+                    self.saveData()
             if filename == '' or not filename:
                 filename = QtWidgets.QFileDialog.getOpenFileName(self, 'טעינה', '', "Save files (*.dps)")
                 if filename[0] == '':
@@ -238,13 +245,6 @@ class MyWindow(QtWidgets.QMainWindow):
             try:
                 filename = open(filename, "rb")
             except FileNotFoundError:
-                if self.english_ui:
-                    self.errorMsg("Couldn't open the file")
-                else:
-                    self.errorMsg("פתיחת קובץ כשלה")
-                self.update_allowed = True
-                return False
-            if not filename:
                 if self.english_ui:
                     self.errorMsg("Couldn't open the file")
                 else:
@@ -379,11 +379,13 @@ class MyWindow(QtWidgets.QMainWindow):
             return
         byte_array = self.extractData()
         file.write(pickle.dumps(byte_array))
-        #Caching the filename in settings.cfg in order to use save function seamlessly afterwards
-        cache = open('settings.cfg', 'w+')
-        if not cache:
-            return
-        cache.write(self.saveFileName)
+        #Caching the filename in settings.json in order to use save function seamlessly afterwards
+        with open('settings.json', 'r+') as write_file:
+            data_json = json.load(write_file)
+            data_json['save_file'] = self.saveFileName
+            write_file.seek(0)
+            json.dump(data_json, write_file, indent=4)
+            write_file.truncate()
         self.saved = True
 
     # The function extracts all the user-input data and returns it in 3-dimensional array.

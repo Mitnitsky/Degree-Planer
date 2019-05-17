@@ -50,8 +50,12 @@ class MyWindow(QtWidgets.QMainWindow):
                         file.close()
                         file = open('settings.cfg', "w")
                         file.write("")
+                if self.ui.courses_tab_widget.count() == 0:
+                    self.addSemester()
+                    self.saved = True
         except FileNotFoundError:
             self.update_allowed = True
+            self.saved = True
             pass
         self.firstStart = False
 

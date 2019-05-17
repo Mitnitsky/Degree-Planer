@@ -19,10 +19,12 @@ class MyWindow(QtWidgets.QMainWindow):
         initDB()
         self.searchWindow = False
         self.update_allowed = True
-        self.english_ui = True
-        self.ui = Ui_MainWindow()
+        self.english_ui = self.loadLanguage()
+        if self.english_ui:
+            self.ui = Ui_MainWindow()
+        else:
+            self.ui = Ui_main_ui_heb.Ui_MainWindow()
         self.ui.setupUi(self)
-        self.addSemester()
         self.not_show_remove_course = False
         self.not_show_remove_semester = False
         self.threadStop = [False]
@@ -78,6 +80,21 @@ class MyWindow(QtWidgets.QMainWindow):
             self.searchWindow.close()
         return super().closeEvent(event)
 
+    def loadLanguage(self):
+        try:
+            filename = open("lng.cfg", "r")
+            language = filename.readline()
+            filename.close()
+            if filename:
+                if 'language=eng' in language:
+                    return True
+                elif 'language=heb':
+                    return False
+            else:
+                return False
+        except FileNotFoundError:
+            return False
+
     def languageChange(self, language):
         if self.english_ui and language == 'eng':
             return
@@ -88,11 +105,17 @@ class MyWindow(QtWidgets.QMainWindow):
             self.english_ui = False
             self.ui = Ui_main_ui_heb.Ui_MainWindow()
             self.ui.setupUi(self)
+            filename = open("lng.cfg", "w+")
+            filename.write("language=heb")
+            filename.close()
         elif not self.english_ui and language == 'eng':
             data = self.extractData()
             self.english_ui = True
             self.ui = Ui_MainWindow()
             self.ui.setupUi(self)
+            filename = open("lng.cfg", "w+")
+            filename.write("language=eng")
+            filename.close()
         self.setEventHandlers()
         self.loadData('', data)
 
@@ -174,7 +197,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.ui.must_of_in.setValue(0.0)
             self.ui.english_checkbox_7.setChecked(False)
             self.update()
-        if not forced and anwser:
+        if  self.ui.courses_tab_widget.count() == 0:
             self.addSemester()
 
     # Load saved data from file using pickle module
@@ -183,7 +206,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.update_allowed = False
             if not self.firstStart:
                 if self.english_ui:
-                    anwser = self.warningMsg('', "None saved data will be erased")
+                    anwser = self.warningMsg('', "Do you want save all the changes?")
                 else:
                     anwser = self.warningMsg('', "שינויים שלא נשמרו ימחקו")
                 if not anwser:
@@ -238,8 +261,11 @@ class MyWindow(QtWidgets.QMainWindow):
             # [i]-semester
             # [i][j]-row
             # [i][j][k]-column
+            firstSem = True
             for semester in content:
-                self.addSemester()
+                if not firstSem:
+                    self.addSemester()
+                firstSem = False
                 if self.english_ui:
                     table = self.ui.courses_tab_widget.widget(index).children()[1]
                 else:
@@ -451,8 +477,9 @@ class MyWindow(QtWidgets.QMainWindow):
     def addCourseContent(self, course_num, table):
         course = findCourseInDB(course_num)
         if self.courseInTable(table, str(course.number)):
-            if not (self.english_ui or self.warningMsg(msg="Course " + str(course.number) + " exist in the table, add again?")) or self.warningMsg(msg="הקורס " + str(course.number) + " קיים בטבלה, להוסיף שוב?"):
-                return
+            if not (self.english_ui and self.warningMsg(msg="Course " + str(course.number) + " exist in the table, add again?")) \
+                or self.warningMsg(msg="הקורס " + str(course.number) + " קיים בטבלה, להוסיף שוב?"):
+                    return
         row = self.findEmptyRow(table)
         course_num = QtWidgets.QTableWidgetItem()
         course_num.setText(str(course.number))

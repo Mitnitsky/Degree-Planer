@@ -6,8 +6,10 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
 import json
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -44,8 +46,8 @@ class Ui_MainWindow(object):
         self.progress_label_8.setFont(font)
         self.progress_label_8.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.progress_label_8.setStyleSheet("font: 13pt \"Noto Sans\";\n"
-"text-decoration: underline;")
-        self.progress_label_8.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
+                                            "text-decoration: underline;")
+        self.progress_label_8.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
         self.progress_label_8.setObjectName("progress_label_8")
         self.verticalLayout_15.addWidget(self.progress_label_8)
         self.frame_11 = QtWidgets.QFrame(self.centralwidget)
@@ -126,7 +128,7 @@ class Ui_MainWindow(object):
         self.average_lab_7.setSizePolicy(sizePolicy)
         self.average_lab_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.average_lab_7.setFont(font)
         self.average_lab_7.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.average_lab_7.setObjectName("average_lab_7")
@@ -156,7 +158,7 @@ class Ui_MainWindow(object):
         self.points_label_7.setSizePolicy(sizePolicy)
         self.points_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.points_label_7.setFont(font)
         self.points_label_7.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.points_label_7.setObjectName("points_label_7")
@@ -186,7 +188,7 @@ class Ui_MainWindow(object):
         self.points_left_label_7.setSizePolicy(sizePolicy)
         self.points_left_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.points_left_label_7.setFont(font)
         self.points_left_label_7.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.points_left_label_7.setObjectName("points_left_label_7")
@@ -216,13 +218,14 @@ class Ui_MainWindow(object):
         self.points_left_to_choose_label_7.setSizePolicy(sizePolicy)
         self.points_left_to_choose_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.points_left_to_choose_label_7.setFont(font)
         self.points_left_to_choose_label_7.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.points_left_to_choose_label_7.setObjectName("points_left_to_choose_label_7")
         self.horizontalLayout_83.addWidget(self.points_left_to_choose_label_7)
         self.verticalLayout_21.addLayout(self.horizontalLayout_83)
-        spacerItem = QtWidgets.QSpacerItem(20, 77, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
+        spacerItem = QtWidgets.QSpacerItem(20, 77, QtWidgets.QSizePolicy.Minimum,
+                                           QtWidgets.QSizePolicy.MinimumExpanding)
         self.verticalLayout_21.addItem(spacerItem)
         self.gridLayout_7.addLayout(self.verticalLayout_21, 0, 0, 1, 1)
         self.frame_3 = QtWidgets.QFrame(self.frame_11)
@@ -331,7 +334,7 @@ class Ui_MainWindow(object):
         self.must_label.setSizePolicy(sizePolicy)
         self.must_label.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.must_label.setFont(font)
         self.must_label.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.must_label.setObjectName("must_label")
@@ -377,7 +380,7 @@ class Ui_MainWindow(object):
         self.list_a_label_7.setSizePolicy(sizePolicy)
         self.list_a_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.list_a_label_7.setFont(font)
         self.list_a_label_7.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.list_a_label_7.setObjectName("list_a_label_7")
@@ -423,7 +426,7 @@ class Ui_MainWindow(object):
         self.list_b_label_7.setSizePolicy(sizePolicy)
         self.list_b_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.list_b_label_7.setFont(font)
         self.list_b_label_7.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.list_b_label_7.setObjectName("list_b_label_7")
@@ -557,7 +560,7 @@ class Ui_MainWindow(object):
         self.project_label_7.setSizePolicy(sizePolicy)
         self.project_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.project_label_7.setFont(font)
         self.project_label_7.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.project_label_7.setObjectName("project_label_7")
@@ -672,7 +675,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.courses_tab_widget = QtWidgets.QTabWidget(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding,
+                                           QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.courses_tab_widget.sizePolicy().hasHeightForWidth())
@@ -771,7 +775,8 @@ class Ui_MainWindow(object):
         self.points_left_label_7.setText(_translate("MainWindow", "Points left:"))
         self.points_left_to_choose_label_7.setText(_translate("MainWindow", "Not chosen:"))
         self.done_label_7.setText(_translate("MainWindow", "Left:"))
-        self.of_label_7.setToolTip(_translate("MainWindow", "<html><head/><body><p>You have to fill this column.</p></body></html>"))
+        self.of_label_7.setToolTip(
+            _translate("MainWindow", "<html><head/><body><p>You have to fill this column.</p></body></html>"))
         self.of_label_7.setText(_translate("MainWindow", "Of:"))
         self.must_of_in.setValue(0)
         self.must_label.setText(_translate("MainWindow", "Mandatory:"))
@@ -802,10 +807,11 @@ class Ui_MainWindow(object):
         self.actionUpdate_Courses_DB.setText(_translate("MainWindow", "Update Courses"))
         self.actionInfo.setText(_translate("MainWindow", "Info"))
 
+
 def loadDimensions():
-        with open("settings.json", "r") as read_file:
-            data = json.load(read_file)
-            width = data['dimensions'][0]['width']
-            height = data['dimensions'][0]['height']
-            return width, height
-        return 1320,565
+    with open("settings.json", "r") as read_file:
+        data = json.load(read_file)
+        width = data['dimensions'][0]['width']
+        height = data['dimensions'][0]['height']
+        return width, height
+    return 1320, 565

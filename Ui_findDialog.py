@@ -8,7 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from extended_combo_box import ExtendedComboBox
+from Ui_combo_box import ExtendedComboBox
 
 
 class Ui_course_search(object):
@@ -30,7 +30,8 @@ class Ui_course_search(object):
         self.pushButton.setText("")
         icon = QtGui.QIcon()
         if english_ui:
-            icon.addPixmap(QtGui.QPixmap("images/row-clean.svg").transformed(QtGui.QTransform().rotate(180)), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            icon.addPixmap(QtGui.QPixmap("images/row-clean.svg").transformed(QtGui.QTransform().rotate(180)),
+                           QtGui.QIcon.Normal, QtGui.QIcon.Off)
         else:
             icon.addPixmap(QtGui.QPixmap("images/row-clean.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton.setIcon(icon)
@@ -59,7 +60,7 @@ class Ui_course_search(object):
         self.find_course_in.setLocale(QtCore.QLocale(QtCore.QLocale.Hebrew, QtCore.QLocale.Israel))
         self.find_course_in.setAutoFormatting(QtWidgets.QTextEdit.AutoNone)
         self.find_course_in.setTextInteractionFlags(
-            QtCore.Qt.TextSelectableByKeyboard | QtCore.Qt.TextSelectableByMouse)
+                QtCore.Qt.TextSelectableByKeyboard | QtCore.Qt.TextSelectableByMouse)
         self.find_course_in.setObjectName("find_course_in")
         self.verticalLayout.addWidget(self.find_course_in)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()

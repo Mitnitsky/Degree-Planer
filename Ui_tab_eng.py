@@ -227,11 +227,14 @@ class TabPage(object):
         item.setText(_translate("Form", "Points"))
         item = self.courses_table.horizontalHeaderItem(4)
         item.setText(_translate("Form", "Grade"))
-        self.semester_table_add_line.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Add line</span></p></body></html>"))
-        self.semester_table_remove_line.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Remove line</span></p></body></html>"))
+        self.semester_table_add_line.setToolTip(_translate("Form",
+                                                           "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Add line</span></p></body></html>"))
+        self.semester_table_remove_line.setToolTip(_translate("Form",
+                                                              "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Remove line</span></p></body></html>"))
         self.semester_average_label.setText(_translate("Form", "Average:"))
         self.semester_points_label.setText(_translate("Form", "Points:"))
         self.semester_add_course.setText(_translate("Form", "Find Course"))
+
 
 def createComboBox():
     combo_box = QtWidgets.QComboBox()

@@ -1,10 +1,10 @@
 {
-    "save_file": "/home/vov4ik/Projects/DegreePlaner/my_sa2ve.dps",
-    "language": "eng",
+    "save_file": "/home/vov4ik/Projects/DegreePlaner/my_save.dps",
+    "language": "heb",
     "dimensions": [
         {
-            "width": 1320,
-            "height": 565
+            "width": 1646,
+            "height": 623
         }
     ]
 }

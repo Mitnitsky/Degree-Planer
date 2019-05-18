@@ -6,8 +6,10 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
 import json
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -33,7 +35,8 @@ class Ui_MainWindow(object):
         self.add_semester_but.setObjectName("add_semester_but")
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.courses_tab_widget = QtWidgets.QTabWidget(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding,
+                                           QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.courses_tab_widget.sizePolicy().hasHeightForWidth())
@@ -67,8 +70,8 @@ class Ui_MainWindow(object):
         self.progress_label_8.setFont(font)
         self.progress_label_8.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.progress_label_8.setStyleSheet("font: 16pt \"Noto Sans\";\n"
-"text-decoration: underline;")
-        self.progress_label_8.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
+                                            "text-decoration: underline;")
+        self.progress_label_8.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
         self.progress_label_8.setObjectName("progress_label_8")
         self.verticalLayout_15.addWidget(self.progress_label_8)
         self.frame_11 = QtWidgets.QFrame(self.centralwidget)
@@ -135,7 +138,7 @@ class Ui_MainWindow(object):
         self.average_lab_7.setSizePolicy(sizePolicy)
         self.average_lab_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.average_lab_7.setFont(font)
         self.average_lab_7.setObjectName("average_lab_7")
         self.horizontalLayout_80.addWidget(self.average_lab_7)
@@ -163,7 +166,7 @@ class Ui_MainWindow(object):
         self.points_label_7.setSizePolicy(sizePolicy)
         self.points_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.points_label_7.setFont(font)
         self.points_label_7.setObjectName("points_label_7")
         self.horizontalLayout_81.addWidget(self.points_label_7)
@@ -191,7 +194,7 @@ class Ui_MainWindow(object):
         self.points_left_label_7.setSizePolicy(sizePolicy)
         self.points_left_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.points_left_label_7.setFont(font)
         self.points_left_label_7.setObjectName("points_left_label_7")
         self.horizontalLayout_82.addWidget(self.points_left_label_7)
@@ -219,7 +222,7 @@ class Ui_MainWindow(object):
         self.points_left_to_choose_label_7.setSizePolicy(sizePolicy)
         self.points_left_to_choose_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.points_left_to_choose_label_7.setFont(font)
         self.points_left_to_choose_label_7.setObjectName("points_left_to_choose_label_7")
         self.horizontalLayout_83.addWidget(self.points_left_to_choose_label_7)
@@ -236,7 +239,8 @@ class Ui_MainWindow(object):
         self.points_left_to_choose_in_7.setObjectName("points_left_to_choose_in_7")
         self.horizontalLayout_83.addWidget(self.points_left_to_choose_in_7)
         self.verticalLayout_21.addLayout(self.horizontalLayout_83)
-        spacerItem5 = QtWidgets.QSpacerItem(20, 77, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
+        spacerItem5 = QtWidgets.QSpacerItem(20, 77, QtWidgets.QSizePolicy.Minimum,
+                                            QtWidgets.QSizePolicy.MinimumExpanding)
         self.verticalLayout_21.addItem(spacerItem5)
         self.gridLayout_7.addLayout(self.verticalLayout_21, 0, 0, 1, 1)
         self.horizontalLayout_44.addWidget(self.frame)
@@ -315,7 +319,7 @@ class Ui_MainWindow(object):
         self.must_label.setSizePolicy(sizePolicy)
         self.must_label.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.must_label.setFont(font)
         self.must_label.setObjectName("must_label")
         self.horizontalLayout_92.addWidget(self.must_label)
@@ -359,7 +363,7 @@ class Ui_MainWindow(object):
         self.list_a_label_7.setSizePolicy(sizePolicy)
         self.list_a_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.list_a_label_7.setFont(font)
         self.list_a_label_7.setObjectName("list_a_label_7")
         self.horizontalLayout_86.addWidget(self.list_a_label_7)
@@ -403,7 +407,7 @@ class Ui_MainWindow(object):
         self.list_b_label_7.setSizePolicy(sizePolicy)
         self.list_b_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.list_b_label_7.setFont(font)
         self.list_b_label_7.setObjectName("list_b_label_7")
         self.horizontalLayout_87.addWidget(self.list_b_label_7)
@@ -531,7 +535,7 @@ class Ui_MainWindow(object):
         self.project_label_7.setSizePolicy(sizePolicy)
         self.project_label_7.setMaximumSize(QtCore.QSize(110, 16777215))
         font = QtGui.QFont()
-        #font.setUnderline(True)
+        # font.setUnderline(True)
         self.project_label_7.setFont(font)
         self.project_label_7.setObjectName("project_label_7")
         self.horizontalLayout_88.addWidget(self.project_label_7)
@@ -822,10 +826,11 @@ def createRemoveLineButton(line):
             ))
     return semester_table_remove_line
 
+
 def loadDimensions():
-        with open("settings.json", "r") as read_file:
-            data = json.load(read_file)
-            width = data['dimensions'][0]['width']
-            height = data['dimensions'][0]['height']
-            return width, height
-        return 1320,565
+    with open("settings.json", "r") as read_file:
+        data = json.load(read_file)
+        width = data['dimensions'][0]['width']
+        height = data['dimensions'][0]['height']
+        return width, height
+    return 1320, 565

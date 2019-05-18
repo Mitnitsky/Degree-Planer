@@ -1,6 +1,7 @@
 import pickle
 
-#Technion courses class
+
+# Technion courses class
 # contains information about an course
 # e.g:
 #   name   = "מערכות הפעלה"
@@ -8,7 +9,7 @@ import pickle
 #   dependencies = {[234218]} courses which are pre-requisite
 #   parallel = {[234118]} courses which are either pre-requisite or must be taken together with the course
 #   similarities = {[]} courses which are similar to this course
-#   incluse = {[]} courses which are included in this course and covered by it
+#   inclusive = {[]} courses which are included in this course and covered by it
 class Course:
     def __init__(self):
         self.name = ""
@@ -42,7 +43,8 @@ class Course:
 
     def add_parallel(self, courses):
         self.parallel.update(courses)
-    #Prepare the course data into a list to insert into DB (some is getting serialized)
+
+    # Prepare the course data into a list to insert into DB (some is getting serialized)
     def to_list(self):
         return [
                 self.name, self.number, self.points,
@@ -74,13 +76,14 @@ class Course:
             return ""
 
     def __repr__(self):
-        repr = "שם הקורס: {} \n".format(self.name) \
-               + "מספר קורס: {} \n".format(self.number) \
-               + ("מס' נקודות: {} \n".format(self.points) if self.points > 0 else "") \
-               + ("מקצועות קדם: {} \n".format(self.reprDependencies()) if len(self.dependencies) > 0 else "") \
-               + ("מקצועות צמודים: {} \n".format(self.repOtherData(self.parallel)) if len(self.parallel) > 0 else "") \
-               + ("מקצועות ללא זיכוי נוסף: {} \n".format(self.repOtherData(self.similarities)) if len(
-            self.similarities) > 0 else "") \
-               + ("מקצועות ללא זיכוי נוסף (מוכלים): {} \n".format(self.repOtherData(self.inclusive)) if len(
-            self.inclusive) > 0 else "")
-        return repr
+        represent = "שם הקורס: {} \n".format(self.name) \
+                    + "מספר קורס: {} \n".format(self.number) \
+                    + ("מס' נקודות: {} \n".format(self.points) if self.points > 0 else "") \
+                    + ("מקצועות קדם: {} \n".format(self.reprDependencies()) if len(self.dependencies) > 0 else "") \
+                    + ("מקצועות צמודים: {} \n".format(self.repOtherData(self.parallel)) if len(
+                self.parallel) > 0 else "") \
+                    + ("מקצועות ללא זיכוי נוסף: {} \n".format(self.repOtherData(self.similarities)) if len(
+                self.similarities) > 0 else "") \
+                    + ("מקצועות ללא זיכוי נוסף (מוכלים): {} \n".format(self.repOtherData(self.inclusive)) if len(
+                self.inclusive) > 0 else "")
+        return represent

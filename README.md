@@ -30,7 +30,7 @@ pip install PyQt5
 
 Windows:
 
-[v1.1 Degree_installer.exe](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.1/degree_planner_install.exe)
+[v1.2 Degree_installer.exe](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.2/degree_planner_install.exe)
 
 1.Download
 
@@ -40,7 +40,7 @@ Windows:
 
 Linux:
 
-[v1.1 DegreePlanner.zip](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.1/degreePlanner.zip)
+[v1.2 DegreePlanner.zip](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.2/degreePlanner.zip)
 
 1.Download
 

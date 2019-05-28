@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="923052ae-4d6e-4a28-b4ab-d5d28fb12001" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ui_eng_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_tab_eng.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ui_findDialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_findDialog.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ui_heb_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_tab_heb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ui_main_ui_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_main_eng.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ui_main_ui_heb.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_main_heb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/course.py" beforeDir="false" afterPath="$PROJECT_DIR$/course.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extended_combo_box.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_combo_box.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py_install_build.bat" beforeDir="false" afterPath="$PROJECT_DIR$/py_install_build.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyinstaller_build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/pyinstaller_build.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/scrapper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/settings.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -59,7 +47,7 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -129,6 +117,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -144,7 +133,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -319,16 +307,17 @@
       <workItem from="1558164453944" duration="326000" />
       <workItem from="1558164793808" duration="1007000" />
       <workItem from="1558165820411" duration="3565000" />
+      <workItem from="1558293011068" duration="2000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63518000" />
+    <option name="totallyTimeSpent" value="63520000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="34" width="1280" height="1406" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28687197" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2917342" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -682,9 +671,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/setting2s.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/setting2s.json" />
     <entry file="file://$PROJECT_DIR$/my_save.dps">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>

@@ -232,7 +232,7 @@ class MyWindow(QtWidgets.QMainWindow):
                 if self.english_ui:
                     answer = self.warningMsg('', "Do you want save all the changes?")
                 else:
-                    answer = self.warningMsg('', "שינויים שלא נשמרו ימחקו")
+                    answer = self.warningMsg('', "שינויים שלא נשמרו ימחקו, לשמור?")
                 if answer:
                     self.saveData()
             if filename == '' or not filename:

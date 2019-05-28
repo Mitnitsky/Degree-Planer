@@ -765,7 +765,7 @@ class Ui_MainWindow(object):
         self.project_of_in_7.setValue(0.0)
         self.sport_label_7.setText(_translate("MainWindow", "ספורט:"))
         self.sport_of_in_7.setValue(0.0)
-        self.english_checkbox_7.setText(_translate("MainWindow", "פתור באנגלית"))
+        self.english_checkbox_7.setText(_translate("MainWindow", "פטור מאנגלית"))
         self.deg_points_label.setToolTip(_translate("MainWindow", "<html><head/><body><p>יש למלא</p></body></html>"))
         self.deg_points_label.setText(_translate("MainWindow", "נקודות לתואר:"))
         self.deg_points_in.setValue(0)

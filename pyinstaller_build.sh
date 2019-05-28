@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-python -OO -m PyInstaller main.py \
+pyinstaller main.py \
         --clean \
 	-D \
 	--name degreePlanner \

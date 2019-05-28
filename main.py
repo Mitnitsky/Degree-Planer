@@ -46,4 +46,4 @@ if __name__ == "__main__":
         # Windows case
         app.setStyle('Fusion')
     application = MyWindow()
-    exit(app.exec())
+    app.exec_()

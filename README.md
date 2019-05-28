@@ -24,6 +24,8 @@ Those are required in order to run the python script without installation:
 pip install bs4
 pip install requests
 pip install PyQt5
+pip install html5
+pip install lxml
 ```
 
 ## Installation

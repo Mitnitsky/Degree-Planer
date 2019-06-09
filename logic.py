@@ -492,11 +492,18 @@ class MyWindow(QtWidgets.QMainWindow):
     # Function which adds the course content into the table on current open semester in an empty row
     def addCourseContent(self, course_num, table):
         course = findCourseInDB(course_num)
-        if self.courseInTable(table, str(course.number)):
-            if not (self.english_ui and self.warningMsg(
-                    msg="Course " + str(course.number) + " exist in the table, add again?")) \
-                    or self.warningMsg(msg="הקורס " + str(course.number) + " קיים בטבלה, להוסיף שוב?"):
-                return
+        for i in range(0, self.ui.courses_tab_widget.count()):
+            if self.english_ui:
+                semester_table = self.ui.courses_tab_widget.widget(i).children()[1]
+            else:
+                semester_table = self.ui.courses_tab_widget.widget(i).children()[7]
+            if self.courseInTable(semester_table, str(course.number)):
+                if self.english_ui:
+                    if not self.warningMsg(msg="Course " + str(course.number) + " exist in the table, add again?"+"\n(In Semester"+str(i+1)+")"):
+                        return
+                else:
+                    if not self.warningMsg(msg="הקורס " + str(course.number) + " קיים בטבלה, להוסיף שוב?"+"\n(בסמסטר "+str(i+1)+")"):
+                        return
         row = self.findEmptyRow(table)
         course_num = QtWidgets.QTableWidgetItem()
         course_num.setText(str(course.number))

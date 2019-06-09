@@ -24,13 +24,15 @@ Those are required in order to run the python script without installation:
 pip install bs4
 pip install requests
 pip install PyQt5
+pip install html5
+pip install lxml
 ```
 
 ## Installation
 
 Windows:
 
-[v1.1 Degree_installer.exe](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.1/degree_planner_install.exe)
+[v1.2 Degree_installer.exe](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.2/degree_planner_install.exe)
 
 1.Download
 
@@ -40,7 +42,7 @@ Windows:
 
 Linux:
 
-[v1.1 DegreePlanner.zip](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.1/degreePlanner.zip)
+[v1.2 DegreePlanner.zip](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.2/degreePlanner.zip)
 
 1.Download
 

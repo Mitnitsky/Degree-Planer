@@ -454,7 +454,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.searchWindow = QtWidgets.QWidget()
         self.search_ui = Ui_course_search()
         self.search_ui.setupUi(self.searchWindow, self.english_ui)
-        # db_pairs contains all courses from the technion for quicklookup
+        # db_pairs contains all courses from the technion for quick lookup
         # in the following format "<course-name> - <course-number>"
         for course in self.db_pairs:
             self.searchWindow.children()[3].addItem(course)
@@ -473,8 +473,10 @@ class MyWindow(QtWidgets.QMainWindow):
     # the function updates the additional information about the course
     def findCourse(self):
         if self.searchWindow.children()[3].currentText() != '':
-            self.searchWindow.children()[6].setPlainText(
-                repr(findCourseInDB(self.searchWindow.children()[3].currentText().split(" - ")[0])))
+            course = findCourseInDB(self.searchWindow.children()[3].currentText().split(" - ")[0])
+            if self.english_ui:
+                course.english = True
+            self.searchWindow.children()[6].setPlainText(repr(course))
         else:
             self.searchWindow.children()[6].setPlainText("")
 
@@ -580,6 +582,8 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def checkDependencies(self, table, course_number, current_semester):
         course = findCourseInDB(course_number)
+        if "השלמות" in course.name:
+            return True
         if len(course.dependencies) == 0 and len(course.parallel) == 0:
             return True
         dependencies = []

@@ -19,6 +19,7 @@ class Course:
         self.parallel = set()
         self.similarities = set()
         self.inclusive = set()
+        self.english = False
 
     def set_name(self, name):
         self.name = name
@@ -47,22 +48,28 @@ class Course:
     # Prepare the course data into a list to insert into DB (some is getting serialized)
     def to_list(self):
         return [
-                self.name, self.number, self.points,
-                pickle.dumps(self.dependencies),
-                pickle.dumps(self.parallel),
-                pickle.dumps(self.similarities),
-                pickle.dumps(self.inclusive)
+            self.name, self.number, self.points,
+            pickle.dumps(self.dependencies),
+            pickle.dumps(self.parallel),
+            pickle.dumps(self.similarities),
+            pickle.dumps(self.inclusive)
         ]
 
-    def reprDependencies(self):
+    def reprDependencies(self, english=False):
         if len(self.dependencies) > 0:
             result = []
-            humanify = str.maketrans({",": " ו-", "'": None})
+            if english:
+                humanify = str.maketrans({",": " and", "'": None})
+            else:
+                humanify = str.maketrans({",": " ו-", "'": None})
             separator = ""
             for depend in self.dependencies:
                 result.append(separator)
                 result.append(str(depend).translate(humanify))
-                separator = " או- "
+                if english:
+                    separator = " or "
+                else:
+                    separator = " או- "
             return ''.join(result)
         else:
             return ""
@@ -76,14 +83,26 @@ class Course:
             return ""
 
     def __repr__(self):
-        represent = "שם הקורס: {} \n".format(self.name) \
-                    + "מספר קורס: {} \n".format(self.number) \
-                    + ("מס' נקודות: {} \n".format(self.points) if self.points > 0 else "") \
-                    + ("מקצועות קדם: {} \n".format(self.reprDependencies()) if len(self.dependencies) > 0 else "") \
-                    + ("מקצועות צמודים: {} \n".format(self.repOtherData(self.parallel)) if len(
+        if self.english:
+            represent = "Course name: {} \n".format(self.name) \
+                        + "Course number: {} \n".format(self.number) \
+                        + ("Points: {} \n".format(self.points) if self.points > 0 else "") \
+                        + ("Pre-requisites: {} \n".format(self.reprDependencies(english=True)) if len(self.dependencies) > 0 else "") \
+                        + ("Parallel courses: {} \n".format(self.repOtherData(self.parallel)) if len(
                 self.parallel) > 0 else "") \
-                    + ("מקצועות ללא זיכוי נוסף: {} \n".format(self.repOtherData(self.similarities)) if len(
+                        + ("Similar courses: {} \n".format(self.repOtherData(self.similarities)) if len(
                 self.similarities) > 0 else "") \
-                    + ("מקצועות ללא זיכוי נוסף (מוכלים): {} \n".format(self.repOtherData(self.inclusive)) if len(
+                        + ("Inclusive courses: {} \n".format(self.repOtherData(self.inclusive)) if len(
+                self.inclusive) > 0 else "")
+        else:
+            represent = "שם הקורס: {} \n".format(self.name) \
+                        + "מספר קורס: {} \n".format(self.number) \
+                        + ("מס' נקודות: {} \n".format(self.points) if self.points > 0 else "") \
+                        + ("מקצועות קדם: {} \n".format(self.reprDependencies()) if len(self.dependencies) > 0 else "") \
+                        + ("מקצועות צמודים: {} \n".format(self.repOtherData(self.parallel)) if len(
+                self.parallel) > 0 else "") \
+                        + ("מקצועות ללא זיכוי נוסף: {} \n".format(self.repOtherData(self.similarities)) if len(
+                self.similarities) > 0 else "") \
+                        + ("מקצועות ללא זיכוי נוסף (מוכלים): {} \n".format(self.repOtherData(self.inclusive)) if len(
                 self.inclusive) > 0 else "")
         return represent

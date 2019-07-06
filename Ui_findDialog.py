@@ -51,6 +51,11 @@ class Ui_course_search(object):
             self.comboBox.lineEdit().setLayoutDirection(QtCore.Qt.RightToLeft)
             self.comboBox.lineEdit().setLayoutDirection(QtCore.Qt.RightToLeft)
         self.verticalLayout.addLayout(self.horizontalLayout)
+        self.checkBox = QtWidgets.QCheckBox(course_search)
+        if not english_ui:
+            self.checkBox.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.checkBox.setObjectName("checkBox")
+        self.verticalLayout.addWidget(self.checkBox)
         self.course_info_label = QtWidgets.QLabel(course_search)
         self.course_info_label.setStyleSheet("font: 12pt \"Noto Sans\";")
         self.course_info_label.setObjectName("course_info_label")
@@ -88,11 +93,13 @@ class Ui_course_search(object):
             self.course_info_label.setText(_translate("course_search", "Course information:"))
             self.close_search_button.setText(_translate("course_search", "Close"))
             self.add_course_button.setText(_translate("course_search", "Add"))
+            self.checkBox.setText(_translate("course_search", "Check prerequisites"))
         else:
             self.course_num_label.setText(_translate("course_search", "הכנס מספר קורס:"))
             self.course_info_label.setText(_translate("course_search", "מידע על הקורס:"))
             self.close_search_button.setText(_translate("course_search", "סגור"))
             self.add_course_button.setText(_translate("course_search", "הוסף"))
+            self.checkBox.setText(_translate("course_search", "בדיקת קדמים/צמודים"))
         self.find_course_in.setHtml(_translate("course_search",
                                                "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"

@@ -6,7 +6,7 @@ python -OO -m PyInstaller main.py ^
         --add-data templates/;templates ^
         --add-data saves/;saves ^
         --add-data db/;db ^
-        --add-data setting.json;/ ^
+        --add-data settings.json;. ^
 	    -i images/main_icon.ico ^
 	    -c ^
         -w

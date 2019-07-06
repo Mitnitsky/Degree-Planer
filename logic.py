@@ -563,6 +563,7 @@ class MyWindow(QtWidgets.QMainWindow):
         for course in self.db_pairs:
             self.searchWindow.children()[3].addItem(course)
         self.searchWindow.children()[3].currentIndexChanged.connect(self.findCourse)
+        self.searchWindow.children()[4].setChecked(True)
         self.searchWindow.children()[7].clicked.connect(lambda state: self.closeIt(self.searchWindow))  # close
         self.searchWindow.children()[8].clicked.connect(lambda state: self.addCourse(self.searchWindow))  # add
         if self.english_ui:
@@ -622,6 +623,9 @@ class MyWindow(QtWidgets.QMainWindow):
             table = semester_table
         row = self.findEmptyRow(table)
         course_num = QtWidgets.QTableWidgetItem()
+        if course and 'ספורט' in course.name:
+            sport_number = 5
+            table.cellWidget(row, 0).setCurrentIndex(sport_number)
         course_num.setText(str(course.number))
         course_name = QtWidgets.QTableWidgetItem()
         course_name.setText(course.name)

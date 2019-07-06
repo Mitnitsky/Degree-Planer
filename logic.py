@@ -192,7 +192,7 @@ class MyWindow(QtWidgets.QMainWindow):
     # Function which check whether update db thread finished and restores find course button functionality
     def stopSearch(self):
         while not self.threadStop[0] and self.thread_update.isAlive():
-            sleep(0.2)
+            sleep(0.05)
         self.progressBar.close()
         self.progressBar.destroy()
         for tab in range(self.ui.courses_tab_widget.count()):

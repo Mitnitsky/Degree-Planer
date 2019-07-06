@@ -87,7 +87,7 @@ class MyWindow(QtWidgets.QMainWindow):
             if reply == QtWidgets.QMessageBox.Cancel:
                 event.ignore()
                 return
-        if self.searchWindow.isVisible():
+        if self.searchWindow and self.searchWindow.isVisible():
             self.searchWindow.close()
         self.saveWindowDimensions()
         return super().closeEvent(event)
@@ -139,7 +139,7 @@ class MyWindow(QtWidgets.QMainWindow):
                 read_file.seek(0)
                 json.dump(data_json, read_file, indent=4)
                 read_file.truncate()
-        if self.searchWindow.isVisible():
+        if self.searchWindow and self.searchWindow.isVisible():
             self.searchWindow.close()
             self.openSearchDialog()
         self.setEventHandlers()
@@ -207,9 +207,9 @@ class MyWindow(QtWidgets.QMainWindow):
     def clearData(self, forced=False):
         if not forced:
             if self.english_ui:
-                answer = self.warningMsg('', "Remove all the data?")
+                answer = self.warningMsg(not_show_param='', msg="Remove all the data?")
             else:
-                answer = self.warningMsg('', "למחוק את כל הנתונים?")
+                answer = self.warningMsg(not_show_param='', msg="למחוק את כל הנתונים?")
         if forced or answer:
             for tab in range(self.ui.courses_tab_widget.count() - 1, -1, -1):
                 self.removeSemester(tab, force=True)
@@ -232,20 +232,16 @@ class MyWindow(QtWidgets.QMainWindow):
             data = []
         if len(data) == 0:
             self.update_allowed = False
-            if not self.firstStart:
+            if not self.firstStart and not self.saved:
                 if self.english_ui:
-                    answer = self.warningMsg('', "Do you want save all the changes?")
+                    answer = self.warningMsg(not_show_param='', msg="Do you want save all the changes?")
                 else:
-                    answer = self.warningMsg('', "שינויים שלא נשמרו ימחקו, לשמור?")
+                    answer = self.warningMsg(not_show_param='', msg="שינויים שלא נשמרו ימחקו, לשמור?")
                 if answer:
                     self.saveData()
             if filename == '' or not filename:
                 filename = QtWidgets.QFileDialog.getOpenFileName(self, 'טעינה', '', "Save files (*.dps)")
                 if filename[0] == '':
-                    if self.english_ui:
-                        self.errorMsg("File not found")
-                    else:
-                        self.errorMsg("הקובץ לא נמצא")
                     self.update_allowed = True
                     return False
                 filename = filename[0]
@@ -355,8 +351,85 @@ class MyWindow(QtWidgets.QMainWindow):
         return True
 
     # Load template of courses
-    def loadTemplate(self ):
-        return
+    def loadTemplate(self):
+        self.update_allowed = False
+        if not self.firstStart and not self.saved:
+            if self.english_ui:
+                answer = self.warningMsg(not_show_param='', msg="Do you want save all the changes?")
+            else:
+                answer = self.warningMsg(not_show_param='', msg="שינויים שלא נשמרו ימחקו, לשמור?")
+            if answer:
+                self.saveData()
+        if self.english_ui:
+            filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Load', '', "Json-Templates files (*.json)")
+        else:
+            filename = QtWidgets.QFileDialog.getOpenFileName(self, 'טעינה', '', "Json-Templates files (*.json)")
+        if filename[0] == '':
+            self.update_allowed = True
+            if self.english_ui:
+                return
+            else:
+                return
+        filename = filename[0]
+        courses = []
+        try:
+            with open(filename, "r+") as read_file:
+                data_json = json.load(read_file)
+                total_points = data_json["Points"]
+                mandatory = data_json["Mandatory"]
+                a_list = data_json["A' List"]
+                b_list = data_json["B' List"]
+                humanistic = data_json["Humanistic"]
+                free_points = data_json["Free choice"]
+                sport = data_json["Sport"]
+                for semester in data_json["Courses"][0]:
+                    courses.append(data_json["Courses"][0][semester])
+        except (KeyError, FileNotFoundError):
+            self.update_allowed = True
+            if self.english_ui:
+                self.errorMsg("File corrupted")
+            else:
+                self.errorMsg("קריאת הקובץ נכשלה")
+            return
+        self.clearData(forced=True)
+        if self.english_ui:
+            table = self.ui.courses_tab_widget.currentWidget().children()[1]
+        else:
+            table = self.ui.courses_tab_widget.currentWidget().children()[7]
+        first_sem = True
+        for semester in courses:
+            if not first_sem:
+                self.addSemester()
+            for course in semester:
+                if course == "MATH":
+                    math_course = Course()
+                    math_course.name = "מתמטי נוסף"
+                    math_course.number = "104"
+                    self.addCourseContent(0, math_course)
+                elif course == "SCI":
+                    sci_course = Course()
+                    sci_course.name = "קורס מדעי"
+                    self.addCourseContent(0, sci_course)
+                elif course == "SPORT":
+                    sport_course = Course()
+                    sport_course.name = "ספורט"
+                    sport_course.points = 1
+                    self.addCourseContent(0, sport_course)
+                else:
+                    self.addCourseContent(course_num=course)
+            first_sem = False
+        self.ui.deg_points_in.setValue(total_points)
+        self.ui.must_of_in.setValue(mandatory)
+        self.ui.list_a_of_in_7.setValue(a_list)
+        self.ui.list_b_of_in_7.setValue(b_list)
+        self.ui.project_of_in_7.setValue(0)
+        self.ui.malag_of_in.setValue(humanistic)
+        self.ui.sport_of_in_7.setValue(sport)
+        self.ui.free_of_in_7.setValue(free_points)
+        self.ui.english_checkbox_7.setChecked(False)
+        self.update_allowed = True
+        self.update()
+        self.saved = True
 
     # Save as function change the pointer to current saved file
     def saveAsData(self):
@@ -500,8 +573,12 @@ class MyWindow(QtWidgets.QMainWindow):
         return True
 
     # Function which adds the course content into the table on current open semester in an empty row
-    def addCourseContent(self, course_num, table):
-        course = findCourseInDB(course_num)
+    def addCourseContent(self, course_num, course=None):
+        if course is None:
+            course = findCourseInDB(course_num)
+        if type(course) != Course:
+            print(course_num+"\n")
+            return
         for i in range(0, self.ui.courses_tab_widget.count()):
             if self.english_ui:
                 semester_table = self.ui.courses_tab_widget.widget(i).children()[1]
@@ -509,21 +586,22 @@ class MyWindow(QtWidgets.QMainWindow):
                 semester_table = self.ui.courses_tab_widget.widget(i).children()[7]
             if self.courseInTable(semester_table, str(course.number)):
                 if self.english_ui:
-                    if not self.warningMsg(title="Warning",msg="Course " + str(
+                    if not self.warningMsg(title="Warning", msg="Course " + str(
                             course.number) + " exist in the table, add again?" + "\n(In Semester" + str(i + 1) + ")"):
                         return
                 else:
                     if not self.warningMsg(title="התראה",
-                            msg="הקורס " + str(course.number) + " קיים בטבלה, להוסיף שוב?" + "\n(בסמסטר " + str(
-                                    i + 1) + ")"):
+                                           msg="הקורס " + str(
+                                               course.number) + " קיים בטבלה, להוסיף שוב?" + "\n(בסמסטר " + str(
+                                               i + 1) + ")"):
                         return
-        row = self.findEmptyRow(table)
+        row = self.findEmptyRow(semester_table)
         course_num = QtWidgets.QTableWidgetItem()
         course_num.setText(str(course.number))
         course_name = QtWidgets.QTableWidgetItem()
         course_name.setText(course.name)
         course_points = QtWidgets.QTableWidgetItem()
-        table.cellWidget(row, 3).setValue(course.points)
+        semester_table.cellWidget(row, 3).setValue(course.points)
         course_name.setTextAlignment(QtCore.Qt.AlignCenter)
         course_num.setTextAlignment(QtCore.Qt.AlignCenter)
         if self.english_ui:
@@ -545,8 +623,8 @@ class MyWindow(QtWidgets.QMainWindow):
                 course.inclusive) != "" else "")
         course_num.setToolTip(tooltip)
         course_points.setTextAlignment(QtCore.Qt.AlignCenter)
-        table.setItem(row, 1, course_num)
-        table.setItem(row, 2, course_name)
+        semester_table.setItem(row, 1, course_num)
+        semester_table.setItem(row, 2, course_name)
         return
 
     # Function which check whether or not the course with the given course number is present in the table in current
@@ -555,7 +633,7 @@ class MyWindow(QtWidgets.QMainWindow):
         if semesters_number == -1:
             semesters_number = table.rowCount()
         for row in range(0, semesters_number):
-            if table.item(row, 1) and table.item(row, 1).text() == course_num:
+            if table.item(row, 1) and table.item(row, 1).text() == course_num and course_num != '':
                 return True
         return False
 
@@ -586,7 +664,7 @@ class MyWindow(QtWidgets.QMainWindow):
             if len(dependencies) > 0:
                 dependencies_msg = self.createDependenciesMessage(dependencies)
                 self.prerequisitesWarningMessage(dependencies_msg)
-        self.addCourseContent(course_number, table)
+        self.addCourseContent(course_number)
 
     def checkDependencies(self, table, course_number, current_semester):
         course = findCourseInDB(course_number)
@@ -634,8 +712,6 @@ class MyWindow(QtWidgets.QMainWindow):
                 separator = "\n"
         msg += "\n\n"
         return msg
-
-
 
     # Function which closes the widget
     def closeIt(self, widget):
@@ -965,7 +1041,7 @@ class MyWindow(QtWidgets.QMainWindow):
         msg_box.exec()
 
     # Function which creates a prompt of removal or save
-    def warningMsg(self, title="" ,not_show_param='', msg='ERROR'):
+    def warningMsg(self, title="", not_show_param='', msg='ERROR'):
         if self.english_ui:
             if title == "":
                 title = "Remove"

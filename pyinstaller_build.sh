@@ -8,4 +8,5 @@ pyinstaller main.py \
         --add-data 'templates/:templates' \
         --add-data 'saves/:saves' \
         --add-data 'db/:db' \
+        --add-data 'settings.json:.' \
         -w

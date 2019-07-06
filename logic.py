@@ -87,7 +87,7 @@ class MyWindow(QtWidgets.QMainWindow):
             if reply == QtWidgets.QMessageBox.Cancel:
                 event.ignore()
                 return
-        if self.searchWindow:
+        if self.searchWindow.isVisible():
             self.searchWindow.close()
         self.saveWindowDimensions()
         return super().closeEvent(event)
@@ -139,6 +139,9 @@ class MyWindow(QtWidgets.QMainWindow):
                 read_file.seek(0)
                 json.dump(data_json, read_file, indent=4)
                 read_file.truncate()
+        if self.searchWindow.isVisible():
+            self.searchWindow.close()
+            self.openSearchDialog()
         self.setEventHandlers()
         self.loadData('', data)
 
@@ -149,6 +152,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.actionSave.triggered.connect(self.saveData)
         self.ui.actionSaveAs.triggered.connect(self.saveAsData)
         self.ui.actionLoad.triggered.connect(self.loadData)
+        self.ui.actionLoadTemplate.triggered.connect(self.loadTemplate)
         self.ui.actionInfo.triggered.connect(self.showCredit)
         self.ui.add_semester_but.clicked.connect(self.addSemester)
         self.ui.actionHeb.triggered.connect(lambda: self.languageChange('heb'))
@@ -349,6 +353,10 @@ class MyWindow(QtWidgets.QMainWindow):
         if len(data) == 0:
             self.saved = True
         return True
+
+    # Load template of courses
+    def loadTemplate(self ):
+        return
 
     # Save as function change the pointer to current saved file
     def saveAsData(self):

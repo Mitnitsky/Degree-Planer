@@ -361,9 +361,9 @@ class MyWindow(QtWidgets.QMainWindow):
             if answer:
                 self.saveData()
         if self.english_ui:
-            filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Load', '', "Json-Templates files (*.json)")
+            filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Load', 'templates', "Json-Templates files (*.json)")
         else:
-            filename = QtWidgets.QFileDialog.getOpenFileName(self, 'טעינה', '', "Json-Templates files (*.json)")
+            filename = QtWidgets.QFileDialog.getOpenFileName(self, 'טעינה', 'templates', "Json-Templates files (*.json)")
         if filename[0] == '':
             self.update_allowed = True
             if self.english_ui:

@@ -185,7 +185,7 @@ class MyWindow(QtWidgets.QMainWindow):
         else:
             if update_time == "Never":
                 update_time = "אין נתונים"
-            if not self.warningMsg(title="התראה", msg="עדכון קורסים עלול לקחת 10 דק'.\n\n" + "הקורסים עודכנו בתאריך: " + update_time + "\n\nלהמשיך?"):
+            if not self.warningMsg(title="התראה", msg="עדכון קורסים עלול לקחת 10 דק'.\n\n" + "הקורסים עודכנו לאחרונה בתאריך: " + update_time + "\n\nלהמשיך?"):
                 return
         self.progress_ui.setupUi(self.progressBar, self.english_ui)
         self.progressBar.children()[1].children()[3].clicked.connect(self.setStopThread)

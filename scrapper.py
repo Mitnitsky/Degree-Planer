@@ -189,7 +189,6 @@ def updateDb(MainWindow, value=None, progress_bar_ui=None, stop_flag=None, stand
                 progress_bar_ui.progressBar.setValue(value[0])
             dbAddCourse(getCourseInfo(course_number,
                                       semesters[len(semesters) - 1]))
-    MainWindow.stopSearch()
 
 
 # Function which creates possible packages to prompt ug for sport course with the given semester

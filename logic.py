@@ -933,10 +933,10 @@ class MyWindow(QtWidgets.QMainWindow):
     # was checked if so allows removal without dialog, otherwise opens dialog to ensure removal
     def my_close(self, not_show_param, msg):
         if not_show_param == "row" and not self.not_show_remove_course:
-            answer = self.warningMsg(not_show_param, msg)
+            answer = self.warningMsg(not_show_param=not_show_param, msg=msg)
             return answer
         elif not_show_param == "semester" and not self.not_show_remove_semester:
-            answer = self.warningMsg(not_show_param, msg)
+            answer = self.warningMsg(not_show_param=not_show_param, msg=msg)
             return answer
         return True
 

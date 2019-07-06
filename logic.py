@@ -1,16 +1,16 @@
 import json
 import threading
-from time import sleep
 
+from time import sleep
 from PyQt5 import QtCore, QtWidgets
 
 import Ui_tab_heb
 import Ui_main_heb
-from Ui_tab_eng import TabPage, createRemoveLineButton, createComboBox
-from Ui_findDialog import Ui_course_search
+from scrapper import *
 from Ui_main_eng import Ui_MainWindow
 from Ui_progress import ProgressWindowForm
-from scrapper import *
+from Ui_findDialog import Ui_course_search
+from Ui_tab_eng import TabPage, createRemoveLineButton, createComboBox
 
 
 class MyWindow(QtWidgets.QMainWindow):
@@ -19,7 +19,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.progressBar = QtWidgets.QWidget()
         self.progress_ui = ProgressWindowForm()
         initDB()
-        self.searchWindow = False
+        self.searchWindow = None
         self.update_allowed = True
         self.english_ui = self.loadLanguage()
         if self.english_ui:
@@ -28,6 +28,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.ui = Ui_main_heb.Ui_MainWindow()
         self.ui.setupUi(self)
         self.not_show_remove_course = False
+        self.Form = None
         self.not_show_remove_semester = False
         self.threadStop = [False]
         self.saveFileName = ''
@@ -40,6 +41,9 @@ class MyWindow(QtWidgets.QMainWindow):
         self.update()
         self.show()
         self.setEventHandlers()
+        self.thread_update = None
+        self.thread_stop_checker = None
+        self.search_ui = None
         try:
             file = open('settings.json', "r")
             if file:
@@ -363,7 +367,8 @@ class MyWindow(QtWidgets.QMainWindow):
         if self.english_ui:
             filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Load', 'templates', "Json-Templates files (*.json)")
         else:
-            filename = QtWidgets.QFileDialog.getOpenFileName(self, 'טעינה', 'templates', "Json-Templates files (*.json)")
+            filename = QtWidgets.QFileDialog.getOpenFileName(self, 'טעינה', 'templates',
+                                                             "Json-Templates files (*.json)")
         if filename[0] == '':
             self.update_allowed = True
             if self.english_ui:
@@ -523,10 +528,10 @@ class MyWindow(QtWidgets.QMainWindow):
         msgbox.setText(message_det)
         msgbox.setWindowTitle("About")
         msgbox.setTextFormat(QtCore.Qt.RichText)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        msgbox.setSizePolicy(sizePolicy)
+        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        msgbox.setSizePolicy(size_policy)
         msgbox.exec()
 
     # Function which opens the course search dialog in order to search within 
@@ -573,11 +578,11 @@ class MyWindow(QtWidgets.QMainWindow):
         return True
 
     # Function which adds the course content into the table on current open semester in an empty row
-    def addCourseContent(self, course_num, course=None):
+    def addCourseContent(self, course_num, course=None, table=None):
         if course is None:
             course = findCourseInDB(course_num)
         if type(course) != Course:
-            print(course_num+"\n")
+            print(course_num + "\n")
             return
         for i in range(0, self.ui.courses_tab_widget.count()):
             if self.english_ui:
@@ -595,13 +600,15 @@ class MyWindow(QtWidgets.QMainWindow):
                                                course.number) + " קיים בטבלה, להוסיף שוב?" + "\n(בסמסטר " + str(
                                                i + 1) + ")"):
                         return
-        row = self.findEmptyRow(semester_table)
+        if table is None:
+            table = semester_table
+        row = self.findEmptyRow(table)
         course_num = QtWidgets.QTableWidgetItem()
         course_num.setText(str(course.number))
         course_name = QtWidgets.QTableWidgetItem()
         course_name.setText(course.name)
         course_points = QtWidgets.QTableWidgetItem()
-        semester_table.cellWidget(row, 3).setValue(course.points)
+        table.cellWidget(row, 3).setValue(course.points)
         course_name.setTextAlignment(QtCore.Qt.AlignCenter)
         course_num.setTextAlignment(QtCore.Qt.AlignCenter)
         if self.english_ui:
@@ -623,8 +630,8 @@ class MyWindow(QtWidgets.QMainWindow):
                 course.inclusive) != "" else "")
         course_num.setToolTip(tooltip)
         course_points.setTextAlignment(QtCore.Qt.AlignCenter)
-        semester_table.setItem(row, 1, course_num)
-        semester_table.setItem(row, 2, course_name)
+        table.setItem(row, 1, course_num)
+        table.setItem(row, 2, course_name)
         return
 
     # Function which check whether or not the course with the given course number is present in the table in current
@@ -664,7 +671,7 @@ class MyWindow(QtWidgets.QMainWindow):
             if len(dependencies) > 0:
                 dependencies_msg = self.createDependenciesMessage(dependencies)
                 self.prerequisitesWarningMessage(dependencies_msg)
-        self.addCourseContent(course_number)
+        self.addCourseContent(course_number, table=table)
 
     def checkDependencies(self, table, course_number, current_semester):
         course = findCourseInDB(course_number)
@@ -682,7 +689,6 @@ class MyWindow(QtWidgets.QMainWindow):
             if len(dependencies) == 0 or len(inner_dependencies) < len(dependencies):
                 dependencies = inner_dependencies
         for course_number in course.parallel:
-            inner_parallels = []
             if not self.courseInTable(table, course_number, current_semester - 1):
                 parallels.append(course_number)
         return [dependencies, parallels]

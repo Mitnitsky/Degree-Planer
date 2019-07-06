@@ -194,7 +194,7 @@ class TabPage(object):
                     spin_box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
                     self.courses_table.setCellWidget(row, column, spin_box)
         self.courses_table.horizontalHeader().setSectionResizeMode(
-                QtWidgets.QHeaderView.Stretch)
+            QtWidgets.QHeaderView.Stretch)
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -248,15 +248,15 @@ def createComboBox():
 def createRemoveLineButton(line):
     semester_table_remove_line = QtWidgets.QPushButton()
     sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.MinimumExpanding,
-            QtWidgets.QSizePolicy.Fixed)
+        QtWidgets.QSizePolicy.MinimumExpanding,
+        QtWidgets.QSizePolicy.Fixed)
     sizePolicy.setHorizontalStretch(0)
     sizePolicy.setVerticalStretch(0)
     sizePolicy.setHeightForWidth(
-            semester_table_remove_line.sizePolicy().hasHeightForWidth())
+        semester_table_remove_line.sizePolicy().hasHeightForWidth())
     semester_table_remove_line.setSizePolicy(sizePolicy)
     semester_table_remove_line.setLayoutDirection(
-            QtCore.Qt.LeftToRight)
+        QtCore.Qt.LeftToRight)
     semester_table_remove_line.setText("")
     icon1 = QtGui.QIcon()
     icon1.addPixmap(QtGui.QPixmap("images/row-clean.svg"),
@@ -264,11 +264,11 @@ def createRemoveLineButton(line):
     semester_table_remove_line.setIcon(icon1)
     semester_table_remove_line.setIconSize(QtCore.QSize(32, 32))
     semester_table_remove_line.setObjectName(
-            line)
+        line)
     _translate = QtCore.QCoreApplication.translate
     semester_table_remove_line.setToolTip(
-            _translate(
-                    "Form",
-                    "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">איפוס שורה</span></p></body></html>"
-            ))
+        _translate(
+            "Form",
+            "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">איפוס שורה</span></p></body></html>"
+        ))
     return semester_table_remove_line

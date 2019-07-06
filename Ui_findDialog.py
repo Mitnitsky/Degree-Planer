@@ -65,7 +65,7 @@ class Ui_course_search(object):
         self.find_course_in.setLocale(QtCore.QLocale(QtCore.QLocale.Hebrew, QtCore.QLocale.Israel))
         self.find_course_in.setAutoFormatting(QtWidgets.QTextEdit.AutoNone)
         self.find_course_in.setTextInteractionFlags(
-                QtCore.Qt.TextSelectableByKeyboard | QtCore.Qt.TextSelectableByMouse)
+            QtCore.Qt.TextSelectableByKeyboard | QtCore.Qt.TextSelectableByMouse)
         self.find_course_in.setObjectName("find_course_in")
         self.verticalLayout.addWidget(self.find_course_in)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()

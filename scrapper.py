@@ -16,27 +16,27 @@ def preparePackage(SEM, FAC):
         FAC (INT): faculty  number parsed from UG html
     """
     post_package = {
-            'CNM':      '',
-            'CNO':      '',
-            'PNT':      '',
-            'LLN':      '',
-            'LFN':      '',
-            'RECALL':   'Y',
-            'D1':       'on',
-            'D2':       'on',
-            'D3':       'on',
-            'D4':       'on',
-            'D5':       'on',
-            'D6':       'on',
-            'FTM':      '',
-            'TTM':      '',
-            'SIL':      '',
-            'OPTCAT':   'on',
-            'OPTSEM':   'on',
-            'doSearch': 'Y',
-            'Search':   'חפש',
-            'FAC':      FAC,
-            'SEM':      SEM
+        'CNM': '',
+        'CNO': '',
+        'PNT': '',
+        'LLN': '',
+        'LFN': '',
+        'RECALL': 'Y',
+        'D1': 'on',
+        'D2': 'on',
+        'D3': 'on',
+        'D4': 'on',
+        'D5': 'on',
+        'D6': 'on',
+        'FTM': '',
+        'TTM': '',
+        'SIL': '',
+        'OPTCAT': 'on',
+        'OPTSEM': 'on',
+        'doSearch': 'Y',
+        'Search': 'חפש',
+        'FAC': FAC,
+        'SEM': SEM
     }
     return post_package
 
@@ -96,8 +96,8 @@ def cutDependencies(dependencies):
     for dependence in dependencies:
         temp = list()
         temp.extend(
-                map(lambda x: x.translate(braces_remove),
-                    map(str.strip, dependence.split('&'))))
+            map(lambda x: x.translate(braces_remove),
+                map(str.strip, dependence.split('&'))))
         result.append(temp)
     return result
 
@@ -125,8 +125,8 @@ def getCourseInfo(course_number, semester):
             temp_course.set_points(sibling.strip())
         if "מקצועות קדם" in prop.text:
             temp_course.add_dependencies(
-                    cutDependencies(
-                            sibling.translate(and_trans).translate(or_trans)))
+                cutDependencies(
+                    sibling.translate(and_trans).translate(or_trans)))
         if "מקצועות צמודים" in prop.text:
             temp_course.add_parallel(sibling.split())
         if ":מקצועות ללא זיכוי נוסף" in prop.text:
@@ -169,7 +169,7 @@ def updateDb(MainWindow, value=None, progress_bar_ui=None, stop_flag=None, stand
             for course in getCourses(search_url, package):
                 if not stand_alone_flag:
                     progress_bar_ui.progressBar.setValue(
-                            (len(course_numbers) / 600) % 6)
+                        (len(course_numbers) / 600) % 6)
                 course_numbers.add(course)
                 if not stand_alone_flag and stop_flag[0]:
                     return

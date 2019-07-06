@@ -87,7 +87,8 @@ class Course:
             represent = "Course name: {} \n".format(self.name) \
                         + "Course number: {} \n".format(self.number) \
                         + ("Points: {} \n".format(self.points) if self.points > 0 else "") \
-                        + ("Pre-requisites: {} \n".format(self.reprDependencies(english=True)) if len(self.dependencies) > 0 else "") \
+                        + ("Pre-requisites: {} \n".format(self.reprDependencies(english=True)) if len(
+                self.dependencies) > 0 else "") \
                         + ("Parallel courses: {} \n".format(self.repOtherData(self.parallel)) if len(
                 self.parallel) > 0 else "") \
                         + ("Similar courses: {} \n".format(self.repOtherData(self.similarities)) if len(

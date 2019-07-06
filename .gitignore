@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 .vscode/
-.idea/
+.idea/*
 faculty_example.json
 # Project
 settings.cfg

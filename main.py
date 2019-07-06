@@ -7,7 +7,7 @@ from logic import MyWindow
 
 def createSettingsFile():
     with open("settings.json", "w") as write_file:
-        data = {'save_file': '', 'language': 'heb', 'dimensions': [{'width': 1320, 'height': 565}]}
+        data = {'save_file': '', 'language': 'heb', 'db-updated': '', 'dimensions': [{'width': 1320, 'height': 565}]}
         json.dump(data, write_file, indent=4)
 
 
@@ -20,6 +20,8 @@ def checkSettingsFile():
                 data['save-file'] = ''
             if 'language' not in data.keys():
                 data['language'] = 'heb'
+            if 'db-updated' not in data.keys():
+                data['db-updated'] = ''
             if 'dimensions' not in data.keys():
                 data['dimensions'] = [{'width': 1320, 'height': 565}]
             read_write_file.seek(0)

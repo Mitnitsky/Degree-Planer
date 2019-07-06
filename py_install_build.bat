@@ -3,6 +3,8 @@ python -OO -m PyInstaller main.py ^
         -D ^
         --name "Degree Planner" ^
         --add-data images/;images ^
+        --add-data templates/;templates
+        --add-data saves/;saves
         --add-data db/;db ^
 	    -i images/main_icon.ico ^
 	    -c ^

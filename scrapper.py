@@ -1,6 +1,8 @@
 import pickle
 import sqlite3
+import json
 from itertools import product
+from datetime import date
 
 import requests
 from bs4 import BeautifulSoup
@@ -189,6 +191,12 @@ def updateDb(MainWindow, value=None, progress_bar_ui=None, stop_flag=None, stand
                 progress_bar_ui.progressBar.setValue(value[0])
             dbAddCourse(getCourseInfo(course_number,
                                       semesters[len(semesters) - 1]))
+    with open('settings.json', 'r+') as write_file:
+        data_json = json.load(write_file)
+        data_json['updated'] = date.today().strftime("%B %d, %Y")
+        write_file.seek(0)
+        json.dump(data_json, write_file, indent=4)
+        write_file.truncate()
 
 
 # Function which creates possible packages to prompt ug for sport course with the given semester

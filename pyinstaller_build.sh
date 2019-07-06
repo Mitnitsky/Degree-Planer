@@ -5,5 +5,7 @@ pyinstaller main.py \
 	-D \
 	--name degreePlanner \
         --add-data 'images/:images' \
+        --add-data 'templates/:templates' \
+        --add-data 'saves/:saves' \
         --add-data 'db/:db' \
         -w

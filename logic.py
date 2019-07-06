@@ -2,6 +2,7 @@ import json
 import threading
 
 from time import sleep
+
 from PyQt5 import QtCore, QtWidgets
 
 import Ui_tab_heb
@@ -174,6 +175,18 @@ class MyWindow(QtWidgets.QMainWindow):
 
     # Function which launches data base update, pops progress bar window
     def dbUpdate(self):
+        update_time = "Never"
+        with open('settings.json', 'r') as write_file:
+            data_json = json.load(write_file)
+            update_time = data_json['db-updated']
+        if self.english_ui:
+            if not self.warningMsg(title="Warning", msg="Data-base update may take approximately 10 minutes.\n\n" + "Last time updated at: " + update_time + "\n\nProceed?"):
+                return
+        else:
+            if update_time == "Never":
+                update_time = "אין נתונים"
+            if not self.warningMsg(title="התראה", msg="עדכון קורסים עלול לקחת 10 דק'.\n\n" + "הקורסים עודכנו בתאריך: " + update_time + "\n\nלהמשיך?"):
+                return
         self.progress_ui.setupUi(self.progressBar, self.english_ui)
         self.progressBar.children()[1].children()[3].clicked.connect(self.setStopThread)
         self.progressBar.show()
@@ -227,6 +240,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.ui.must_of_in.setValue(0.0)
             self.ui.english_checkbox_7.setChecked(False)
             self.update()
+            self.saveFileName=''
         if self.ui.courses_tab_widget.count() == 0:
             self.addSemester()
 
@@ -244,12 +258,13 @@ class MyWindow(QtWidgets.QMainWindow):
                 if answer:
                     self.saveData()
             if filename == '' or not filename:
-                filename = QtWidgets.QFileDialog.getOpenFileName(self, 'טעינה', '', "Save files (*.dps)")
+                filename = QtWidgets.QFileDialog.getOpenFileName(self, 'טעינה', 'saves', "Save files (*.dps)")
                 if filename[0] == '':
                     self.update_allowed = True
                     return False
                 filename = filename[0]
             try:
+                file_path = filename
                 filename = open(filename, "rb")
             except FileNotFoundError:
                 if self.english_ui:
@@ -342,6 +357,8 @@ class MyWindow(QtWidgets.QMainWindow):
                     row_index += 1
                 index += 1
             self.update_allowed = True
+            if data is None:
+                self.saveFileName = file_path
         except EOFError:
             if self.english_ui:
                 self.errorMsg("File corrupted")
@@ -435,6 +452,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.update_allowed = True
         self.update()
         self.saved = True
+        self.saveFileName = ''
 
     # Save as function change the pointer to current saved file
     def saveAsData(self):
@@ -445,9 +463,9 @@ class MyWindow(QtWidgets.QMainWindow):
     def saveData(self):
         if self.saveFileName == '':
             if self.english_ui:
-                filename = QtWidgets.QFileDialog.getSaveFileName(self, 'Save as', '', "Save files (*.dps)")
+                filename = QtWidgets.QFileDialog.getSaveFileName(self, 'Save as', 'saves', "Save files (*.dps)")
             else:
-                filename = QtWidgets.QFileDialog.getSaveFileName(self, 'שמירה בשם', '', "Save files (*.dps)")
+                filename = QtWidgets.QFileDialog.getSaveFileName(self, 'שמירה בשם', 'saves', "Save files (*.dps)")
             if filename[0] == '':
                 return
             self.saveFileName = filename[0]

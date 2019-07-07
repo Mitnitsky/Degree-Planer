@@ -206,7 +206,7 @@ class TabPage(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.courses_table.setSortingEnabled(True)
+        self.courses_table.setSortingEnabled(False)
         item = self.courses_table.verticalHeaderItem(0)
         item.setText(_translate("Form", "New Row"))
         item = self.courses_table.verticalHeaderItem(1)
@@ -246,6 +246,9 @@ def createComboBox():
     combo_box.addItem("Free choice")
     combo_box.addItem("Project")
     combo_box.addItem("Sport")
+    combo_box.setEditable(True)
+    combo_box.lineEdit().setAlignment(QtCore.Qt.AlignCenter)
+    combo_box.lineEdit().setReadOnly(True)
     return combo_box
 
 

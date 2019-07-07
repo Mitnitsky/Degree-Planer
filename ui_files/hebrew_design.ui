@@ -1732,7 +1732,7 @@ text-decoration: underline;</string>
      <x>0</x>
      <y>0</y>
      <width>1696</width>
-     <height>36</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -1804,6 +1804,15 @@ text-decoration: underline;</string>
    <property name="text">
     <string>חדש</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::WindowShortcut</enum>
+   </property>
+   <property name="shortcutVisibleInContextMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionSave_2">
    <property name="text">
@@ -1818,6 +1827,12 @@ text-decoration: underline;</string>
   <action name="actionLoad">
    <property name="text">
     <string>טעינה</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::WindowShortcut</enum>
    </property>
   </action>
   <action name="actionUpdate_Courses_DB_2">

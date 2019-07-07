@@ -40,7 +40,10 @@ if __name__ == "__main__":
     icon = QtGui.QIcon()
     icon.addPixmap(QtGui.QPixmap("images/main_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
     app.setWindowIcon(icon)
-    if 'Breeze' in QtWidgets.QStyleFactory.keys():
+    print(QtWidgets.QStyleFactory.keys())
+    if 'Oxygen' in QtWidgets.QStyleFactory.keys():
+        app.setStyle('Oxygen')
+    elif 'Breeze' in QtWidgets.QStyleFactory.keys():
         app.setStyle('Breeze')
     else:
         app.setStyle('Fusion')

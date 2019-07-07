@@ -10,6 +10,21 @@ import json
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+class MenuProxyStyle(QtWidgets.QProxyStyle):
+    def drawControl(self, element, option, painter, widget=None):
+        shortcut = ""
+        if element == QtWidgets.QStyle.CE_MenuItem:
+            vals = option.text.split("\t")
+            if len(vals) == 2:
+                text, shortcut = vals
+                option.text = text
+        super(MenuProxyStyle, self).drawControl(element, option, painter, widget)
+        if shortcut:
+            margin = 10 # QStyleHelper::dpiScaled(5)
+            self.proxy().drawItemText(painter, option.rect.adjusted(margin, 0, -margin, 0), 
+                QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter,
+                option.palette, option.state & QtWidgets.QStyle.State_Enabled, 
+                shortcut, QtGui.QPalette.Text)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -69,8 +84,7 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.progress_label_8.setFont(font)
         self.progress_label_8.setLayoutDirection(QtCore.Qt.RightToLeft)
-        self.progress_label_8.setStyleSheet("font: 16pt \"Noto Sans\";\n"
-                                            "text-decoration: underline;")
+        self.progress_label_8.setStyleSheet("font: 16pt \"Noto Sans\";\n")
         self.progress_label_8.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
         self.progress_label_8.setObjectName("progress_label_8")
         self.verticalLayout_15.addWidget(self.progress_label_8)
@@ -676,10 +690,11 @@ class Ui_MainWindow(object):
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1696, 36))
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
-        self.menu.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.menu.setObjectName("menu")
+        self.menu.setStyle(MenuProxyStyle(self.menu.style()))
         self.menu_2 = QtWidgets.QMenu(self.menubar)
         self.menu_2.setObjectName("menu_2")
+        self.menu_2.setStyle(MenuProxyStyle(self.menu_2.style()))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -800,6 +815,9 @@ def createComboBox():
     combo_box.addItem("מל\"ג")
     combo_box.addItem("ספורט")
     combo_box.addItem("חופשי")
+    combo_box.setEditable(True)
+    combo_box.lineEdit().setAlignment(QtCore.Qt.AlignCenter)
+    combo_box.lineEdit().setReadOnly(True)
     return combo_box
 
 

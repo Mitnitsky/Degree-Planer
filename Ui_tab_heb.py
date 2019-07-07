@@ -155,6 +155,7 @@ class TabPage(object):
         self.courses_table.verticalHeader().setVisible(False)
         self.courses_table.verticalHeader().setCascadingSectionResizes(True)
         self.courses_table.verticalHeader().setStretchLastSection(False)
+        self.horizontalLayout.addWidget(self.courses_table)
         self.gridLayout.addWidget(self.courses_table, 0, 0, 1, 1)
         self.semester_add_course = QtWidgets.QPushButton(Form)
         font = QtGui.QFont()
@@ -207,7 +208,7 @@ class TabPage(object):
                                                            "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הוסף שורה</span></p></body></html>"))
         self.semester_table_remove_line.setToolTip(_translate("Form",
                                                               "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">הסר שורה</span></p></body></html>"))
-        self.courses_table.setSortingEnabled(True)
+        self.courses_table.setSortingEnabled(False)
         item = self.courses_table.verticalHeaderItem(0)
         item.setText(_translate("Form", "New Row"))
         item = self.courses_table.verticalHeaderItem(1)
@@ -242,6 +243,9 @@ def createComboBox():
     combo_box.addItem("מל\"ג")
     combo_box.addItem("ספורט")
     combo_box.addItem("חופשי")
+    combo_box.setEditable(True)
+    combo_box.lineEdit().setAlignment(QtCore.Qt.AlignCenter)
+    combo_box.lineEdit().setReadOnly(True)
     return combo_box
 
 

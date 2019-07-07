@@ -8,6 +8,10 @@ Degree Planner is an application made to ease the degree planning of Technion st
 
 - Search/Add courses using offline courses data-base.
 
+- Templates for CS faculty from the catalog.
+
+- Check pre-requisites/parallel courses on addition.
+
 - Keep data-base updated.
 
 - Total degree Average.
@@ -32,7 +36,7 @@ pip install lxml
 
 Windows:
 
-[v1.2 Degree_installer.exe](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.2/degree_planner_install.exe)
+[v1.3 Degree_installer.exe](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.3/dp_install.exe)
 
 1.Download
 
@@ -42,7 +46,7 @@ Windows:
 
 Linux:
 
-[v1.2 DegreePlanner.zip](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.2/degreePlanner.zip)
+[v1.3 DegreePlanner.zip](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.3/degreePlanner.zip)
 
 1.Download
 

@@ -1,8 +1,9 @@
 import json
 import threading
+import time
+import os
 
 from time import sleep
-
 from PyQt5 import QtCore, QtWidgets
 
 import Ui_tab_heb
@@ -216,6 +217,12 @@ class MyWindow(QtWidgets.QMainWindow):
             sleep(0.05)
         self.progressBar.close()
         self.progressBar.destroy()
+        with open('settings.json', 'r+') as write_file:
+            data_json = json.load(write_file)
+            data_json['updated'] = str(time.ctime(os.path.getmtime('./db/courses.db')))
+            write_file.seek(0)
+            json.dump(data_json, write_file, indent=4)
+            write_file.truncate()
         for tab in range(self.ui.courses_tab_widget.count()):
             self.ui.courses_tab_widget.widget(tab).children()[8].setEnabled(True)
             self.ui.courses_tab_widget.widget(tab).children()[8].setToolTip("")

@@ -1,6 +1,7 @@
 import pickle
 import sqlite3
 import json
+import bs4
 from itertools import product
 from datetime import date
 
@@ -57,9 +58,23 @@ def getCourses(url, post_package):
 # from ug website
 def getData(url, tag, attrs, types):
     with requests.Session() as session:
-        get = session.post(url)
+        print(url)
+        try:
+            get = session.post(url)
+        except (ConnectionAbortedError, ConnectionError, ConnectionRefusedError, ConnectionResetError):
+            return []
         soup = BeautifulSoup(get.content, features="html5lib")
         selects = soup.find_all(tag, attrs)
+        if "valign" in attrs.keys():
+            data = []
+            table = soup.find('table', attrs = {"id" : "points"})
+            table_body = table.find('tbody')
+
+            rows = table_body.find_all('tr')
+            for row in rows:
+                cols = row.find_all('td')
+                cols = [ele.text.strip() for ele in cols]
+                data.append([ele for ele in cols if ele])
         return uniqueAndSortInput(selects, types)
 
 
@@ -79,11 +94,7 @@ def uniqueAndSortInput(selects, part):
             try:
                 int(selection.contents[0])
                 semester.add(selection.contents[0])
-            except IndexError:
-                continue
-            except TypeError:
-                continue
-            except ValueError:
+            except (IndexError, TypeError, ValueError):
                 continue
         if part == "course":
             return selects
@@ -135,8 +146,41 @@ def getCourseInfo(course_number, semester):
             temp_course.add_similarities(sibling.split())
         if "מקצועות ללא זיכוי נוסף (מוכלים)" in prop.text:
             temp_course.add_inclusive(sibling.split())
+    if temp_course.points == 0:
+        temp_course.set_points(get_points_from_gradute(course_number))
     return temp_course
 
+
+def get_points_from_gradute(course_number):
+    url = "https://www.graduate.technion.ac.il/Subjects.Heb/?Sub=" + str(course_number)
+    tag = "td"
+    attrs = {"valign": "top"}
+    data = []
+    with requests.Session() as session:
+        get = session.post(url)
+        soup = BeautifulSoup(get.content, features="html5lib")
+        selects = soup.find_all(tag, attrs)
+        if "valign" in attrs.keys():
+            table = soup.find('table', attrs={"id": "points"})
+            table_body = table.find('tbody')
+            rows = table_body.find_all('tr')
+            for row in rows:
+                cols = row.find_all('td')
+                cols = [ele.text.strip() for ele in cols]
+                data.append([ele for ele in cols if ele])
+    found_points = False
+    for table in data:
+        for row in table:
+            if found_points:
+                try:
+                    return float(row)
+                except (ValueError):
+                    return 0
+            if "זיכוי" in row:
+                found_points = True
+    return 0
+
+        
 
 # Function which updates the Courses data baseS
 def updateDb(MainWindow, value=None, progress_bar_ui=None, stop_flag=None, stand_alone_flag=False):

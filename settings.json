@@ -1,11 +1,12 @@
 {
     "save_file": "",
     "language": "heb",
-    "db-updated": "July 5, 2019",
+    "db-updated": "Sat Jul 13 12:05:53 2019",
     "dimensions": [
         {
-            "width": 1200,
-            "height": 600
+            "width": 1704,
+            "height": 900
         }
-    ]
+    ],
+    "updated": "July 13, 2019"
 }

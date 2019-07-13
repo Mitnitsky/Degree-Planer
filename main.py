@@ -1,5 +1,7 @@
 import json
-
+import os
+import datetime
+import time
 from PyQt5 import QtWidgets, QtGui
 
 from logic import MyWindow
@@ -20,8 +22,12 @@ def checkSettingsFile():
                 data['save-file'] = ''
             if 'language' not in data.keys():
                 data['language'] = 'heb'
-            if 'db-updated' not in data.keys():
-                data['db-updated'] = ''
+            if 'db-updated' not in data.keys() or data['db-updated'] == "":
+                try:
+                    data['db-updated'] = str(time.ctime(os.path.getmtime('./db/courses.db')))
+                except (FileNotFoundError, OSError):
+                    data['db-updated'] = 'Never'
+
             if 'dimensions' not in data.keys():
                 data['dimensions'] = [{'width': 1320, 'height': 565}]
             read_write_file.seek(0)

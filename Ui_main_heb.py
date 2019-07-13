@@ -630,7 +630,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_91.setObjectName("horizontalLayout_91")
         self.english_checkbox_7 = QtWidgets.QCheckBox(self.frame_3)
         self.english_checkbox_7.setMaximumSize(QtCore.QSize(120, 16777215))
-        self.english_checkbox_7.setLayoutDirection(QtCore.Qt.LeftToRight)
+        # self.english_checkbox_7.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.english_checkbox_7.setObjectName("english_checkbox_7")
         self.horizontalLayout_91.addWidget(self.english_checkbox_7)
         spacerItem8 = QtWidgets.QSpacerItem(195, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)

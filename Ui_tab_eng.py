@@ -246,6 +246,7 @@ def createComboBox():
     combo_box.addItem("Free choice")
     combo_box.addItem("Project")
     combo_box.addItem("Sport")
+    combo_box.addItem("Exemption")
     combo_box.setEditable(True)
     combo_box.lineEdit().setAlignment(QtCore.Qt.AlignCenter)
     combo_box.lineEdit().setReadOnly(True)

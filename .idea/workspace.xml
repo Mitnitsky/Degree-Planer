@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="923052ae-4d6e-4a28-b4ab-d5d28fb12001" name="Default Changelist" comment="Prompt on update-db, load/save in dedicated folder">
-      <change beforePath="$PROJECT_DIR$/db/courses.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/courses.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui_main_heb.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_main_heb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui_tab_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_tab_eng.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui_tab_heb.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui_tab_heb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/scrapper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/settings.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -63,14 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/logic.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1650">
-              <caret line="64" column="38" lean-forward="true" selection-start-line="64" selection-start-column="38" selection-end-line="64" selection-end-column="38" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="675">
+              <caret line="851" column="39" selection-start-line="851" selection-start-column="39" selection-end-line="851" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -93,11 +89,32 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Ui_tab_eng.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="696">
-              <caret line="247" column="30" lean-forward="true" selection-start-line="247" selection-start-column="30" selection-end-line="247" selection-end-column="30" />
+            <state relative-caret-position="422">
+              <caret line="248" column="21" selection-start-line="248" selection-start-column="14" selection-end-line="248" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Ui_tab_heb.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="127">
+              <caret line="236" column="51" lean-forward="true" selection-start-line="236" selection-start-column="51" selection-end-line="236" selection-end-column="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Ui_main_heb.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="125">
+              <caret line="814" column="30" lean-forward="true" selection-start-line="814" selection-start-column="30" selection-end-line="814" selection-end-column="30" />
+              <folding>
+                <element signature="e#202#213#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -113,7 +130,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>as read_file:</find>
       <find>filename = QtWidgets.QFileDialog.getOpenFileName</find>
       <find>FileNotFoundError</find>
       <find>234252</find>
@@ -132,7 +148,6 @@
       <find>updateDb</find>
       <find>.json</find>
       <find>warningMsg</find>
-      <find>create</find>
       <find>template</find>
       <find>table.item(</find>
       <find>setCurrent</find>
@@ -143,6 +158,8 @@
       <find>'db-updated'</find>
       <find>json</find>
       <find>db-updated</find>
+      <find>create</find>
+      <find>.addItem(</find>
     </findStrings>
     <replaceStrings>
       <replace>str</replace>
@@ -168,7 +185,6 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/course.py" />
         <option value="$PROJECT_DIR$/Ui_main_eng.py" />
-        <option value="$PROJECT_DIR$/Ui_main_heb.py" />
         <option value="$PROJECT_DIR$/templates/Compute Science/Three_years.json" />
         <option value="$PROJECT_DIR$/templates/Compute Science/Four_Years.json" />
         <option value="$PROJECT_DIR$/templates/Compute Science/Computer_Engineering.json" />
@@ -180,9 +196,11 @@
         <option value="$PROJECT_DIR$/templates/Compute Science/Physics_CS.json" />
         <option value="$PROJECT_DIR$/scrapper.py" />
         <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/logic.py" />
         <option value="$PROJECT_DIR$/settings.json" />
         <option value="$PROJECT_DIR$/Ui_tab_eng.py" />
+        <option value="$PROJECT_DIR$/Ui_main_heb.py" />
+        <option value="$PROJECT_DIR$/Ui_tab_heb.py" />
+        <option value="$PROJECT_DIR$/logic.py" />
       </list>
     </option>
   </component>
@@ -397,7 +415,7 @@
       <workItem from="1562399497980" duration="13160000" />
       <workItem from="1562418685803" duration="2993000" />
       <workItem from="1562454165551" duration="2619000" />
-      <workItem from="1563004391046" duration="4460000" />
+      <workItem from="1563004391046" duration="5826000" />
     </task>
     <task id="LOCAL-00001" summary="Updated DBz">
       <created>1562371455584</created>
@@ -480,18 +498,18 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="98631000" />
+    <option name="totallyTimeSpent" value="99997000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-1" width="2562" height="1400" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49589685" visible="true" weight="0.14319809" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49589685" visible="true" weight="0.14319809" />
       <window_info id="Structure" order="1" sideWeight="0.5041032" side_tool="true" weight="0.14319809" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32912332" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.29156816" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29156816" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.29787233" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -611,6 +629,11 @@
           <line>149</line>
           <option name="timeStamp" value="82" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/logic.py</url>
+          <line>897</line>
+          <option name="timeStamp" value="86" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
@@ -622,7 +645,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/DegreePlaner$scrapper.coverage" NAME="scrapper Coverage Results" MODIFIED="1563006847538" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DegreePlanerPycharm$main.coverage" NAME="main Coverage Results" MODIFIED="1562421600989" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/DegreePlaner$main.coverage" NAME="main Coverage Results" MODIFIED="1563009193425" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DegreePlaner$main.coverage" NAME="main Coverage Results" MODIFIED="1563010613072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DegreePlaner$mainwindow.coverage" NAME="mainwindow Coverage Results" MODIFIED="1557083944486" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DegreePlaner$findDialog.coverage" NAME="findDialog Coverage Results" MODIFIED="1557075289763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DegreePlaner$comboboxtable.coverage" NAME="comboboxtable Coverage Results" MODIFIED="1557080605792" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -814,13 +837,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ui_tab_heb.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="39" column="66" selection-end-line="274" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/setting2s.json" />
     <entry file="file://$PROJECT_DIR$/my_save.dps">
       <provider selected="true" editor-type-id="text-editor" />
@@ -956,16 +972,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ui_main_heb.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10635">
-          <caret line="711" column="13" selection-start-line="711" selection-start-column="13" selection-end-line="711" selection-end-column="13" />
-          <folding>
-            <element signature="e#202#213#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/Compute Science/Physics_CS.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -1025,16 +1031,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/logic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1650">
-          <caret line="64" column="38" lean-forward="true" selection-start-line="64" selection-start-column="38" selection-end-line="64" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/settings.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -1049,10 +1045,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Ui_main_heb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="814" column="30" lean-forward="true" selection-start-line="814" selection-start-column="30" selection-end-line="814" selection-end-column="30" />
+          <folding>
+            <element signature="e#202#213#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Ui_tab_eng.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="696">
-          <caret line="247" column="30" lean-forward="true" selection-start-line="247" selection-start-column="30" selection-end-line="247" selection-end-column="30" />
+        <state relative-caret-position="422">
+          <caret line="248" column="21" selection-start-line="248" selection-start-column="14" selection-end-line="248" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ui_tab_heb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="236" column="51" lean-forward="true" selection-start-line="236" selection-start-column="51" selection-end-line="236" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="851" column="39" selection-start-line="851" selection-start-column="39" selection-end-line="851" selection-end-column="39" />
         </state>
       </provider>
     </entry>

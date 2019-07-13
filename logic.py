@@ -809,6 +809,7 @@ class MyWindow(QtWidgets.QMainWindow):
                       "Sport": 0,
                       "Humanistic": 0,
                       "Free choice": 0,
+                      "Exemption": 0,
                       }
         else:
             points = {"חובה": 0,
@@ -817,7 +818,8 @@ class MyWindow(QtWidgets.QMainWindow):
                       "פרוייקט": 0,
                       "ספורט": 0,
                       "מל\"ג": 0,
-                      "חופשי": 0}
+                      "חופשי": 0,
+                      "פטור": 0}
         points_done = 0
         for tab in range(self.ui.courses_tab_widget.count()):
             if self.english_ui:
@@ -844,6 +846,10 @@ class MyWindow(QtWidgets.QMainWindow):
                             str(round(float(table_points.text()) + float(table.cellWidget(row, 3).value()), 1)))
                 except (ValueError, AttributeError, KeyError):
                     continue
+        if self.english_ui:
+            points_done += points['Exemption']
+        else:
+            points_done += points['פטור']
         if self.english_ui:
             self.ui.list_a_done_in_7.setText(str(self.ui.list_a_of_in_7.value() - points["A' list"]))
             self.ui.list_b_done_in_7.setText(str(self.ui.list_b_of_in_7.value() - points["B' list"]))

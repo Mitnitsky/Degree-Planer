@@ -243,6 +243,7 @@ def createComboBox():
     combo_box.addItem("מל\"ג")
     combo_box.addItem("ספורט")
     combo_box.addItem("חופשי")
+    combo_box.addItem("פטור")
     combo_box.setEditable(True)
     combo_box.lineEdit().setAlignment(QtCore.Qt.AlignCenter)
     combo_box.lineEdit().setReadOnly(True)

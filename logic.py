@@ -697,9 +697,10 @@ class MyWindow(QtWidgets.QMainWindow):
             table = self.ui.courses_tab_widget.currentWidget().children()[7]
         if self.searchWindow.children()[4].isChecked():
             dependencies = self.checkDependencies(table, course_number, self.ui.courses_tab_widget.currentIndex())
-            if len(dependencies) > 0:
+            if len(dependencies[0]) > 0 or len(dependencies[1]) > 0:
                 dependencies_msg = self.createDependenciesMessage(dependencies)
-                self.prerequisitesWarningMessage(dependencies_msg)
+                if not self.prerequisitesWarningMessage(dependencies_msg):
+                    return
         self.addCourseContent(course_number, table=table)
 
     def checkDependencies(self, table, course_number, current_semester):
@@ -714,7 +715,8 @@ class MyWindow(QtWidgets.QMainWindow):
             inner_dependencies = []
             for course_number in option:
                 if not self.courseInTable(table, course_number, current_semester - 1):
-                    inner_dependencies.append(course_number)
+                    if type(findCourseInDB(course_number)) != type(""):
+                        inner_dependencies.append(course_number)
             if len(dependencies) == 0 or len(inner_dependencies) < len(dependencies):
                 dependencies = inner_dependencies
         for course_number in course.parallel:
@@ -732,8 +734,9 @@ class MyWindow(QtWidgets.QMainWindow):
             separator = ""
             for course_number in dependencies[0]:
                 course = findCourseInDB(course_number)
-                msg += separator + course.number + " - " + course.name
-                separator = "\n"
+                if type(course) != type(""): #TODO: FIX Me to be something better
+                    msg += separator + course.number + " - " + course.name
+                    separator = "\n"
             msg += "\n\n"
         if len(dependencies[1]) > 0:
             if self.english_ui:

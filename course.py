@@ -37,7 +37,14 @@ class Course:
         self.inclusive.update(courses)
 
     def add_dependencies(self, courses):
-        self.dependencies.extend(courses)
+        stripped_courses = []
+        strip = str.maketrans({"\n": None, "\r": None, "\t": None, "\xa0": " ", " ": None})
+        for course in courses:
+            courses_inner = []
+            for c in course:
+                courses_inner.append(c.translate(strip))
+            stripped_courses.append(courses_inner)
+        self.dependencies.extend(stripped_courses)
 
     def add_similarities(self, courses):
         self.similarities.update(courses)

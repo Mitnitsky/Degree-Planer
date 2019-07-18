@@ -159,7 +159,6 @@ def get_points_from_gradute(course_number):
     with requests.Session() as session:
         get = session.post(url)
         soup = BeautifulSoup(get.content, features="html5lib")
-        selects = soup.find_all(tag, attrs)
         if "valign" in attrs.keys():
             table = soup.find('table', attrs={"id": "points"})
             table_body = table.find('tbody')

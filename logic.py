@@ -608,14 +608,13 @@ class MyWindow(QtWidgets.QMainWindow):
         if course is None:
             course = findCourseInDB(course_num)
         if type(course) != Course:
-            print(course_num + "\n")
             return
         for i in range(0, self.ui.courses_tab_widget.count()):
             if self.english_ui:
                 semester_table = self.ui.courses_tab_widget.widget(i).children()[1]
             else:
                 semester_table = self.ui.courses_tab_widget.widget(i).children()[7]
-            if self.courseInTable(semester_table, str(course.number)):
+            if self.courseInTable(semester_table, str(course.number), semesters_number=i):
                 if self.english_ui:
                     if not self.warningMsg(title="Warning", msg="Course " + str(
                             course.number) + " exist in the table, add again?" + "\n(In Semester" + str(i + 1) + ")"):
@@ -666,9 +665,12 @@ class MyWindow(QtWidgets.QMainWindow):
     # Function which check whether or not the course with the given course number is present in the table in current
     # semester
     def courseInTable(self, table, course_num, semesters_number=-1):
-        if semesters_number == -1:
-            semesters_number = table.rowCount()
-        for row in range(0, semesters_number):
+        if semesters_number != -1:
+            if self.english_ui:
+                table = self.ui.courses_tab_widget.widget(semesters_number).children()[1]
+            else:
+                table = self.ui.courses_tab_widget.widget(semesters_number).children()[7]
+        for row in range(0, table.rowCount()):
             if table.item(row, 1) and table.item(row, 1).text() == course_num and course_num != '':
                 return True
         return False
@@ -714,13 +716,24 @@ class MyWindow(QtWidgets.QMainWindow):
         for option in course.dependencies:
             inner_dependencies = []
             for course_number in option:
-                if not self.courseInTable(table, course_number, current_semester - 1):
-                    if type(findCourseInDB(course_number)) != type(""):
-                        inner_dependencies.append(course_number)
+                if type(findCourseInDB(course_number)) == type(""):
+                    continue
+                course_found = False
+                for i in range(0, current_semester):
+                    if self.courseInTable(table, course_number, i):
+                        course_found = True
+                        break
+                if not course_found:
+                    inner_dependencies.append(course_number)
             if len(dependencies) == 0 or len(inner_dependencies) < len(dependencies):
                 dependencies = inner_dependencies
         for course_number in course.parallel:
-            if not self.courseInTable(table, course_number, current_semester - 1):
+            for i in range(0 , current_semester + 1):
+                found_course = False
+                if self.courseInTable(table, course_number, i):
+                    found_course = True
+                    break
+            if not found_course:    
                 parallels.append(course_number)
         return [dependencies, parallels]
 

@@ -9,6 +9,7 @@ faculty_example.json
 settings.cfg
 *.iss
 *.dps
+saves/*
 *.spec
 *..spec
 

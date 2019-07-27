@@ -274,10 +274,11 @@ class MyWindow(QtWidgets.QMainWindow):
                 file_path = filename
                 filename = open(filename, "rb")
             except FileNotFoundError:
-                if self.english_ui:
-                    self.errorMsg("Couldn't open the file")
-                else:
-                    self.errorMsg("פתיחת קובץ כשלה")
+                if not self.firstStart:
+                    if self.english_ui:
+                        self.errorMsg("Couldn't open the file")
+                    else:
+                        self.errorMsg("פתיחת קובץ כשלה")
                 self.update_allowed = True
                 return False
         self.clearData(True)

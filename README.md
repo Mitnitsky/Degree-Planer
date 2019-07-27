@@ -36,7 +36,7 @@ pip install lxml
 
 Windows:
 
-[v1.3 Degree_installer.exe](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.3/dp_install.exe)
+[v1.4 Degree_installer.exe](https://github.com/Vladimir-pa/Degree-Planer/releases/download/1.4/dp_install.exe)
 
 1.Download
 
@@ -46,7 +46,7 @@ Windows:
 
 Linux:
 
-[v1.3 DegreePlanner.zip](https://github.com/Vladimir-pa/Degree-Planer/releases/download/v1.3/degreePlanner.zip)
+[v1.4 DegreePlanner.zip](https://github.com/Vladimir-pa/Degree-Planer/releases/download/1.4/degreePlanner.zip)
 
 1.Download
 
